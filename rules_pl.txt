@@ -1,0 +1,238 @@
+Mafia - reguły
+
+Mafia to gra dla 2 - 20 graczy od 10 lat. 
+
+W Mafii gracze podzieleni są na dwie drużyny - mafianów i zwykłych obywateli. Celem graczy jest eliminacja wszystkich członków nieprzyjacielskiej frakcji.
+
+Początek gry
+Na początku gry wszyscy gracze dostają jednakową ilość kart. Karty dzielimy na trzy podstawowe rodzaje - karty dzienne, nocne oraz pasywne. Rozróżnić ich można według obrazków - dzienne i nocne to słońce i księżyc, a pasywne to żaden obrazek. Wszyscy gracze powinni się dokładnie zapoznać ze swoimi kartami nocnymi. Losowanie kart jest manipulowane, by zabronić przypadkom, gdy na przykład jeden gracz dostanie wszystkie Mrakoszlapy. Reguły manipulacji kart są następujące:
+- gracz może dostać tylko jedną z kart Mafian 1, Mafian 2, Mafian 3
+- gracz może dostać tylko jedną z kart Gandalf, Kuskona
+- gracz może dostać tylko jedną z kart Mag 2, Szalony strzelec 2, Duch Bobo
+- gracz może dostać tylko jedną z kart Pijawica, Kobra
+- gracz może dostać tylko jedną z kart Szalony strzelec 1, Szalony strzelec 2
+- gracz może dostać tylko jedną z kart Ślina 1, Ślina 2
+- gracz może dostać tylko jedną z kart Ateista, Matrix
+- gracz z którymkolwiek Mafianem nie może dostać Doktora ani Lunetę
+- gracz może dostać tylko 2 Mrakoszlapy
+- gracz może dostać tylko 2 Prowazochodce
+- gracz z którąkolwiek z kart Grabarz, Pijawica, Al Capone, Gandalf, Kuskona może dostać tylko 1 Mrakoszlapa
+
+Pierwsza noc
+Gdy konferansjer ogłosi noc, wszyscy gracze zamykają oczy. Następnie konferansjer budzi wszystkich mafianów, którzy umawiają się bezgłośnie na kolejności eliminowania zwykłych obywateli. Jest to ich jedyna możliwość wspólnej komunikacji, więc powinni ją dobrze wykorzystać. Gdy się umówią, zamykają oczy, po czym rozpoczyna się zwykła noc opisana w następnym rozdziale.
+
+Noc
+W nocy konferansjer budzi poszczególne postacie nocne, których pyta się, czy chcą użyć swojej funkcji i na którego gracza ją chcą użyć. Gracze odpowiadają ruchem głowy lub wskazaniem ręką.
+Noce dzielimy na parzyste i nieparzyste, według postaci, które się w owych nocach budzą:
+
+a) - parzyste noce
+Jailer
+Grabarz
+Matrix
+Magowie
+Śliny
+Pijawica
+Piasek
+Kobra
+Magnet
+Duch Bobo
+Doktor
+Jożin z bażin
+Mafia
+Szaleni strzelcy
+Sniper
+Fusekla
+Soudce
+Slepy kat
+Matrix strzela
+
+b) - nieparzyste noce
+Grabarz
+Matrix
+Magowie
+Śliny
+Pijawica
+Piasek
+Doktor
+Jożin z bażin
+Mafia
+Sniper
+Fusekla
+Slepy kat
+Matrix strzela
+
+
+Dodatkowo pod koniec każdej trzeciej nocy, poczynając od drugiej, budzi się Luneta.
+
+Niektóre nocne postacie, jak na przykład Matrix, mogą swoją funkcję użyć określoną ilość razy, po czym się przestają w nocy budzić.
+
+
+Dzień
+	Na początku dnia konferansjer czyta sprawozdanie z nocy. Następnie gracze mają możliwość skazać kogoś na śmierć szubienicą. By tak uczynić, muszą najpierw wnieść oskarżenie. Gracz oskarżony ma możliwość obronić się i przeświadczyć innych, że był oskarżony niesprawiedliwie. W przypadku że oskarżony gracz ma zakaz wypowiadania się udzielony mu przez Ducha Bobo, wybiera osobę, której zadaniem jest dokonanie obrony poprzez tłumaczenie mimiki i ruchów osoby oskarżonej. Po wzniesieniu oskarżeń odbywa się głosowanie za śmiercią oskarżonych. Głosować mogą wszyscy, nawet sam oskarżony, oprócz osoby, której Soudce zakazał. Głosuje się na polecenie konferansjera podniesieniem ręki. Konferansjer następnie zlicza głosy biorąc pod uwagę funkcje niektórych postaci dziennych: głos Mečiara ma wagę dwóch, natomiast ilość głosów na Kováča jest zmniejszana o jeden. Jeżeli zajdzie remis, to odbywa się specjalne remisowe głosowanie: wszyscy, którzy mogą, głosują kolejno na wszystkich oskarżonych, między którymi zaszedł remis i u każdego z nich głosują za lub przeciw skazaniu. Przed wyniesieniem wyroku konferansjer sprawdza, czy Slepý kat użył swoją funkcję na osobę skazaną. Przed wypowiedzeniem imienia skazanego może użyć swojej funkcji Astronom, by skończyć dzień bez śmierci skazanego.
+Reguły obronne
+	Żeby zostać w grze jak najdłużej, mają gracze możliwość obrony przed śmiercią. Obrona ta stosowana jest automatycznie w zależności od typu ataku. W przypadku obrony kartą Mrakoszlap, Imunita, Kamizelka kuloodporna, Zwierciadło lub Prowazochodec gracz traci ową kartę bezpowrotnie. Karta Doktor obroni gracza tylko jeden raz za jedną noc. Ślina i karta Al Capone obroni gracza przed bezpośrednim pociskiem (od Mafii w przypadku Al Caponego), ale już nie przed pociskiem, który był przekierowany przez Tunel, Magnet, lub Zwierciadło. Tunel przekieruje konkretny pocisk lub jego odłamek tylko raz na danym połączeniu, ale kula może przejść kolejne tunele lub rozszczepić się na odłamki, gdy z jednego gracza wychodzi kilka dróg. Magnet przechwytuje pocisk za każdym razem, gdy ten mija zmagnetyzowanego sąsiada, więc kula może być kolejno przyciągana przez wielu zmagnetyzowanych graczy (ten sam gracz nie ściągnie tego samego odłamka drugi raz). W następujących tabelach przedstawione są środki obronne stosowane w poszczególnych sytuacjach. Gracze z kartami Mag 2, Szalony strzelec 2, i Duch Bobo mają dodatkowo pasywną obronę w postaci Plynowej maski, która chroni ich przed Piaskiem i zapachem Fusekli.
+
+Obronne reguły - noc (najpierw użyte zostaną pierwsze w liście środki obronne)
+Poniższe pociski/zapach są wymienione w kolejności, w jakiej zostają użyte na końcu nocy, ale konferansjer czyta poszczególne pociski w losowej kolejności.
+
+a) Pocisk od Mafii (strzela Mafian z najwyższym numerem)
+Magnet
+Tunel
+Zwierciadło
+Ślina
+Al Capone
+Doktor
+Kamizelka kuloodporna
+Mrakoszlap
+
+b) Pocisk od Szalonego strzelca
+Magnet
+Tunel
+Zwierciadło
+Ślina
+Doktor
+Kamizelka kuloodporna
+Mrakoszlap
+
+c) Pocisk od Snipera
+Magnet
+Tunel
+Ślina
+Doktor
+Kamizelka kuloodporna
+Mrakoszlap
+
+d) Zapach od Fusekli
+Plynowo maska
+Doktor
+Mrakoszlap
+
+e) Pocisk od Matrixa
+Kamizelka kuloodporna
+Mrakoszlap
+
+
+Obronne reguły - dzień (najpierw użyte zostaną pierwsze w liście środki obronne)
+
+a) Skazany przez głosowanie
+Prowazochodec
+Imunita
+Mrakoszlap
+
+b) Strzelony przez Anarchistę, Masowego zabijaka lub trafiony odłamkiem bomby
+Imunita
+Kamizelka kuloodporna
+Mrakoszlap
+
+Spis kart
+
+Al Capone
+	Al Capone jako władca Mafii nie może zostać zraniony jej pociskami. Ta ochrona działa tylko na bezpośredni pocisk od Mafii, ale już nie na pocisk od Mafii który był przekierowany przez Tunel, Magnet, lub Zwierciadło.
+
+Anarchista
+	Anarchista może raz na całą grę przez dzień użyć swej funkcji mówiąc “I shoot you baby!”, po czym strzela na osobę wskazaną przez niego.
+
+Astronom
+	Astronom może raz na całą grę przez dzień użyć swej funkcji mówiąc “Noc!”, po czym natychmiastowo kończy się dzień, nawet jeżeli właśnie przebiega głosowanie.
+
+Ateista
+	Tunel utworzony na Ateistę przez Maga nie będzie funkcjonował. Konferansjer nie oznajmia Magowi, że utworzył tunel na Ateistę.
+
+Doktor
+	Doktor wskazuje każdą noc gracza, którego może raz w ciągu nocy wyleczyć, czyli ochronić go jeden raz przed pociskiem lub zapachem Fusekli. Każdą trzecią noc, poczynając od pierwszej lub drugiej, może uleczyć sam siebie. Od której nocy będzie mógł leczyć siebie, zdecyduje komputer, by tylko Doktor i konferansjer wiedzieli. Jeżeli jest Doktor sam przeciw jednemu lub więcej mafianom i nie może uleczyć sam siebie, to jest dezaktywowany.
+
+Duch Bobo
+	Duch Bobo wskazuje każdą parzystą noc gracza, który będzie miał następny dzień zakaz mówienia. Zakaz ten może znieść tylko Komunista. W przypadku że oskarżony gracz ma zakaz wypowiadania się udzielony mu przez Ducha Bobo, wybiera osobę, której zadaniem jest dokonanie obrony poprzez tłumaczenie mimiki i ruchów osoby oskarżonej. Duch Bobo dodatkowo posiada plynową maskę, która chroni przed Piaskiem i zapachem Fusekli.
+
+Fusekla
+	Gracz z Fuseklą może raz na całą grę w nocy rzucić Fuseklę między dwóch graczy, którzy są uderzeni jej zapachem. Przeciwko zapachu Fusekli chroni tylko Gas Maska, Doktor i Mrakoszlap. Szalony Strzelec 2, Mag 2 i Duch Bobo posiadają plynową maskę, która chroni przed zapachem Fusekli.
+
+Gandalf
+	Jeżeli Kuskona traci Mrakoszlapa, to Gandalf go zyskuje. W nocy może uzyskać tylko jednego Mrakoszlapa.
+
+Grabarz
+	Grabarz może raz na całą grę w nocy wykopać groby dla Mrakoszlapów i tym samym zyskać pod koniec nocy tyle Mrakoszlapów, ile ich w nocy zmarło.
+
+Imunita
+	Karta obronna stosowana w przypadku trafienia pociskiem w dzień lub skazania na śmierć na szubienicy.
+
+Jailer
+	Jailer może raz za całą grę w parzystej nocy wskazać gracza, którego wsadza do więzienia i na skutek tego jego zdolności tej nocy nie zadziałają. Konferansjer gracza uwięzionego obudzi, ale pokaże mu wyraźnie, że jest tej nocy w więzieniu.
+
+Jożin z bażin
+	Jożin z bażin może trzy razy za całą grę w nocy wskazać gracza, któremu poplami zwierciadło. Pocisk zwierciadło poplamione błotem wprawdzie rozbije, ale leci dalej. Jożin z bażin może swoją zdolność użyć więcej razy w ciągu jednej nocy. Jeżeli gracz oprócz karty Jożin z bażin posiada także Mafiana, Snipera lub Szalonego Strzelca, to może poplamić zwierciadło tylko dwa razy.
+
+Kamizelka kuloodporna
+	Karta obronna stosowana w przypadku trafienia pociskiem w nocy.
+
+Kobra
+	Kobra wskazuje każdą parzystą noc gracza, który według niej ma kartę Pijawica. Jeżeli trafi, to pod koniec nocy zyskuje Mrakoszlapa i zjada Pijawicę, która przestaje się budzić.
+
+Komunista
+	Komunista może raz na całą grę przez dzień użyć swej funkcji mówiąc “Obywatele, w tej rundzie jesteśmy wszyscy równi”, i anulować tym samym na jeden dzień zdolności Mečiara, Kováča, Ducha Bobo i Soudce.
+
+Kováč
+	Kováč zmniejsza ilość głosów za jego śmiercią o 1. W przypadku, że Komunista użyje swą zdolność, Kováč swoją traci.
+
+Kuskona
+	Jeżeli Gandalf traci Mrakoszlapa, to Kuskona go zyskuje. W nocy może uzyskać tylko jednego Mrakoszlapa.
+
+Luneta
+	Luneta budzi się pod koniec każdej trzeciej nocy, poczynając od drugiej i dowiaduje się od konferansjera, którzy gracze się tej nocy obudzili.
+
+Mafian
+	Gracz z jedną z trzech kart Mafian może wygrać grę poprzez eliminację wszystkich zwykłych graczy. Służy mu do tego pocisk, który może użyć każdej nocy. Jednak żeby Mafia pocisk wystrzeliła, muszą wszyscy Mafianie w nocy wskazać na tego samego gracza. By mogli się umówić w jakiej kolejności będą graczy wskazywać, budzą się wszyscy Mafianie na początku pierwszej nocy. Pocisk Mafianów zostaje wystrzelony przez Mafiana, który się w nocy obudził jako ostatni.
+
+Mag
+	Mag wskazuje każdą noc dwóch graczy, między którymi chce stworzyć jednokierunkowy tunel. W przypadku, gdy trafiony zostaje pierwszy wskazany gracz, pocisk wędruje tunelem na drugiego wskazanego gracza. Jeżeli z jednego gracza prowadzi więcej tuneli, to pocisk łamie się na ułamki, które przelatują wszystkimi tunelami. Ułamki te zachowują się jak normalne pociski. Pocisk ani jego ułamki nie mogą przejść jednym tunelem dwukrotnie. Jeżeli są dwa lub trzy tunele utworzone między dwoma graczami w tym samym kierunku, to pocisk nie łamie się na ułamki, ale leci tunelem utworzonym najwcześniej. Mag 2 dodatkowo posiada plynową maskę, która chroni przed Piaskiem i zapachem Fusekli.
+
+Magnet
+	Magnet wskazuje każdą parzystą noc gracza, którego zmagnetyzuje. Jeżeli obok gracza zmagnetyzowanego przelatuje pocisk, to zostaje na niego przyciągnięty. Ten sam gracz nie przejmie dwa razy tego samego odłamka, ale pocisk może zostać kolejno przyciągnięty przez kilku zmagnetyzowanych sąsiadów.
+
+Masowy zabijak
+	Raz na całą grę, jeżeli Masowy Zabijak zostaje skazany na szubienicę, strzela na wszystkich, którzy na niego głosowali.
+
+Matrix
+	Matrix może raz na całą grę w nocy zmienić funkcjonowanie wszechświata - chwycić wszystkie pociski, które go w nocy trafią i pod koniec nocy je wypuścić.
+
+Mečiar
+	W głosowaniu jego głos ma wartość dwóch. W przypadku, że Komunista użyje swą zdolność, Mečiar swoją traci.
+
+Mrakoszlap
+	Mrakoszlap to podstawowa karta obronna pełniąca funkcję życia zapasowego. Jest zastosowana, jeżeli gracz nie posiada innej obrony.
+
+Pan czasu
+	Pan czasu może raz na całą grę na początku dnia lub nocy powiedzieć “Jestem Panem czasu!” i przeskoczyć cały dzień lub noc.
+
+Piasek
+	Gracz z kartą Piasek wskazuje każdą noc gracza, którego chce posypać piaskiem. Piasek neutralizuje efekt Śliny, czyli czyni gracza znowu narażonego na trafienie pociskiem. Specjalną ochronę przed Piaskiem mają gracze z gas maską - Szalony Strzelec 2, Mag 2 i Duch Bobo.
+
+Pijawica
+	Pijawica wskazuje każdą noc gracza, na którego się przyssie. W razie, że gracz ów tej nocy traci Mrakoszlap lub umiera, Pijawica zyskuje Mrakoszlap. Pijawica może zostać zjedzona przez Kobrę.
+
+Prowazochodec
+	Karta obronna stosowana w przypadku skazania na śmierć na szubienicy.
+
+Slepý kat
+	Slepý kat może dwa razy za całą grę wskazać w nocy dwóch graczy. Jeżeli miałby w następnym dniu gracz wskazany jako pierwszy zostać powieszony na szubienicy, to zamiast niego zostaje powieszony gracz wskazany jako drugi.
+
+Sniper
+	Sniper może raz na całą grę wskazać gracza, na którego strzela pocisk, który jest tak silny, że rozbije nawet zwierciadło i leci dalej.
+
+Soudce
+	Soudce każdą parzystą noc wskazuje gracza, który będzie miał w następnym dniu zakaz głosowania. Komunista może ten zakaz na jeden dzień znieść. 
+
+Szalony strzelec
+	Szalony strzelec każdą parzystą noc strzela jeden pocisk. Szalony Strzelec 2 dodatkowo posiada plynową maskę, która chroni przed Piaskiem i zapachem Fusekli.
+
+Szklorz
+	Jeżeli Szklorz nie ma żadnego Zwierciadła i innemu graczowi pozostaje w nocy jedno zniszczone, to Szklorz na końcu nocy jedno zyskuje. Szklorz może otrzymać tylko jedno Zwierciadło za jedną noc.
+
+Ślina
+	Gracz z kartą Ślina wskazuje każdą noc gracza, którego chce oślinić. Ośliniony gracz jest chroniony przed pociskiem Mafii i Szalonych strzelców, ponieważ pocisk się na nim ześlizgnie. Efekt Śliny można zneutralizować Piaskiem. Ślina obroni gracza przed bezpośrednim pociskiem, ale już nie przed pociskiem, który był przekierowany przez Tunel, Magnet, lub Zwierciadło.
+
+Terrorysta
+	Terrorysta może raz na całą grę przez dzień użyć swej funkcji mówiąc “Bomba!”, po czym strzela na wszystkich graczy.
+
+Zwierciadło
+	Karta obronna stosowana w przypadku trafienia pociskiem Mafii lub Szalonego­­­­ strzelca. Po rozbiciu zwierciadła pocisk wraca z powrotem na gracza, od którego przyleciał, chyba że zwierciadło było poplamione błotem przez Jożina z bażin.
