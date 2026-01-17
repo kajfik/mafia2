@@ -4,7 +4,9 @@ import type {
   PublicReportEntry,
   PublicReportData,
   PublicReportFragment,
-  PublicReportSockOutcome
+  PublicReportSockOutcome,
+  SockReportOutcome,
+  LogParamMap
 } from './types';
 import { createCardLabelParam } from './logging';
 
@@ -169,7 +171,7 @@ export function buildPublicReportEntries(state: GameState): PublicReportEntry[] 
 
 function buildSockFragment(
   position: 'first' | 'second',
-  outcome: { targetId?: string; result: PublicReportSockOutcome } | undefined,
+  outcome: SockReportOutcome | undefined,
   nameOf: (id?: string) => string | undefined
 ): PublicReportFragment | null {
   if (!outcome) return null;
@@ -181,7 +183,11 @@ function buildSockFragment(
     return { key };
   }
   const name = nameOf(outcome.targetId) || '?';
-  return { key, params: { name } };
+  const params: LogParamMap = { name };
+  if (outcome.result === 'CLOUDWALKER') {
+    params.num = outcome.cloudwalkerInstance ?? '?';
+  }
+  return { key, params };
 }
 
 function shuffleEntries<T>(list: T[]): T[] {

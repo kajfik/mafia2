@@ -810,7 +810,7 @@ const CARD_PROMPTS: Partial<Record<CardId, string[]>> = {
   Magnet: ['wake_up_magnet'],
   GhostBobo: ['wake_up_ghost'],
   Doctor: ['wake_up_doctor_heal_self', 'wake_up_doctor_heal_other'],
-  Mafia: ['wake_up_mafia_aim'],
+  Mafia: ['wake_up_shooter'],
   MadGunman: ['wake_up_shooter'],
   Sniper: ['wake_up_shooter'],
   BlindExecutioner: ['wake_up_executioner_save', 'wake_up_executioner_victim'],

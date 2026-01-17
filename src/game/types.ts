@@ -195,6 +195,12 @@ export interface PublicReportEntry extends PublicReportFragment {
   fragments?: PublicReportFragment[];
 }
 
+export interface SockReportOutcome {
+  targetId?: string;
+  result: PublicReportSockOutcome;
+  cloudwalkerInstance?: number;
+}
+
 export interface CloudwalkerReward {
   num: number;
   cardInstance?: number;
@@ -214,8 +220,8 @@ export interface PublicReportData {
   matrixBulletsCaught: number;
   sock: {
     usedBy: string | null;
-    first?: { targetId?: string; result: PublicReportSockOutcome };
-    second?: { targetId?: string; result: PublicReportSockOutcome };
+    first?: SockReportOutcome;
+    second?: SockReportOutcome;
   };
   cloudwalkers: {
     leech: number[];

@@ -674,25 +674,30 @@ export function processNightShotQueue(state: GameState) {
   }
 }
 
-function applyToxicEffect(state: GameState, victim: Player | null): PublicReportSockOutcome {
-  if (!victim || !victim.status.isAlive) return 'ALREADY_DEAD';
+type SockEffectResult = {
+  outcome: PublicReportSockOutcome;
+  cloudwalkerInstance?: number | null;
+};
+
+function applyToxicEffect(state: GameState, victim: Player | null): SockEffectResult {
+  if (!victim || !victim.status.isAlive) return { outcome: 'ALREADY_DEAD' };
   if (victim.hasGasMask) {
-    return 'GAS_MASK';
+    return { outcome: 'GAS_MASK' };
   }
   if (consumeDoctorProtection(state, victim.id)) {
-    return 'DOCTOR';
+    return { outcome: 'DOCTOR' };
   }
   const cloudwalkerInstance = consumeCardWithInstance(victim, 'CloudWalker');
   if (cloudwalkerInstance !== null) {
     registerCloudwalkerLoss(state);
     checkLifeLossSideEffects(state, victim, { lossType: 'CLOUDWALKER' });
-    return 'CLOUDWALKER';
+    return { outcome: 'CLOUDWALKER', cloudwalkerInstance };
   }
   consumeAllCards(victim, 'CloudWalker');
   victim.status.isAlive = false;
   checkLifeLossSideEffects(state, victim, { lossType: 'DEATH' });
   declareVictory(state, 'NIGHT');
-  return 'DEATH';
+  return { outcome: 'DEATH' };
 }
 
 export function processSockToxicity(state: GameState) {
@@ -706,12 +711,21 @@ export function processSockToxicity(state: GameState) {
     const secondTarget = state.players.find(p => p.id === entry.secondTargetId) || null;
     const firstResult = applyToxicEffect(state, firstTarget);
     const secondResult = applyToxicEffect(state, secondTarget);
-    reportData.sock.first = { targetId: firstTarget?.id, result: firstResult };
-    reportData.sock.second = { targetId: secondTarget?.id, result: secondResult };
+    reportData.sock.first = {
+      targetId: firstTarget?.id,
+      result: firstResult.outcome,
+      cloudwalkerInstance: firstResult.cloudwalkerInstance ?? undefined
+    };
+    reportData.sock.second = {
+      targetId: secondTarget?.id,
+      result: secondResult.outcome,
+      cloudwalkerInstance: secondResult.cloudwalkerInstance ?? undefined
+    };
     const fragments = buildSockLogFragments(sockPlayer, firstTarget, secondTarget, firstResult, secondResult);
     if (fragments.length) {
       const text = renderLogFragments(fragments, state.players, state.settings.language);
-      const type: GameLog['type'] = firstResult === 'DEATH' || secondResult === 'DEATH' ? 'DEATH' : 'ACTION';
+      const type: GameLog['type'] =
+        firstResult.outcome === 'DEATH' || secondResult.outcome === 'DEATH' ? 'DEATH' : 'ACTION';
       state.logs.push({
         id: Math.random().toString(),
         timestamp: Date.now(),
@@ -738,8 +752,8 @@ function buildSockLogFragments(
   sockPlayer: Player,
   firstTarget: Player | null,
   secondTarget: Player | null,
-  firstResult: PublicReportSockOutcome,
-  secondResult: PublicReportSockOutcome
+  firstResult: SockEffectResult,
+  secondResult: SockEffectResult
 ): LogMessageFragment[] {
   const fragments: LogMessageFragment[] = [];
   const sockInstance = sockPlayer.cards.find(card => card.cardId === 'Sock')?.instance;
@@ -764,15 +778,16 @@ function buildSockLogFragments(
 }
 
 function buildSockLogResultFragment(
-  result: PublicReportSockOutcome,
+  result: SockEffectResult,
   target: Player | null
 ): LogMessageFragment | null {
-  const key = SOCK_LOG_RESULT_MAP[result];
+  const key = SOCK_LOG_RESULT_MAP[result.outcome];
   if (!key) return null;
-  return {
-    key,
-    params: { name: target?.name || '?' }
-  };
+  const params: LogParamMap = { name: target?.name || '?' };
+  if (result.outcome === 'CLOUDWALKER') {
+    params.num = result.cloudwalkerInstance ?? '?';
+  }
+  return { key, params };
 }
 
 type LifeLossContext = {

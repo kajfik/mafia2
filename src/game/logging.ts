@@ -1,10 +1,12 @@
 import type { CardId, GameLog, Language, LogMessageFragment, LogParamMap, LogParamValue, Player } from './types';
 import { formatCardLabel } from './cardLabels';
-import { getTranslationTemplate, t } from './translations';
+import { getCardName, getTranslationTemplate, t } from './translations';
 
 export type LogDisplaySegment =
   | { kind: 'text'; text: string }
   | { kind: 'cardLabel'; cardId: CardId; instance?: number; label: string };
+
+const PARAM_TOKEN_PATTERN = /{([^}]+)}/g;
 
 export function createCardLabelParam(cardId: CardId, instance?: number): LogParamValue {
   return { kind: 'cardLabel', cardId, instance };
@@ -45,6 +47,12 @@ type RichParamValue =
   | number
   | { kind: 'cardLabel'; cardId: CardId; instance?: number; label: string };
 
+interface ParsedCardToken {
+  endIndex: number;
+  cardId: CardId;
+  rawLabel?: string;
+}
+
 function resolveLogParamRich(value: LogParamValue, players: Player[], lang: Language): RichParamValue {
   if (typeof value === 'string' || typeof value === 'number') {
     return value;
@@ -63,6 +71,88 @@ function resolveLogParamRich(value: LogParamValue, players: Player[], lang: Lang
   return '';
 }
 
+function resolveCardTokenLabel(
+  cardId: CardId,
+  rawLabel: string | undefined,
+  params: LogParamMap | undefined,
+  players: Player[],
+  lang: Language
+): string {
+  const fallbackLabel = getCardName(cardId, lang);
+  if (!rawLabel) {
+    return fallbackLabel;
+  }
+  const template = rawLabel.trim();
+  if (!template) {
+    return fallbackLabel;
+  }
+
+  return template.replace(PARAM_TOKEN_PATTERN, (_, key: string) => {
+    if (!params || !(key in params)) {
+      return `{${key}}`;
+    }
+    const resolved = resolveLogParam(params[key], players, lang);
+    return resolved !== undefined ? String(resolved) : '';
+  });
+}
+
+function parseCardToken(source: string, startIndex: number): ParsedCardToken | null {
+  const prefix = '{{card:';
+  if (!source.startsWith(prefix, startIndex)) {
+    return null;
+  }
+
+  const length = source.length;
+  let cursor = startIndex + prefix.length;
+
+  // Read card id until label divider or closing braces.
+  while (cursor < length) {
+    const char = source[cursor];
+    if (char === '|' || (char === '}' && source[cursor + 1] === '}')) {
+      break;
+    }
+    cursor += 1;
+  }
+
+  if (cursor >= length) {
+    return null;
+  }
+
+  const cardId = source.slice(startIndex + prefix.length, cursor).trim() as CardId;
+  if (!cardId) {
+    return null;
+  }
+
+  // Card token without custom label.
+  if (source[cursor] === '}' && source[cursor + 1] === '}') {
+    return { endIndex: cursor + 2, cardId };
+  }
+
+  if (source[cursor] !== '|') {
+    return null;
+  }
+
+  const labelStart = cursor + 1;
+  let idx = labelStart;
+  let braceDepth = 0;
+  while (idx < length) {
+    const char = source[idx];
+    if (char === '{') {
+      braceDepth += 1;
+    } else if (char === '}') {
+      if (braceDepth > 0) {
+        braceDepth -= 1;
+      } else if (source[idx + 1] === '}') {
+        const rawLabel = source.slice(labelStart, idx);
+        return { endIndex: idx + 2, cardId, rawLabel };
+      }
+    }
+    idx += 1;
+  }
+
+  return null;
+}
+
 function buildSegmentsFromTemplate(
   template: string,
   params: LogParamMap | undefined,
@@ -71,31 +161,58 @@ function buildSegmentsFromTemplate(
 ): LogDisplaySegment[] {
   const segments: LogDisplaySegment[] = [];
   const source = template ?? '';
-  const pattern = /{([^}]+)}/g;
-  let lastIndex = 0;
-  let match: RegExpExecArray | null;
+  let textBuffer = '';
 
-  while ((match = pattern.exec(source)) !== null) {
-    if (match.index > lastIndex) {
-      segments.push({ kind: 'text', text: source.slice(lastIndex, match.index) });
+  const flushText = () => {
+    if (textBuffer) {
+      segments.push({ kind: 'text', text: textBuffer });
+      textBuffer = '';
     }
-    const key = match[1];
-    if (!params || !(key in params)) {
-      segments.push({ kind: 'text', text: match[0] });
-    } else {
-      const resolved = resolveLogParamRich(params[key], players, lang);
-      if (typeof resolved === 'object' && resolved && resolved.kind === 'cardLabel') {
-        segments.push({ kind: 'cardLabel', cardId: resolved.cardId, instance: resolved.instance, label: resolved.label });
-      } else {
-        segments.push({ kind: 'text', text: resolved !== undefined ? String(resolved) : '' });
+  };
+
+  let index = 0;
+  while (index < source.length) {
+    if (source.startsWith('{{card:', index)) {
+      const parsed = parseCardToken(source, index);
+      if (parsed) {
+        flushText();
+        segments.push({
+          kind: 'cardLabel',
+          cardId: parsed.cardId,
+          label: resolveCardTokenLabel(parsed.cardId, parsed.rawLabel, params, players, lang)
+        });
+        index = parsed.endIndex;
+        continue;
       }
     }
-    lastIndex = match.index + match[0].length;
+
+    if (source[index] === '{') {
+      const closing = source.indexOf('}', index + 1);
+      if (closing !== -1) {
+        const key = source.slice(index + 1, closing);
+        if (!params || !(key in params)) {
+          textBuffer += source.slice(index, closing + 1);
+        } else {
+          const resolved = resolveLogParamRich(params[key], players, lang);
+          flushText();
+          if (typeof resolved === 'object' && resolved && resolved.kind === 'cardLabel') {
+            segments.push({ kind: 'cardLabel', cardId: resolved.cardId, instance: resolved.instance, label: resolved.label });
+          } else {
+            segments.push({ kind: 'text', text: resolved !== undefined ? String(resolved) : '' });
+          }
+        }
+        index = closing + 1;
+        continue;
+      }
+    }
+
+    textBuffer += source[index];
+    index += 1;
   }
 
-  if (lastIndex < source.length) {
-    segments.push({ kind: 'text', text: source.slice(lastIndex) });
-  } else if (segments.length === 0) {
+  flushText();
+
+  if (segments.length === 0) {
     segments.push({ kind: 'text', text: source });
   }
 

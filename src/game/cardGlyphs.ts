@@ -6,7 +6,6 @@ import {
   BrowsersIcon,
   CigaretteIcon,
   CloudIcon,
-  CodeIcon,
   CrownSimpleIcon,
   CrosshairSimpleIcon,
   DetectiveIcon,
@@ -34,12 +33,10 @@ import {
   SkullIcon,
   SnowflakeIcon,
   SockIcon,
-  SquaresFourIcon,
   StethoscopeIcon,
   SyringeIcon,
   TargetIcon,
   TimerIcon,
-  UsersFourIcon,
   WarningOctagonIcon
 } from '@phosphor-icons/react';
 import type { IconProps } from '@phosphor-icons/react';
