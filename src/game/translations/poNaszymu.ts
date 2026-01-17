@@ -1,363 +1,664 @@
 import type { RuleSection } from './types';
-import { RULES_CONTENT_PL } from './pl';
+import type { CardId } from '../types';
 
-export const RULES_CONTENT_PO_NASZYMU: RuleSection[] = RULES_CONTENT_PL;
+const card = (cardId: CardId, labelOverride?: string) =>
+  labelOverride ? `{{card:${cardId}|${labelOverride}}}` : `{{card:${cardId}}}`;
+
+export const RULES_CONTENT_PO_NASZYMU: RuleSection[] = [
+  {
+    title: 'O grze',
+    blocks: [
+      { kind: 'paragraph', text: `Mafia je spoleczensko gra do 2–20 osób.` },
+      { kind: 'paragraph', text: `Gracze se dzielóm na dwie frakcje: ${card('Mafia', 'Mafie')} a Miasto (normalnych obywateli). ${card('Mafia', 'Mafia')} wygrywo jak zabije wszystkich obywateli, zatymco Miasto wygrywo jak se zbawi całej ${card('Mafia', 'Mafii')}.` },
+      { kind: 'paragraph', text: 'Gra je założóno na dedukcji, blafowaniu a szykownym wyużywaniu karet.' }
+    ]
+  },
+  {
+    title: 'Poczóntek gry',
+    blocks: [
+      { kind: 'paragraph', text: 'Na poczóntku partii każdy gracz dostanie takóm samóm ilość karet.' },
+      { kind: 'paragraph', text: 'Przed piyrwszóm nocóm by se gracze mieli zapoznać z działaniym swoich nocnych karet.' },
+      { kind: 'paragraph', text: `System rozdowanio karet polego na zabezpieczyniu przed niesprawiedliwymi kombinacjami (np. że jedyn gracz dostanie wszystki ${card('CloudWalker', 'Mrakoszlapy')}). Dalsze info je w sekcji „Zasady balansu karet”.` }
+    ]
+  },
+  {
+    title: 'Noc',
+    blocks: [
+      { kind: 'paragraph', text: 'Jak Prowadzóncy ogłoszo noc, wszyscy gracze zamykajóm oczy. Potym Prowadzóncy wywołuje aktywne postawy, a pyto se ich na użyci swoich zdolności a wybier celu. Obudzóni gracze odpowiadajóm pocichu, za pomocóm gestów głowy albo rónk.' },
+      { kind: 'paragraph', text: 'Noce se dzielóm na parzyste a nieparzyste – na tym zależy, kiere karty sóm budzone a w jakim porzadi.' },
+      { kind: 'paragraph', text: 'Podrobny schemat budzyń nocnych a dziynnych roli je w sekcji „Kolejność budzyń”.' }
+    ],
+    subsections: [
+      {
+        title: `Piyrwszo noc - narada ${card('Mafia', 'Mafii')}`,
+        blocks: [
+          { kind: 'paragraph', text: `Na poczóntku piyrwszej nocy Prowadzóncy budzi całóm ${card('Mafia', 'Mafie')}. To je jedyny moment, w kierym se ${card('Mafia', 'Mafianie')} mogóm pocichu domówić strategie a porzadi zabijania. Na kóńcu narady ${card('Mafia', 'Mafia')} zaś idzie spać a zaczyno se normalno noc.` }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'Dziyń',
+    blocks: [
+      { kind: 'paragraph', text: 'Rano se miasto budzi do życia, gracze otwiyrajóm oczy, a Prowadzóncy przedstawio raport z nocy.' },
+      { kind: 'paragraph', text: 'Zabici gracze kóńczóm udział we grze – od tej chwili nimogóm głosować ani mówić.' },
+      {
+        kind: 'list',
+        ordered: true,
+        title: 'Przebieg dnia:',
+        items: [
+          'Prowadzóncy czyto sprawozdani z tego, co se stało w nocy.',
+          `Gracze wnoszóm oskarżynia na osoby, kiere podejrzewajóm, że sóm w ${card('Mafia', 'Mafii')}, aby ich posłać na szubienice.`,
+          `Oskarżóni gracze majóm mowy obrónne, coby przekonać inkszych, że sóm niewinni. Jeśli ${card('GhostBobo', 'Duch Bobo')} odebroł kierymu oskarżonymu głos, tyn pokazuje na osobe (adwokata), kiero go musi brónić poprzez tłumaczyni min a ruchów oskarżónego.`,
+          `Prowadzóncy mianuje oskarżónych w porzadi, w jakim se bydzie głosować. Jeśli je yny jedyn kandydat, gracze głosujóm dwa razy: piyrwsze za, a potym przeciwko egzekucji. Jeśli je wiyncej kandydatów, gracze głosujóm postupnie za śmiercióm każdego z nich. Przi każdym głosowaniu Prowadzóncy robi odliczani: „Kto chce głosować za [opcja], rynce do góry za trzi, dwa, jedyn”. Głosować mogóm wszyscy (aj sami oskarżyni), chyba że ${card('Judge', 'Soudce')} kómusi zakozoł.`,
+          `Po głosowaniu miasto idzie spać.`,
+        ]
+      },
+      { kind: 'paragraph', text: `Nikiere role zmiyniajóm siłe głosu: głos ${card('Meciar', 'Mecziara')} se rachuje jak dwa, a ilość głosów na ${card('Kovac', 'Kovacza')} je o jedyn mniyjszo. ${card('Communist', 'Komunista')} może roz za gre zruszyć bonusy ${card('Meciar', 'Mecziara')}, ${card('Kovac', 'Kovacza')}, ${card('Judge', 'Soudce')} a cenzure ${card('GhostBobo', 'Ducha Bobo')}, coby wszyscy mieli równe prawa.` },
+      { kind: 'paragraph', text: `Prowadzóncy liczy głosy ryncznie a musi pamiyntać o bonusie ${card('Meciar', 'Mecziara')} a minusie ${card('Kovac', 'Kovacza')}. Aplikacja jyny pokazuje ikony przy rolach, ale wynik musi poprawić Prowadzóncy.` },
+      { kind: 'paragraph', text: 'Jak je remis, oskarżóni z równóm liczbóm głosów mogóm - jeśli chcóm - wygłosić ostatecznóm mowe obrónnóm. Potym je miyndzy nimi dogrywka na stejnakich zasadach. Jak by był zaś remis, głosowani se hned kóńczy bez egzekucji.' },
+      { kind: 'paragraph', text: `Przed wyrokym może ${card('Astronomer', 'Astronom')} użyć swoi zdolności, coby hned zakóńczyć dziyń bez śmierci skazanego.` }
+    ]
+  },
+  {
+    title: 'Reguły obronne',
+    blocks: [
+      { kind: 'paragraph', text: `Gracze majóm obronne prostrzedki, kiere se aktywujóm automatycznie. Poużyci karty ${card('CloudWalker', 'Mrakoszlap')}, ${card('Immunity', 'Imunita')}, ${card('KevlarVest', 'Kewlar')}, ${card('Mirror', 'Zwierciadło')} albo ${card('RopeWalker', 'Prowazochodec')} powoduje, że ta karta przepado.` },
+    ],
+    subsections: [
+      {
+        title: 'Tunel',
+        blocks: [
+          { kind: 'paragraph', text: 'Jak zostanie trefióny piyrwszy pokozany gracz, kula leci tunelym do drugiego. Jak od jednego gracza idzie wiyncej tuneli, kula se dzieli na odłamki, kiere lecóm wszystkimi tunelami (majóm ty same właściwości co normalno kula). Kula ani odłamki nimogóm lecieć tym samym tunelym dwa razy. Jak sóm dwa albo trzi tunele w tym samym kierunku miyndzy tymi samymi graczami, kula se nie dzieli, jyny leci tunelym zrobiónym nejwcześnieji.' }
+        ]
+      },
+      {
+        title: 'Maska Gazowo',
+        blocks: [
+          { kind: 'paragraph', text: `Ci co majóm karty ${card('Mage', 'Mag 2')}, ${card('MadGunman', 'Szileny Strzelec 2')} a ${card('GhostBobo', 'Duch Bobo')} majóm Maske Gazowóm, kiero chróni przed ${card('Sand', 'Pioskym')} a smrodym z ${card('Sock', 'Fusekli')}.` }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'Reguły obronne – noc',
+    blocks: [
+      { kind: 'paragraph', text: `Każdy nocny atak se weryfikuje przez system obron w danym porzadi – jak zadziało jedna bariera, reszta se uż niesprawdzo. Przed listóm priorytetów se dycki sprawdzo, jeśli ${card('Matrix')} nie chycił kule.` },
+      { kind: 'paragraph', text: 'Aplikacja przeliczo ataki podle tejtu hierarchii, ale kóńcowy raport je naschwol pomiyszany, coby nie szło poznać strzelców.' }
+    ],
+    subsections: [
+      {
+        title: `a) Kula od ${card('Mafia', 'Mafii')}`,
+        blocks: [
+          { kind: 'list', title: `Strzilo ${card('Mafia', 'Mafian')} z najwyższym numerem:`, ordered: true, items: [card('Magnet', 'Magnet'), 'Tunel', card('Mirror', 'Zwierciadło'), card('Slime', 'Ślina'), card('AlCapone', 'Al Capone'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kewlar'), card('CloudWalker', 'Mrakoszlap')] }
+        ]
+      },
+      {
+        title: `b) Kula od ${card('MadGunman', 'Szilonego Strzelca')}`,
+        blocks: [
+          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), 'Tunel', card('Mirror', 'Zwierciadło'), card('Slime', 'Ślina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kewlar'), card('CloudWalker', 'Mrakoszlap')] }
+        ]
+      },
+      {
+        title: `c) Kula od ${card('Sniper', 'Snipera')}`,
+        blocks: [
+          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), 'Tunel', card('Mirror', 'Zwierciadło'), card('Slime', 'Ślina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kewlar'), card('CloudWalker', 'Mrakoszlap')] }
+        ]
+      },
+      {
+        title: `d) Smród z ${card('Sock', 'Fusekli')}`,
+        blocks: [
+          { kind: 'list', ordered: true, items: ['Maska Gazowo', card('Doctor', 'Doktor'), card('CloudWalker', 'Mrakoszlap')] }
+        ]
+      },
+      {
+        title: `e) Kula od ${card('Matrix', 'Matrixa')}`,
+        blocks: [
+          { kind: 'list', ordered: true, items: [card('Mirror', 'Zwierciadło'), card('KevlarVest', 'Kewlar'), card('CloudWalker', 'Mrakoszlap')] }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'Reguły obrónne – dziyń',
+    blocks: [
+      { kind: 'paragraph', text: `We dnie obróna też działo automatycznie a je stosowano przed śmiercióm gracza. Jeśli ${card('BlindExecutioner', 'Slepy Kat')} pokozoł ofiare zastympczóm, zamiana celów nastympuje automatycznie przed zużyciym tarcz.` }
+    ],
+    subsections: [
+      {
+        title: 'a) Skazani w głosowaniu',
+        blocks: [
+          { kind: 'list', ordered: true, items: [card('RopeWalker', 'Prowazochodec'), card('Immunity', 'Imunita'), card('CloudWalker', 'Mrakoszlap')] }
+        ]
+      },
+      {
+        title: `b) Strzał w dziyń (${card('Anarchist', 'Anarchista')}, ${card('MassMurderer', 'Masowy Zabijak')}, ${card('Terrorist', 'Bomba')})`,
+        blocks: [
+          { kind: 'list', ordered: true, items: [card('Immunity', 'Imunita'), card('KevlarVest', 'Kewlar'), card('CloudWalker', 'Mrakoszlap')] }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'Kolejność budzyń',
+    blocks: [
+      
+    ],
+    subsections: [
+      {
+        title: 'a) Parzyste noce',
+        blocks: [
+          { kind: 'paragraph', text: 'W parzyste noce se budzóm:' },
+          {
+            kind: 'list',
+            items: [
+              card('Jailer', 'Jailer'),
+              card('Gravedigger', 'Grabarz'),
+              card('Matrix', 'Matrix'),
+              card('Mage', 'Magowie'),
+              card('Slime', 'Ślina'),
+              card('Leech', 'Pijawica'),
+              card('Sand', 'Piosek'),
+              card('Cobra', 'Kobra'),
+              card('Magnet', 'Magnet'),
+              card('GhostBobo', 'Duch Bobo'),
+              card('Doctor', 'Doktor'),
+              card('SwampMonster', 'Jożin z Bażin'),
+              card('Mafia', 'Mafia'),
+              card('MadGunman', 'Szileny Strzelcy'),
+              card('Sniper', 'Sniper'),
+              card('Sock', 'Fusekla'),
+              card('Judge', 'Soudce'),
+              card('BlindExecutioner', 'Slepy Kat'),
+              card('Matrix', 'Strzał Matrixa')
+            ]
+          }
+        ]
+      },
+      {
+        title: 'b) Nieparzyste noce',
+        blocks: [
+          { kind: 'paragraph', text: 'W nieparzyste noce se budzóm:' },
+          {
+            kind: 'list',
+            items: [
+              card('Gravedigger', 'Grabarz'),
+              card('Matrix', 'Matrix'),
+              card('Mage', 'Magowie'),
+              card('Slime', 'Ślina'),
+              card('Leech', 'Pijawica'),
+              card('Sand', 'Piosek'),
+              card('Doctor', 'Doktor'),
+              card('SwampMonster', 'Jożin z Bażin'),
+              card('Mafia', 'Mafia'),
+              card('Sniper', 'Sniper'),
+              card('Sock', 'Fusekla'),
+              card('BlindExecutioner', 'Slepy Kat'),
+              card('Matrix', 'Strzał Matrixa')
+            ]
+          }
+        ]
+      },
+      {
+        title: 'c) Dodatkowe zasady nocne',
+        blocks: [
+          { kind: 'paragraph', text: `Pod kóniec każdej trzeci nocy (zaczynajónc od drugi) se budzi ${card('Spyglass', 'Luneta')}, coby wiedziała, kierzi gracze byli aktywni.` },
+          { kind: 'paragraph', text: `Nikiere role (np. ${card('Matrix')}) majóm ograniczónóm liczbe użyć; jak se wyczerpióm, Prowadzóncy ich przestowo budzić.` }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'Zasady balansu karet',
+    blocks: [
+      { kind: 'paragraph', text: 'Coby gra była sprawiedliwo, aplikacja stosuje taki oto ograniczynia przy rozdowaniu roli:' },
+      {
+        kind: 'list',
+        items: [
+          `Gracz może mieć jyny jednóm karte ${card('Mafia', 'Mafii')}.`,
+          `Gracz może mieć jyny jednóm karte z pary ${card('Gandalf')} / ${card('HorsePiece', 'Kus Konia')}.`,
+          `Gracz może mieć jyny jednóm karte z zestawu: ${card('Mage', 'Mag 2')} / ${card('MadGunman', 'Szileny Strzelec 2')} / ${card('GhostBobo', 'Duch Bobo')}.`,
+          `Gracz może mieć jyny jednóm karte z pary ${card('Leech', 'Pijawica')} / ${card('Cobra')}.`,
+          `Gracz może mieć jyny jednego ${card('MadGunman', 'Szilonego Strzelca')}.`,
+          `Gracz może mieć jyny jednóm karte ${card('Slime', 'Śliny')}.`,
+          `Gracz może mieć jyny jednóm karte z pary ${card('Atheist', 'Ateista')} / ${card('Matrix')}.`,
+          `Gracz co mo karte ${card('Mafia', 'Mafii')} niemoże dostać ${card('Doctor', 'Doktora')} ani ${card('Spyglass', 'Lunety')}.`,
+          `Gracz może dostać maksymalnie dwa ${card('CloudWalker', 'Mrakoszlapy')}.`,
+          `Gracz może dostać maksymalnie dwóch ${card('RopeWalker', 'Prowazochodców')}.`,
+          `Gracz co mo karte ${card('Gravedigger', 'Grabarz')}, ${card('Leech', 'Pijawica')}, ${card('AlCapone', 'Al Capone')}, ${card('Gandalf')} albo ${card('HorsePiece', 'Kus Konia')} może dostać jyny jednego ${card('CloudWalker', 'Mrakoszlapa')}.`
+        ]
+      }
+    ]
+  }
+];
 
 export const TRANSLATIONS_PO_NASZYMU = {
-  role_CloudWalker: 'Mrakoszlap',
-  role_Immunity: 'Imunita',
-  role_RopeWalker: 'Prowazochodec',
-  role_KevlarVest: 'Kewlar',
-  role_Matrix: 'Matrix',
-  role_Jailer: 'Jailer',
-  role_Mage: 'Mag',
-  role_Slime: 'Ślina',
-  role_Leech: 'Pijawica',
-  role_Sand: 'Piasek',
-  role_Cobra: 'Kobra',
-  role_Magnet: 'Magnet',
-  role_Sock: 'Fusekla',
-  role_GhostBobo: 'Duch Bobo',
-  role_Mafia: 'Mafian',
-  role_MadGunman: 'Szalony Strzelec',
-  role_Sniper: 'Sniper',
-  role_Mirror: 'Zwierciadło',
-  role_Terrorist: 'Terrorysta',
-  role_Astronomer: 'Astronom',
-  role_Meciar: 'Meciar',
-  role_Kovac: 'Kovac',
+  // Role labels
   role_AlCapone: 'Al Capone',
-  role_Gandalf: 'Gandalf',
-  role_HorsePiece: 'Kus Kona',
-  role_Atheist: 'Ateista',
   role_Anarchist: 'Anarchista',
-  role_Glazier: 'Szklorz',
-  role_MassMurderer: 'Masowy Zabijak',
-  role_Judge: 'Soudce',
+  role_Astronomer: 'Astronom',
+  role_Atheist: 'Ateista',
   role_BlindExecutioner: 'Slepy Kat',
+  role_CloudWalker: 'Mrakoszlap',
+  role_Cobra: 'Kobra',
   role_Communist: 'Komunista',
-  role_Spyglass: 'Luneta',
-  role_Gravedigger: 'Grabarz',
-  role_TimeLord: 'Pan Czasu',
   role_Doctor: 'Doktor',
-  role_SwampMonster: 'Jozin z Bazin',
+  role_Gandalf: 'Gandalf',
+  role_GhostBobo: 'Duch Bobo',
+  role_Glazier: 'Szklorz',
+  role_Gravedigger: 'Grabarz',
+  role_HorsePiece: 'Kus Konia',
+  role_Immunity: 'Imunita',
+  role_Jailer: 'Jailer',
+  role_Judge: 'Soudce',
+  role_KevlarVest: 'Kewlar',
+  role_Kovac: 'Kovacz',
+  role_Leech: 'Pijawica',
+  role_MadGunman: 'Szileny Strzelec',
+  role_Mafia: 'Mafia',
+  role_Magnet: 'Magnet',
+  role_MassMurderer: 'Masowy Zabijak',
+  role_Matrix: 'Matrix',
+  role_Meciar: 'Mecziar',
+  role_Mage: 'Mag',
+  role_Mirror: 'Zwierciadło',
+  role_RopeWalker: 'Prowazochodec',
+  role_Sand: 'Piosek',
+  role_Slime: 'Ślina',
+  role_Sniper: 'Sniper',
+  role_Sock: 'Fusekla',
+  role_Spyglass: 'Luneta',
+  role_SwampMonster: 'Jożin z Bażin',
+  role_Terrorist: 'Terrorysta',
+  role_TimeLord: 'Pan Czasu',
+
+  // Card descriptions
+  card_description_AlCapone: 'Al Capone jako ojciec chrzestny Mafii je imunni na jeji ataki. Ochróna ta działo jyny na bezpostrzedni strzał Mafii, ale nie chróni przed kulóm przekierowanóm przez Tunel, Magnet albo Zwierciadło.',
+  card_description_Anarchist: 'Anarchista może roz za gre w dziyń użyć swoji zdolności, a powiedzieć "I shoot you baby!", po czym strzylo do osoby, kieróm se wybiere.',
+  card_description_Astronomer: 'Astronom może roz za gre w dziyń użyć swoji zdolności, godajónc "Noc!", co hned kóńczy dziyń, aj jak prawie trwo głosowani.',
+  card_description_Atheist: 'Tunel zrobiony od Maga do Ateisty nie działo. Prowadzóncy nie godo Magowi, że zrobił tunel na Ateiste.',
+  card_description_BlindExecutioner: 'Slepy Kat może dwa razy za gre pokozać w nocy dwóch graczy. Jak w nastympny dziyń piyrwszy ze wskozanych graczy mo być powieszóny, zamiast niego ginie tyn drugi.',
+  card_description_CloudWalker: 'Mrakoszlap to je podstawowo karta obrónno, działo jako dodatkowe życi. Zużywo se, jak gracz nimo innej ochróny.',
+  card_description_Cobra: 'Kobra każdóm parzystóm noc pokazuje grocza, kiery podle ni mo Pijawice. Jak trefi, pod kóniec nocy dostanie Mrakoszlapa a zjy Pijawice (gracz z tóm kartóm straci swoje zdolności).',
+  card_description_Communist: 'Komunista może roz za gre w dziyń użyć swoji zdolności, godajónc "Obywatele, w tej rundzie my sóm wszyscy równi", a tym anuluje na jedyn dziyń zdolności Mecziara, Kovacza, Ducha Bobo a Soudce.',
+  card_description_Doctor: 'Doktor każdej nocy pokazuje gracza, kierego lyczy, a tym go chróni roz przed kulóm albo smrodym z Fusekli. Co trzecióm noc (zaczynajónc od piyrwszej albo drugi) może ulyczyć samego siebie. Jak Doktor zustanie sóm przeciwko jednymu albo kielasi Mafianóm a nimóg by se ulyczyć sóm, je deaktywowany.',
+  card_description_Gandalf: 'Jak Kus Konia straci Mrakoszlapa, dostanie go Gandalf. W nocy może tak dostać jyny jednego Mrakoszlapa.',
+  card_description_Glazier: 'Jak Szklorz nimo żodnego Zwierciadła, a inszemu graczowi w nocy zustanie zniszczóne, Szklorz go dostanie pod kóniec nocy. Może dostać jyny jedno Zwierciadło za noc.',
+  card_description_GhostBobo: 'Duch Bobo każdóm parzystóm noc pokazuje grocza, kiery w nastympny dziyń bydzie mioł zakaz mówiynio (zakaz może zruszyć jyny Komunista). Jak oskarżóny gracz mo zakaz dany od Ducha Bobo, wybiyro se osobe, kiero go bydzie brónić tłumaczónc jego miny a gesty.',
+  card_description_Gravedigger: 'Grabarz może roz za gre w nocy wykopać groby do Mrakoszlapów, a pod kóniec nocy dostanie tela Mrakoszlapów, wiela ich tej nocy stracili inni grocze.',
+  card_description_HorsePiece: 'Jak Gandalf straci Mrakoszlapa, dostanie go Kus Konia. W nocy może tak dostać jyny jednego Mrakoszlapa.',
+  card_description_Immunity: 'Karta obrónno na przipadek trefiynio kulóm w dziyń albo skazania na śmierć na szubienicy.',
+  card_description_Jailer: 'Jailer może roz za gre pokozać gracza, kierego wsadzi do wiynziynia, blokujónc jego zdolności w tej nocy. Prowadzóncy budzi zawrzitego gracza, ale wyraźnie mu pokazuje, że je zawrzity.',
+  card_description_Judge: 'Soudce każdej parzystej nocy pokazuje gracza, kiery w nastympny dziyń bydzie mioł zakaz głosowanio. Komunista może tyn zakaz zruszyć.',
+  card_description_KevlarVest: 'Karta obrónno na przipadek trefiynio kulóm.',
+  card_description_Kovac: 'Kovacz zmniyjszo liczbe głosów za jego śmiercióm o 1. Jak Komunista użyje swojóm zdolność, Kovacz traci tyn bonus.',
+  card_description_Leech: 'Pijawica każdej nocy pokazuje gracza, do kierego se przysyso. Jak tyn gracz straci w nocy Mrakoszlapa albo zginie, Pijawica dostanie Mrakoszlapa. Pijawica może być zjedzóno Kobróm.',
+  card_description_MadGunman: 'Szileny Strzelec każdej parzystej nocy strzilo na jednego grocza.',
+  card_description_Mafia: 'Mafian może wygrać gre przez zabici wszystkich normalnych graczy, używajónc kuli każdej nocy. Coby Mafia wystrzeliła, wszyscy Mafianie muszóm w nocy pokozać tego samego grocza. Aby mógli ustalić porzadi strzilanio, budzóm se na poczóntku piyrwszej nocy.',
+  card_description_Mage: 'Mag każdej nocy pokazuje dwóch groczy, miyndzy kierymi robi jednokierunkowy tunel. Jak piyrwszy gracz dostanie kulóm, ta wyndruje tunelym do drugigo.',
+  card_description_Magnet: 'Magnet każdej parzystej nocy pokazuje grocza, kierego magnetyzuje. Jak kole namagnetyzowanego gracza leci kula, zostanie do niego przycióngnyto. Kula może być przycióngnyto jyny roz.',
+  card_description_MassMurderer: 'Jak Masowy Zabijak zostanie skazany na szubienice, strzylo do wszystkich, kierzi na niego głosowali.',
+  card_description_Matrix: 'Matrix może roz za gre w nocy zmiynić prawa fizyki – chycić wszystki kule, co na niego lecóm, a wypuścić ich pod kóniec nocy.',
+  card_description_Meciar: 'W głosowaniu se jego głos liczy podwójnie. Jak Komunista użyje swojóm zdolność, Mecziar traci tyn bonus.',
+  card_description_Mirror: 'Karta obrónno na przipadek trefiynio kulóm Mafii albo Szilenego Strzelca. Po rozbiciu Zwierciadła kula wraco do gracza, od kierego przileciała, chyba że Zwierciadło było poplamióne błotym od Jożina z Bażin.',
+  card_description_RopeWalker: 'Karta obrónno przed śmierciom na szubienicy.',
+  card_description_Sand: 'Gracz z kartóm Piosek każdej nocy pokazuje grocza, kierego posypuje pioskym. Piosek ruszy efekt Śliny, a gracz je zaś podatny na strzał. Ochrone przed Pioskym majóm gracze z Maskóm Gazowóm (Szileny Strzelec 2, Mag 2 a Duch Bobo).',
+  card_description_Slime: 'Gracz z kartóm Ślina każdej nocy pokazuje grocza, kierego chce oślinić. Oślinióny gracz je roz w nocy chróniony przed kulóm Mafii, Szilenego Strzelca a Snipera (kula se z niego ześlizgnie). Efekt Śliny idzie zruszyć Pioskym.',
+  card_description_Sniper: 'Sniper może roz za gre pokozać grocza, w kierego strzilo silnym pociskym. Je tak silny, że rozbijo nawet Zwierciadło a leci dali.',
+  card_description_Sock: 'Gracz z Fuseklóm może roz za gre w nocy ciepnóć Fusekle miyndzy dwóch graczy, kierzi padajóm od jejigo smrodu. Przed smrodym Fusekli chróni jyny Maska Gazowo, Doktor a Mrakoszlap. Szileny Strzelec 2, Mag 2 a Duch Bobo majóm Maske Gazowóm.',
+  card_description_Spyglass: 'Luneta se budzi pod kóniec każdej trzeci nocy (zaczynajónc od drugi) a dowiaduje se od Prowadzóncego, kierzi gracze byli tej nocy obudzóni.',
+  card_description_SwampMonster: 'Jożin z Bażin może trzi razy za gre pokozać w nocy gracza, kierymu poplami Zwierciadło. Kula rozbijo brudne Zwierciadło, a leci dali. Jożin może użyć swojóm zdolność wiyncej razy w jednóm noc. Jak gracz mo też karte Mafiana, Snipera albo Szilonego Strzelca, może poplamić Zwierciadło jyny dwa razy.',
+  card_description_Terrorist: 'Terrorysta może roz za gre w dziyń użyć swojóm zdolność, godajónc "Bomba!", po czym strzylo do wszystkich graczy.',
+  card_description_TimeLord: 'Pan Czasu może roz za gre na poczóntku dnia albo nocy powiedzieć "Jeżech Panym czasu!" a przeskoczyć cały dziyń albo noc.',
 
   // App Shell & Navigation
   app_title: 'Mafia²',
-  app_continue_game: 'KONTYNUUJ GRE',
+  app_continue_game: 'Pokraczować we grze',
   app_continue_round: 'Runda {round}',
-  app_new_game: 'NOWO GRE',
-  nav_game: 'Gre',
+  app_new_game: 'Nowo gra',
+  nav_game: 'Gra',
   nav_players: 'Gracze',
   nav_logs: 'Logi',
-  nav_rules: 'Reguły',
+  nav_rules: 'Zasady',
   nav_cards: 'Karty',
-  nav_settings: 'Ustawiynia',
+  nav_settings: 'Nastawiynia',
   nav_my_cards: 'Moje karty',
-  nav_all_cards: 'Wszyjske karty',
-  player_link_invalid: 'Niywłaściwy link gracza. Poproś GM-a o nowy.',
+  nav_all_cards: 'Wszystki karty',
+  player_link_invalid: 'Zły link gracza. Popytej Prowadzóncego o nowy.',
 
   // Rules View
   rules_header_title: 'Reguły',
-  rules_missing_language: 'Brak przetłómaczonych reguł w tym języku.',
+  rules_missing_language: 'Ni ma przetłumaczónych reguł do tego jynzyka.',
 
   // Logs
-  logs_heading: 'Log nocny i dziynny',
-  logs_subheading: 'Pokazujã noc i dziyń #{round}',
+  logs_heading: 'Dziynnik nocy a dnia',
+  logs_subheading: 'Pokazujym raport nocy a dnia #{round}',
   logs_round_label: 'Runda',
-  logs_public_report_title: 'Raport publiczny',
-  logs_public_report_placeholder: 'Raport publiczny pokozie sie na poczatku dnia.',
-  logs_round_title: 'Log rundy',
-  logs_round_empty: 'Brak wpisów w tej rundzie.',
+  logs_public_report_title: 'Publiczny raport',
+  logs_public_report_placeholder: 'Publiczny raport bydzie na poczóntku dnia.',
+  logs_round_title: 'Dziynnik rundy',
+  logs_round_empty: 'Żadnych wpisów dlo tej rundy.',
   logs_panel_title: 'Historia gry',
-  logs_panel_empty: 'Log je pusty.',
+  logs_panel_empty: 'Dziynnik je pusty.',
 
   // Cards
-  cards_collection_title: 'Kolekcjo kart',
-  cards_placeholder_description: 'Opis bydzie wkrótce.',
+  cards_collection_title: 'Kolekcja karet',
+  cards_placeholder_description: 'Opis se robi.',
+  cards_toggle_icons: 'Ikony',
+  cards_toggle_images: 'Grafiki',
 
   // Settings
-  settings_language_title: 'Jynzyk aplikacyji',
-  settings_language_active: 'Teroz używany',
-  settings_title: 'Ustawiynia',
-  settings_player_node_size: 'Wielkość żetonów graczy',
-  settings_reset_player_size: 'Przywróć bazowy rozmiar',
-  settings_player_node_hint: 'Łatwiej trafić w koleczka na dużych stołach.',
-  settings_bullet_speed: 'Szybkość kulek',
+  settings_language_title: 'Jynzyk aplikacji',
+  settings_language_active: 'Aktywny',
+  settings_title: 'Nastawiynia',
+  settings_player_node_size: 'Wielkość pionków graczy',
+  settings_reset_player_size: 'Resetuj wielkość pionków',
+  settings_player_node_hint: 'Pomogo trefić w kulki na wielkich stołach.',
+  settings_bullet_speed: 'Pryndkość kuli',
   settings_bullet_speed_fast: 'Szybcij',
-  settings_bullet_speed_slow: 'Wolnij',
-  settings_bullet_speed_hint: 'Reguluje jak chyto strzały latają po nocy.',
+  settings_bullet_speed_slow: 'Pomaleji',
+  settings_bullet_speed_hint: 'Steruje tempym animacji nocnych strzałów.',
   settings_storage_title: 'Pamiynć',
-  settings_storage_description: 'Czyści autosave i przeładowuje aplikacyjo.',
-  settings_reset_data_button: 'Wyzeruj dane gry',
+  settings_export_data_button: 'Eksportuj dane gry',
+  settings_import_data_button: 'Importuj z pliku',
+  settings_import_warning: 'Import zmazuje aktualnóm rozgrywke.',
+  settings_import_error: 'Nie szło wczytać zapisu. Sprowdź plik a spróbuj zaś.',
 
   // GM Player List
   gm_players_title: 'Gracze ({count})',
-  gm_players_no_cards: 'Ni ma kart',
-  gm_players_share_button: 'Udostymp',
+  gm_players_badge_mafia: 'Mafia',
+  gm_players_no_cards: 'Bez karet',
+  gm_players_share_button: 'Udostympnij',
   gm_players_qr_button: 'Kod QR',
-  gm_players_qr_instruction: 'Zeskanuj to, żeby otworzyć widok gracza.',
-  gm_players_qr_generating: 'Generuja kod QR…',
-  gm_players_copy_link_instead: 'Skopiuj link zamiast',
-  gm_players_manual_copy_title: 'Skopiuj link ręcznie',
-  gm_players_manual_copy_fallback: 'Udostympianie ni działa na tym klamocie. Skopiuj link i poślij go do {name}.',
+  gm_players_qr_instruction: 'Zeskanuj kod, coby otworzyć widok gracza.',
+  gm_players_qr_generating: 'Generowani kodu QR…',
+  gm_players_copy_link_instead: 'Skopiuj link zamiast tego',
+  gm_players_manual_copy_title: 'Skopiuj link ryncznie',
+  gm_players_manual_copy_fallback: 'Udostympniani tu nie działo. Skopiuj link a poślij go graczowi {name}.',
   gm_players_manual_copy_label: 'Link',
   gm_players_manual_copy_copy: 'Skopiuj link',
-  gm_players_manual_copy_close: 'Zamknij',
-  gm_players_share_insecure: 'Udostympianie działa ino na HTTPS (albo localhost). Skopiuj link albo otwórz apke przez https://.',
-  gm_players_share_unsupported: 'Ta przeglōndarka ni mo udostympianio. Skopiuj link niżyj.',
-  gm_players_share_failure_reason: 'Udostympianie sie niy udało. Skopiuj link ręcznie.',
+  gm_players_manual_copy_close: 'Zawrzyj',
+  gm_players_share_insecure: 'Udostympniani działo jyny bez HTTPS (albo localhost). Skopiuj link albo otwórz aplikacje bez https://.',
+  gm_players_share_unsupported: 'Ta przeglądarka nimo przycisku Udostympnij. Skopiuj link na dole.',
+  gm_players_share_failure_reason: 'Udostympniani sie nie udało. Skopiuj link ryncznie.',
   gm_players_share_title: '{player} — link gracza',
-  gm_players_share_text: 'Otwōrz karty gracza {player} w aplikacyji.',
-  gm_players_copy_success: 'Link do gracza {player} skopiowany! Poślij go tej osobie.',
-  gm_players_qr_error: 'Ni idzie zrobić kodu QR. Link skopiowano do schowka.',
-  gm_players_modal_close_qr_aria: 'Zamknij okno kodu QR',
-  gm_players_modal_close_manual_aria: 'Zamknij okno kopiowania',
-
-  // Generic responses
-  ui_yes: 'Ja',
-  ui_no: 'Ni',
-
-  // Setup Wizard
-  setup_next: 'DALYJ',
-
+  gm_players_share_text: 'Otwórz karty gracza {player} w aplikacji.',
+  gm_players_copy_success: 'Link do gracza {player} skopiowany! Poślij mu go.',
+  gm_players_qr_error: 'Nie idzie zrobić kodu QR. Link je w schowku.',
+  gm_players_modal_close_qr_aria: 'Zawrzyj okno kodu QR',
+  gm_players_modal_close_manual_aria: 'Zawrzyj okno kopiowanio',
+  gm_players_share_mode_title: 'Tryb udostympnianio',
+  gm_players_share_mode_hint: 'Ukrywo karty a farby Mafii jak pokazujesz kody QR.',
+  gm_players_share_mode_on: 'Załónczóny',
+  gm_players_share_mode_off: 'Wyłónczóny',
+  gm_players_share_mode_cards_hidden: 'Karty ukryte w trybie udostympnianio.',
   // Gameplay Texts
-  setup_remove: 'Dla poprawnego rozdania kart musisz usunąć kilka kart...',
-  win_mafia: 'Mafia wygrała.',
-  win_innocent: 'Niewinni obywatele wygrali.',
-  log_start_game: 'Rozpoczęto nową grę.',
-  log_player_activate: '{cardLabel} {player} użył swojóm funkcje.',
-  night_log_matrix_activate: 'Idź za biołym krōlikiym... ({cardLabel} {player} użył swojóm funkcje.)',
-  night_log_matrix_bullet_summary: 'Ilość pociskōw, kiere Matrix {player} chycioł tyj nocy: {count}.',
-  start_day: 'Rozpocznij dzień',
-  start_night_intro: 'Zaczyno noc i miasteczko idzie spać...',
-  first_night_message: 'Budzi se mafia, aby se mógła domówić jak bedzie działać.',
-  wake_up: 'Budzi se {role}, chce użyć swojóm funkcje?',
-  wake_up_use_again: 'Chce {role} użyć swojóm funkcje eszcze roz?',
-  wake_up_spyglass: 'Budzi se Luneta, dowiedziała se gdo se obudził?',
-  wake_matrix_shot: 'Budzi se Matrix, na kierego gracza chce wystrzelić? (pocisk {current}/{total})',
-  wake_up_jailer: 'Budzi se {role}, kogo chce wsadzić do więzienia?',
-  wake_up_slime: 'Budzi se {role}, kierego gracza chce poślinić?',
-  wake_up_leech: 'Budzi se {role}, na kierego gracza se chce przissać?',
-  wake_up_sand: 'Budzi se {role}, kierego gracza chce posypać pioskym?',
-  wake_up_shooter: 'Budzi se {role}, na kierego gracza chce wystrzelić?',
-  wake_up_judge: 'Budzi se {role}, kierymu graczowi chce zakozać głosować?',
-  
-  // Actions
-  wake_up_mage_from: 'Budzi se {role}. Z kierego gracza zrobić tunel?',
+  victory_mafia: 'Wygrywo Mafia.',
+  victory_innocent: 'Wygrywo Miasto.',
+  log_start_game: 'Nowo gra se zaczła.',
+  log_player_activate: '{cardLabel} {player} użył zdolności.',
+  start_day: 'Zacznij dziyń',
+  start_night_intro: 'Zaczyno noc, miasteczko idzie spać...',
+  first_night_message: 'Mafia se budzi, aby ustaliła strategie.',
+  wake_up: 'Budzi se {role}. Chce użyć swojóm zdolność?',
+  wake_up_use_again: 'Chce {role} zaś użyć swojóm zdolność?',
+  wake_up_shooter: 'Budzi se {role}. Do kogo chce strzelić?',
+
+  // Role-specific wakeups, logs, and reports
+
+  // Mage
+  wake_up_mage_from: 'Budzi se {role}. Z kierego gracza chce zrobić tunel?',
   wake_up_mage_to: 'Na kierego gracza chce {role} zrobić tunel?',
-  report_slime: '{cardLabel} {player} pośliniła gracza {target}.',
-  report_leech: '{cardLabel} {player} se przissała na gracza {target}.',
-  report_sand: '{cardLabel} {player} posypoł pioskym gracza {target}.',
-  report_sand_fail: '{cardLabel} {player} chcioł posypać pioskym gracza {target}, ale tyn mo gas maske.',
-  wake_up_cobra: 'Budzi se {role}, kierego gracza chce ugryźć?',
-  report_cobra: 'Ugryziony był {name}.',
-  wake_up_magnet: 'Budzi se {role}, kierego gracza chce zmagnetyzować?',
-  report_magnet: 'Zmagnetyzowany był {name}.',
-  wake_up_ghost: 'Budzi se {role}, kierego gracza chce exhibnóć?',
-  wake_up_swamp_monster: 'Kierego gracza chce pochlapać błotym?',
-  wake_up_executioner_save: 'Budzi se {role}, kierego gracza chce zachrónić przed szibenicóm?',
-  wake_up_executioner_victim: 'Gdo mo zamiast niego skóńczyć na szibenicy?',
-  wake_up_sock_first: 'Między kierych graczy chce rzucić Fuseklę? Najprzód wskaż piyrwszego gracza.',
-  wake_up_sock_second: 'Teraz wskaż jednego z jego sąsiadów.',
-  spyglass_reveal_intro: 'W tej nocy se obudzili: {names}.',
-  spyglass_reveal_none: 'W tej nocy żodyn gracz se nie obudził.',
-  report_ghost: '{cardLabel} {player} exhibnął gracza {target}.',
-  report_judge: '{cardLabel} {player} zakozoł głosować graczowi {target}.',
-  night_log_swamp_attack: '{cardLabel} {player} pochlapoł błotym gracza {target}.',
-  night_log_executioner_save: '{saved} bedzie zachrónióny przed szibenicóm a zamiast niego na ni skóńczy {victim}.',
-  log_executioner_same_target: '{cardLabel} {player} ni może wybrać tego samego gracza ({target}) jako zachróniónygo i ofiare.',
-  report_sock_throw: '{cardLabel} {player} wycelowoł Fuseklą między graczy {first} i {second}.',
-  log_sock_invalid_neighbor: '{cardLabel} {player} ni może rzucić Fusekli między {first} i {target}, bo ni są sąsiadami.',
-  log_sock_same_target: '{cardLabel} {player} musi wybrać dwók różnych graczy do Fusekli.',
-  log_sock_throw_intro: '{cardLabel} {player} rzucił Fuseklę między graczy {first} i {second}. ',
-  log_sock_result_gasmask: 'Gas maska zachróniła gracza {name}. ',
-  log_sock_result_dead: 'Gracz {name} uż był martwy. ',
-  log_sock_result_doctor: 'Doktora zachrōnił gracza {name}. ',
+  log_tunnel_duplicate: '{cardLabel} {player} chcioł zrobić tunel {source}->{target}, ale taki uż je.',
+  log_tunnel_atheist: '{cardLabel} {player} chcioł zrobić tunel na gracza {target}, ale to Ateista.',
+  log_tunnel_same_player: '{cardLabel} {player} nimoże zrobić tunel na tego samego gracza.',
+  log_tunnel_created: '{cardLabel} {player} zrobił tunel {tunnelNumber} ({source} -> {target}).',
+
+  // Slime
+  wake_up_slime: 'Budzi se {role}. Kogo chce poślinić?',
+  log_action_slime: '{cardLabel} {player} poślinił gracza {target}.',
+  public_report_slime: '{name} był poślinióny.',
+  public_report_slime_multi: '{name} był poślinióny (x{count}).',
+
+  // Leech
+  wake_up_leech: 'Budzi se {role}. Do kogo se chce przissać?',
+  log_action_leech: '{cardLabel} {player} przissoł se do gracza {target}.',
+  public_report_leech_cloudwalker: 'Pijawica dostaa Mrakoszlapa {num}.',
+  log_night_leech_cloudwalker: '{cardLabel} {player} dostała Mrakoszlapa {num}.',
+
+  // Sand
+  wake_up_sand: 'Budzi se {role}. Kogo chce posypać pioskym?',
+  log_action_sand: '{cardLabel} {player} posypoł pioskym gracza {target}.',
+  log_action_sand_fail: '{cardLabel} {player} chcioł posypać pioskym gracza {target}, ale tyn mo Maske Gazowóm.',
+  public_report_sand: '{name} mo piosek w oczach.',
+  public_report_sand_saved: 'Maska Gazowo uchróniła gracza przed pioskym.',
+
+  // Cobra
+  wake_up_cobra: 'Budzi se {role}. Kogo chce ugryźć?',
+  log_action_cobra: '{name} był ugryzióny.',
+  public_report_cobra_cloudwalker: 'Kobra zjadła Pijawice a dostała Mrakoszlapa {num}.',
+  log_night_cobra_cloudwalker: '{cardLabel} {player} zjadła Pijawice a dostała Mrakoszlapa {num}.',
+
+  // Magnet
+  wake_up_magnet: 'Budzi se {role}. Kogo chce namagnetyzować?',
+  log_action_magnet: '{name} był namagnetyzowany.',
+
+  // Ghost Bobo
+  wake_up_ghost: 'Budzi se {role}. Kómu chce zakozać mówić?',
+  log_action_ghost: '{cardLabel} {player} zakozoł mówić graczowi {target}.',
+  public_report_ghost_bobo: '{name} dzisio nimoże mówić.',
+
+  // Judge
+  wake_up_judge: 'Budzi se {role}. Komu chce zakozać głosować?',
+  log_action_judge: '{cardLabel} {player} zakozoł głosować graczowi {target}.',
+  public_report_judge: '{name} dzisio nimoże głosować.',
+
+  // Swamp Monster
+  wake_up_swamp_monster: 'Kogo chce ochlapać błotym?',
+  log_night_swamp_attack: '{cardLabel} {player} ochlapoł błotem gracza {target}.',
+
+  // Executioner
+  wake_up_executioner_save: 'Budzi se {role}. Kogo chce ułaskawić ze szubienicy?',
+  wake_up_executioner_victim: 'Kto mo iść na szubienice zamiast niego?',
+  log_night_executioner_save: '{saved} je chróniony przed wyrokym, zamiast niego zginie {victim}.',
+  log_executioner_same_target: '{cardLabel} {player} niemoże pokozać tego samego gracza ({target}) jako ofiary a chrónionego.',
+
+  // Sock
+  wake_up_sock_first: 'miyndzy kogo ciepnąć Fusekle? Pokoż piyrwszego gracza.',
+  wake_up_sock_second: 'Teraz pokoż sónsiada tego gracza.',
+  log_action_sock_throw: '{cardLabel} {player} wycelował Fuseklom miyndzy graczy {first} a {second}.',
+  log_sock_invalid_neighbor: '{cardLabel} {player} niemoże ciepnąć Fusekli miyndzy {first} a {target}, bo nie sóm sónsiadami.',
+  log_sock_same_target: '{cardLabel} {player} musi wybrać dwóch roztomajtych graczy.',
+  log_sock_throw_intro: '{cardLabel} {player} ciepnął Fusekle miyndzy graczy {first} a {second}. ',
+  log_sock_result_gasmask: 'Maska Gazowo ocaliła gracza {name}. ',
+  log_sock_result_dead: 'Gracz {name} był już martwy. ',
+  log_sock_result_doctor: 'Doktor ocalił gracza {name}. ',
   log_sock_result_cloudwalker: 'Gracz {name} stracił Mrakoszlapa. ',
-  log_sock_result_death: 'Gracz {name} opuszczo gre. ',
-  log_jailer_imprison: '{cardLabel} {player} wsadził gracza {target} do więźnia.',
-  log_action_blocked_jailed: '{cardLabel} {player} siedzi we więźniu, to nic sie ni dzieje.',
-  
+  log_sock_result_death: 'Gracz {name} odpado z gry. ',
+  public_report_sock_used: 'Fusekla poleciała miyndzy dwóch graczy. ',
+  public_report_sock_first_gasmask: 'Piyrwszego gracza ocaliła Maska Gazowo',
+  public_report_sock_first_dead: 'Piyrwszy gracz był już martwy',
+  public_report_sock_first_doctor: 'Piyrwszego gracza uratował Doktor',
+  public_report_sock_first_cloudwalker: 'Piyrwszy gracz stracił Mrakoszlapa',
+  public_report_sock_first_death: 'Piyrwszy gracz, {name}, odpado z gry',
+  public_report_sock_second_gasmask: ', a drugiego ocaliła Maska Gazowo.',
+  public_report_sock_second_dead: ', a drugi gracz był już martwy.',
+  public_report_sock_second_doctor: ', a drugiego uratował Doktor.',
+  public_report_sock_second_cloudwalker: ', a drugi gracz stracił Mrakoszlapa.',
+  public_report_sock_second_death: ', a z gry odpado {name}.',
+  public_report_sock_first_only_suffix: '.',
+
+  // Jailer
+  wake_up_jailer: 'Budzi se {role}. Kogo wsadzo do mamra?',
+  log_jailer_imprison: '{cardLabel} {player} wsadził do mamra gracza {target}.',
+  log_action_blocked_jailed: '{cardLabel} {player} siedzi w mamrze, wiync tej nocy nic se niestanie.',
+
   // Doctor
-  wake_up_doctor_heal_self: 'Budzi se {role}, kierego gracza chce ulyczyć? (może sóm siebie)',
-  wake_up_doctor_heal_other: 'Budzi se {role}, kierego gracza chce ulyczyć? (nimoże sóm siebie)',
-  report_heal_fail: '{cardLabel} {player} chcioł ulyczyć gracza {target}, ale tyn nie bedzie ulyczóny, bo doktor je sóm proci mafianóm.',
-  report_heal_success: '{cardLabel} {player} ulyczy gracza {target}.',
-  report_heal_self_locked: '{cardLabel} {player} nie może uleczyć sóm siebie w tej nocy.',
-  
+  wake_up_doctor_heal_self: 'Budzi se {role}. Kogo chce ulyczyć? (może siebie)',
+  wake_up_doctor_heal_other: 'Budzi se {role}. Kogo chce ulyczyć? (niemoże siebie)',
+  log_doctor_fail: '{cardLabel} {player} chcioł ulyczyć {target}, ale cel niebydzie ulyczony, bo Doktor działo som przeciw Mafii.',
+  log_doctor_success: '{cardLabel} {player} ulyczy gracza {target}.',
+  log_doctor_self_locked: '{cardLabel} {player} niemoże ulyczyć siebie tej nocy.',
+
+  // Matrix
+  wake_matrix_shot: 'Budzi se Matrix. W kogo chce strzelić? (kula {current}/{total})',
+  log_night_matrix_activate: 'Dowej pozór na biołego królika... ({cardLabel} {player} użył zdolności.)',
+  log_night_matrix_bullet_summary: 'Wielość kul, kiere Matrix {player} chycił tej nocy: {count}.',
+
+  // Spyglass
+  wake_up_spyglass: 'Budzi se Luneta. Dowiedziała se, kto był aktywny tej nocy?',
+  spyglass_reveal_intro: 'Tej nocy se budzili: {names}.',
+  spyglass_reveal_none: 'Tej nocy nikt se nie obudził.',
+
   // Mafia/Shooting
-  wake_up_mafia_aim: 'Budzi se {role}, kierego gracza chce zamierzić?',
-  log_mafia_jailed: '{cardLabel} {player} je tej nocy we więźniu, także mafia nie wystrzeli.',
-  log_mafia_no_consensus: 'Mafiani ni byli zgodni, kaj strzelić, i nie padnół żodyn strzał.',
-  log_shoot: '{cardLabel} {player} wystrzelił na gracza {target}.',
-  log_shooter_aim: '{cardLabel} {player} zamierził gracza {target}.',
-  
+  wake_up_mafia_aim: 'Budzi se {role}. W kogo celuje?',
+  log_mafia_jailed: '{cardLabel} {player} je w mamrze, wiync Mafia nie strzeli.',
+  log_mafia_no_consensus: 'Mafianie nie byli zgodni, wiync tej nocy nikt nie strzelił.',
+  log_shoot: '{cardLabel} {player} strzylo do gracza {target}.',
+  log_shooter_aim: '{cardLabel} {player} celuje w gracza {target}.',
+
+  // Time Lord
+  ui_timelord_skip_night: '{cardLabel}: Przeskocz noc',
+  ui_timelord_skip_day: '{cardLabel}: Przeskocz dziyń',
+  log_timelord_skip_day: '{cardLabel} {player} przeskoczył dziyń.',
+  log_timelord_skip_night: '{cardLabel} {player} przeskoczył noc.',
+
   // Public Reports (Resolution)
-  report_vest_hit: '{target} stracił Kewlar {num}.',
-  report_ropewalker_lost: '{target} stracił Prowazochodca {num}.',
-  report_immunity_lost: '{target} stracił Imunite {num}.',
-  report_life_lost: '{target} stracił Mrakoszlapa {num}.',
-  report_death: '{target} umrził.',
-  log_tunnel_duplicate: '{cardLabel} {player} chcioł zrobić tunel z gracza {source} na gracza {target}, ale taki tunel już je.',
-  log_tunnel_atheist: '{cardLabel} {player} chcioł zrobić tunel z gracza {source} na gracza {target}, ale tyn je Ateista.',
-  log_tunnel_same_player: '{cardLabel} {player} nie może zrobić tunelu na tego samego gracza.',
-  log_tunnel_created: '{cardLabel} {player} zrobił tunel {tunnelNumber} z gracza {source} na gracza {target}.',
-  
+  log_day_vest_hit: '{target} traci Kewlar {num}.',
+  log_day_ropewalker_lost: '{target} traci Prowazochodca {num}.',
+  log_day_immunity_lost: '{target} traci Imunite {num}.',
+  log_day_cloudwalker_lost: '{target} traci Mrakoszlapa {num}.',
+  log_day_death: '{target} ginie.',
+
   // Morning Report
-  night_report_default: 'Budzi se miasteczko Palermo.',
-  night_report_ghost_bobo: 'Zakozane mówić mo {name}.',
-  night_report_judge: 'Zakozane głosować mo {name}.',
-  night_report_slime: 'Poślinióny był {name}.',
-  night_report_slime_multi: 'Poślinióny był {name} {count} razy.',
-  night_report_sand: 'Pioskym dostoł {name}.',
-  night_report_sand_saved: 'Gracza posypanego pioskym ochróniła gas maska.',
-  night_report_matrix: 'W tej nocy matrix użył swojóm funkcje. Ilość pocisków, kiere przechwycił: {count}.',
-  night_report_sock_used: 'W tej nocy Fusekla poleciała między dwoch graczy. ',
-  night_report_sock_first_gasmask: 'Piyrszego gracza zachróniła gas maska',
-  night_report_sock_first_dead: 'Piyrszy gracz uż był martwy',
-  night_report_sock_first_doctor: 'Piyrszego gracza ulyczył Doktora',
-  night_report_sock_first_cloudwalker: 'Piyrszymu graczowi umrził Mrakoszlap',
-  night_report_sock_first_death: 'Piyrszy gracz, {name}, opuszczo gre',
-  night_report_sock_second_gasmask: ', a drugigo gracza zachróniła gas maska.',
-  night_report_sock_second_dead: ', a drugi gracz uż był martwy.',
-  night_report_sock_second_doctor: ', a drugigo gracza ulyczył Doktora.',
-  night_report_sock_second_cloudwalker: ', a drugimu graczowi umrził Mrakoszlap.',
-  night_report_sock_second_death: ', a naszóm gre opuszczo {name}.',
-  night_report_sock_first_only_suffix: '.',
-  night_report_leech_cloudwalker: 'Pijawica zyskała Mrakoszlapa {num}.',
-  night_report_cobra_cloudwalker: 'Kobra zyskała Mrakoszlapa {num} a zjadła Pijawice.',
-  night_report_gravedigger_cloudwalker: 'Grabarz zyskoł Mrakoszlapa {num}.',
-  night_report_glazier_mirror: 'Szklorz zrobił Zwierciadło {num}.',
-  night_report_gandalf_cloudwalker: 'Gandalf zyskoł Mrakoszlapa {num}.',
-  night_report_horsepiece_cloudwalker: 'Kuskona zyskoł Mrakoszlapa {num}.',
-  night_log_leech_cloudwalker: '{cardLabel} {player} zyskała Mrakoszlapa {num}.',
-  night_log_cobra_cloudwalker: '{cardLabel} {player} zyskała Mrakoszlapa {num} a zjadła Pijawice.',
-  night_log_gravedigger_cloudwalker: '{cardLabel} {player} zyskoł Mrakoszlapa {num}.',
-  night_log_gandalf_cloudwalker: '{cardLabel} {player} zyskoł Mrakoszlapa {num}.',
-  night_log_horsepiece_cloudwalker: '{cardLabel} {player} zyskoł Mrakoszlapa {num}.',
-  night_log_glazier_mirror: '{cardLabel} {player} zrobił Zwierciadło {num}.',
-  night_log_bullet_continue_sniper: ', ale pocisk leci dali, bo Zwierciadło gracza {target} ni mogło odbić strzołu Snipera,',
-  night_log_bullet_continue_matrix: ', ale pocisk leci dali, bo Zwierciadło gracza {target} ni zatrzimało strzołu Matrixa,',
-  night_log_bullet_continue_mud: ', ale pocisk leci dali, bo Zwierciadło gracza {target} było ubłocóne,',
+  public_report_default: 'Miasteczko Palermo wstowo.',
+  public_report_matrix: 'Tej nocy Matrix użył swej funkcji. Wielość kul co chycił: {count}.',
+  public_report_cloudwalker_gain: '{cardLabel} dostoł Mrakoszlapa {num}.',
+  public_report_glazier_mirror: 'Szklorz robi Zwierciadło {num}.',
+  log_night_cloudwalker_gain: '{cardLabel} {player} dostoł Mrakoszlapa {num}.',
+  log_night_glazier_mirror: '{cardLabel} {player} robi Zwierciadło {num}.',
+  
+  
   // Bullet Report Fragments
-  night_report_bullet_dead_target: ', ale pocisk lecioł na mortwego gracza.',
-  night_report_bullet_start: 'Padnół strzał',
-  night_report_bullet_matrix_catch: ', Matrix chycił pocisk.',
-  night_report_bullet_magnet: ', był przicióngnyty magnetym',
-  night_report_bullet_magnet_dead: ' Był przicióngnyty magnetym na mortwego gracza.',
-  night_report_bullet_split: ', rozszczepił se na {count} czynści.',
-  night_report_bullet_tunnel_single: ', przelecioł tunelym',
-  night_report_bullet_tunnel_segment: ' {index}. ułamek przelecioł tunelym',
-  night_report_bullet_slime: ' i pocisk ześlizgnół se na ślinie.',
-  night_report_bullet_al_capone: ' i Al Capone zneutralizowoł pocisk.',
-  night_report_bullet_doctor: ' i pocisk został zneutralizowany przez Doktora.',
-  night_report_bullet_mirror_break: ', rozbiło se Zwierciadło {num}',
-  night_report_bullet_return: ', pocisk se wrócił',
-  night_report_bullet_continue: ', ale pocisk leci dali',
-  night_report_bullet_vest_loss: ' i Kewlar {num} został zniszczony.',
-  night_report_bullet_cloudwalker_loss: ' i Mrakoszlap {num} został stracóny.',
-  night_report_bullet_death: ' i naszóm gre opuszczo {name}.',
-  night_log_bullet_start: '{cardLabel} {shooter} wystrzelił na gracza {target}. ',
-  night_log_bullet_start_generic: 'Padnół strzał na gracza {target}. ',
-  night_log_bullet_split: 'Pocisk rozszczepił se na {count} czynści.',
-  night_log_bullet_dead_target: ' trefioł mortwego gracza {target}.',
-  night_log_bullet_matrix_catch: ' chycił Matrix {target}.',
-  night_log_bullet_magnet_initial: 'Pocisk był przicióngnyty magnetym na gracza {target}',
-  night_log_bullet_magnet: ', był przicióngnyty magnetym na gracza {target}',
-  night_log_bullet_magnet_dead: ' i był przicióngnyty magnetym na mortwego gracza {target}.',
-  night_log_bullet_tunnel_initial: 'Pocisk przelecioł tunelym {num} z gracza {src} na gracza {target}',
-  night_log_bullet_tunnel_single: ', przelecioł tunelym {num} z gracza {src} na gracza {target}',
-  night_log_bullet_tunnel_segment: ' {index}. ułamek przelecioł tunelym {num} z gracza {src} na gracza {target}',
-  night_log_bullet_slime_initial: 'Pocisk ześlizgnół se na ślinie gracza {target}.',
-  night_log_bullet_slime: ' i ześlizgnół se na ślinie gracza {target}.',
-  night_log_bullet_al_capone_initial: 'Pocisk został deaktywowany przez Al Capone {target}.',
-  night_log_bullet_al_capone: ' i Al Capone {target} go deaktywowoł.',
-  night_log_bullet_doctor_initial: 'Pocisk zatrzimany był przez Doktora, kiery ulyczył gracza {target}.',
-  night_log_bullet_doctor: ' i gracz {target} był ulyczóny przez Doktora.',
-  night_log_bullet_mirror_break_initial: 'Pocisk rozbioł u gracza {target} Zwierciadło {num}',
-  night_log_bullet_mirror_break: ', u gracza {target} rozbiło se Zwierciadło {num}',
-  night_log_bullet_return: ', pocisk se wrócił na gracza {target}',
-  night_log_bullet_vest_loss_initial: 'Pocisk pozboł gracza {target} Kewlaru {num}.',
-  night_log_bullet_vest_loss: ' i gracz {target} stracił Kewlar {num}.',
-  night_log_bullet_cloudwalker_loss_initial: 'Pocisk pozboł gracza {target} Mrakoszlapa {num}.',
-  night_log_bullet_cloudwalker_loss: ' i gracz {target} stracił Mrakoszlap {num}.',
-  night_log_bullet_death_initial: 'Pocisk zabił gracza {name}.',
-  night_log_bullet_death: ' i gracz {name} umar.',
-  night_log_bullet_gandalf_from_horse: ' Gandalf {gandalf} zyskał Mrakoszlapa {num} dzięki Kuskoni {horse}, kiery stracił Mrakoszlapa {lost}.',
-  night_log_bullet_horsepiece_from_gandalf: ' Kuskona {horse} zyskał Mrakoszlapa {num} dzięki Gandalfowi {gandalf}, kiery stracił Mrakoszlapa {lost}.',
+  public_report_bullet_dead_target: ', ale trefił w martwego gracza.',
+  public_report_bullet_start: 'Pod strzał',
+  public_report_bullet_matrix_catch: ' a Matrix go chycił.',
+  public_report_bullet_magnet: ', został przyciongniyty Magnetem',
+  public_report_bullet_magnet_dead: ', ciongniąc kule do martwego gracza.',
+  public_report_bullet_split: ', rozszczepiając se na {count} części.',
+  public_report_bullet_tunnel_single: ', przelecioł tunelem',
+  public_report_bullet_tunnel_segment: ' {index}. odłamek przelecioł tunelem',
+  public_report_bullet_slime: ' a kula ześlizgła se po ślinie.',
+  public_report_bullet_al_capone: ', ale Al Capone zneutralizował zagrożyni.',
+  public_report_bullet_doctor: ', ale Doktor zneutralizował kule.',
+  public_report_bullet_mirror_break: ', pękło Zwierciadło {num}',
+  public_report_bullet_return: ', kula wróciła',
+  public_report_bullet_continue: ', kula leti dalej',
+  public_report_bullet_vest_loss: ' a Kewlar {num} został zniszczony.',
+  public_report_bullet_cloudwalker_loss: ' a zmarł Mrakoszlap {num}.',
+  public_report_bullet_death: ' a {name} ginie.',
+
+  log_night_bullet_start: '{cardLabel} {shooter} strzylo do gracza {target}. ',
+  log_night_bullet_start_generic: 'Pod strzał w strone {target}. ',
+  log_night_bullet_split: 'Kula rozszczepiła se na {count} części.',
+  log_night_bullet_dead_target: ' Trefio w martwego gracza {target}.',
+  log_night_bullet_matrix_catch: ' a Matrix {target} go chycił.',
+  log_night_bullet_magnet_initial: 'Kula została przyciongniyta Magnetem do gracza {target}',
+  log_night_bullet_magnet: ', została przyciongniyta Magnetem do gracza {target}',
+  log_night_bullet_magnet_dead: ' a trefio w martwego gracza {target} (efekt Magnetu).',
+  log_night_bullet_tunnel_initial: 'Kula przeleciała tunelem {num} ({src} -> {target})',
+  log_night_bullet_tunnel_single: ', przeleciała tunelem {num} ({src} -> {target})',
+  log_night_bullet_tunnel_segment: ' {index}. odłamek przelecioł tunelem {num} ({src} -> {target})',
+  log_night_bullet_slime_initial: 'Kula ześlizguje se po ślinie {target}.',
+  log_night_bullet_slime: ' a ześlizguje se po ślinie {target}.',
+  log_night_bullet_al_capone_initial: 'Al Capone {target} neutralizuje kule.',
+  log_night_bullet_al_capone: ' a Al Capone {target} jóm neutralizuje.',
+  log_night_bullet_doctor_initial: 'Doktor uratował gracza {target}.',
+  log_night_bullet_doctor: ' a gracz {target} został wyleczony od Doktora.',
+  log_night_bullet_mirror_break_initial: 'Kula rozbijo Zwierciadło {num} u gracza {target}',
+  log_night_bullet_mirror_break: ', u gracza {target} pękło Zwierciadło {num}',
+  log_night_bullet_return: ', kula wróciła do {target}',
+  log_night_bullet_continue_sniper: ', ale kula leti dalej, bo Zwierciadło {target} nie odbijo strzałów Snipera,',
+  log_night_bullet_continue_matrix: ', ale kula leti dalej, bo Zwierciadło {target} nie zatrzymuje strzałów Matrixa,',
+  log_night_bullet_continue_mud: ', ale kula leti dalej, bo Zwierciadło {target} było brudne,',
+  log_night_bullet_vest_loss_initial: 'Kula niszczy Kewlar {num} gracza {target}.',
+  log_night_bullet_vest_loss: ' a {target} traci Kewlar {num}.',
+  log_night_bullet_cloudwalker_loss_initial: 'Kula biere Mrakoszlapa {num} graczowi {target}.',
+  log_night_bullet_cloudwalker_loss: ' a {target} traci Mrakoszlapa {num}.',
+  log_night_bullet_death_initial: 'Kula zabijo gracza {name}.',
+  log_night_bullet_death: ' a {name} ginie.',
+  log_night_bullet_gandalf_from_horse: ' Gandalf {gandalf} dostoł Mrakoszlapa {num} (strata Kusa Konia {horse}: {lost}).',
+  log_night_bullet_horsepiece_from_gandalf: ' Kus Konia {horse} dostoł Mrakoszlapa {num} (strata Gandalfa {gandalf}: {lost}).',
 
   // UI
   ui_confirm: 'Ja',
   ui_deny: 'Ni',
   ui_undo: 'Cofnij',
-  ui_bomb: 'Bómba',
-  ui_next_phase: 'Dali',
-  ui_replay_bullets: 'Powtórz kulki',
-  ui_bullet_replay: 'Odegrowanie nocnych strzołów...',
-  ui_first_night_done: 'Mafia se domówiła',
-  ui_start_night: 'Rozpocznij noc',
-  ui_timelord_skip_night: 'Pan Czasu: Przeskocz noc',
-  ui_timelord_skip_day: 'Pan Czasu: Przeskocz dzień',
+  ui_bomb: 'Bomba!',
+  ui_next_phase: 'Dalej',
+  ui_replay_bullets: 'Powtórz animacje',
+  ui_bullet_replay: 'Odtwarzani przebiegu strzałów...',
+  ui_first_night_done: 'kóniec narady Mafii',
+  ui_start_night: 'Zacznij noc',
   ui_player_label: 'Gracz: {name}',
-  ui_player_jailed_notice: 'Gracz {name} siedzi we więźniu — klikanie nic ni zrobi.',
+  ui_player_jailed_notice: 'Gracz {name} je w mamrze — pokoż mu skrzyżowane rónce 🙅.',
   ui_anarchist_baby: 'I shoot you baby!',
   ui_astronomer_night: 'Noc!',
   ui_communist_equal: 'Wszyscy równi!',
-  ui_special_no_owner: 'Brak posiadacza',
-  day_action_vote: 'Był przegłosowany',
-  day_prompt_vote: 'Wskaż gracza, kiery był przegłosowany.',
-  day_prompt_shot: 'Anarchista strzela. Kliknij gracza, kierego trefi.',
-  day_prompt_mass_murderer_select: 'Masowy Zabijak strzela na wszystkich, co na niego głosowali. Kliknij tych graczy i na końcu potwiyrdź.',
-  day_idle_message: 'Dzień trwa. Użyj przycisków, żeby działać dalej.',
-  day_report_confirm: 'Potwiyrdź raport',
-  day_report_player_left: 'Naszóm gre opuszczo {name}.',
-  day_report_ropewalker_lost: 'Umrził Prowazochodec {num}.',
-  day_report_cloudwalker_lost: 'Umrził Mrakoszlap {num}.',
-  day_report_kevlar_lost: 'Umrził Kewlar {num}.',
-  day_report_immunity_lost: 'Umrziła Imunita {num}.',
+  ui_special_no_owner: 'Brak właściciela',
+  day_action_vote: 'Przegłosowany',
+  day_prompt_vote: 'Pokoż gracza, kiery został przegłosowany.',
+  day_prompt_shot: 'Anarchista oddowo strzał. Wybier cel.',
+  day_prompt_mass_murderer_select: 'Masowy Zabijak strzylo do swoich oskarżycieli. Zaznacz graczy a zatwierdź.',
+  day_idle_message: 'Trwa dziyń. Użyj dostępnych akcji.',
+  day_report_confirm: 'Zatwierdź raport',
+  public_report_day_player_left: '{name} opuszczo naszóm gre.',
+  public_report_day_ropewalker_lost: 'Prowazochodec {num} stracóny.',
+  public_report_day_cloudwalker_lost: 'Mrakoszlap {num} stracóny.',
+  public_report_day_kevlar_lost: 'Kewlar {num} zniszczony.',
+  public_report_day_immunity_lost: 'Imunita {num} zużyto.',
   ui_mass_murderer_target: 'Skazany: {name}',
-  ui_mass_murderer_selected: 'Zaznaczonych graczy: {count}',
-  ui_mass_murderer_confirm: 'Potwiyrdź strzały',
-  
+  ui_mass_murderer_selected: 'Wybrano: {count}',
+  ui_mass_murderer_confirm: 'Oddaj strzały',
+
   // Warnings
-  warn_anarchist_unavailable: 'Żodyn Anarchista ni może już strzelić.',
-  warn_terrorist_unavailable: 'Żodyn Terrorysta ni może już odpalić bomby.',
-  warn_bomb_day_only: 'Bombę idzie odpalić ino we dzień.',
-  warn_astronomer_unavailable: 'Żodyn Astronom ni może już zakończyć dnia.',
-  warn_astronomer_day_only: 'Astronom może zakończyć dzień ino we dzień.',
-  warn_communist_unavailable: 'Żodyn Komunista ni może już zawołać, że wszyscy są równi.',
-  warn_communist_day_only: 'Komunistę idzie użyć ino we dzień.',
+  warn_anarchist_unavailable: 'Anarchista niemoże już strzelać.',
+  warn_terrorist_unavailable: 'Terrorysta niemoże już odpalić bomby.',
+  warn_bomb_day_only: 'Bomby idzie użyć jyny w dziyń.',
+  warn_astronomer_unavailable: 'Astronom niemoże już zakończyć dnia.',
+  warn_astronomer_day_only: 'Astronom działo jyny w dziyń.',
+  warn_communist_unavailable: 'Komunista niemoże już użyć swojej zdolności.',
+  warn_communist_day_only: 'Komunista działo jyny w dziyń.',
 
-  log_day_vote: 'Gracz {target} był przegłosowany.',
-  log_day_shot: '{actor} postrzelił gracza {target}.',
-  log_day_bomb: 'Terrorysta {player} odpalił bombę!',
-  log_day_astronomer: 'Astronom {player} zakończył dzień.',
-  log_day_communist: 'Komunista {player} ogłosił, że wszyscy są równi.',
-  log_timelord_skip_day: 'Pan Czasu {player} przeskoczył dzień.',
-  log_timelord_skip_night: 'Pan Czasu {player} przeskoczył noc.',
-  log_day_mass_murderer_trigger: 'Masowy Zabijak {target} bierze broń, zanim pójdzie na szibenicę.',
-  log_day_mass_murderer_shot: 'Masowy Zabijak {player} ustrzelił {target} przed szibenicóm.',
-  
+  log_day_vote: 'Gracz {target} został przegłosowany.',
+  log_day_shot: '{actor} postrzelił {target}.',
+  log_day_bomb: 'Terrorysta {player} detonuje bombe!',
+  log_day_astronomer: 'Astronom {player} kończy dziyń.',
+  log_day_communist: 'Komunista {player} wprowadzo równość.',
+  log_day_mass_murderer_trigger: 'Masowy Zabijak {target} biere broń przed wyrokym.',
+  log_day_mass_murderer_shot: 'Masowy Zabijak {player} zabijo {target}.',
+
   // Phase Dividers
-  log_divider_night_start: 'Noc {round} sie zaczyno.',
-  log_divider_night_end: 'Noc {round} sie kończy.',
-  log_divider_day_start: 'Dziyń {round} sie zaczyno.',
-  log_divider_day_end: 'Dziyń {round} sie kończy.',
+  log_divider_night_start: 'Noc {round} zaczyno se.',
+  log_divider_night_end: 'Noc {round} kończy se.',
+  log_divider_day_start: 'Dziyń {round} zaczyno se.',
+  log_divider_day_end: 'Dziyń {round} kończy se.',
 
-  // Setup
-  setup_step_count: 'Liczba Graczy',
-  setup_step_mafia: 'Liczba kart Mafii',
-  setup_mafia_description: 'Wybierz, ile kart Mafii bydzie w talii. Minimalnie {min}, maksimalnie {max} (ino o jednego mniej niż graczy).',
+  // Setup Wizard
+  setup_next: 'Dalej',
+  setup_remove: 'Coby poprawnie rozdać role, musisz wyciepać kilka karet...',
+  setup_step_count: 'Liczba graczy',
+  setup_step_mafia: 'Liczba karet Mafii',
+  setup_mafia_description: 'Wybier, wiela karet Mafii bydzie w talii. Minimum {min}, maksimum {max} (o jednego mniej niż liczba graczy).',
   setup_mafia_label: 'Karty Mafii w talii',
-  setup_mafia_recommended: 'Sugerowano dla {players} graczy: {count}',
-  setup_step_names: 'Imiona Graczy',
-  setup_step_balance: 'Balansowanie Kart',
-  setup_balance_instruction: 'Żeby wyrównać taliã, usuń {remove} kart abo dołóż {add}.',
-  setup_remove_instruction: 'Musisz usunąć {count} kart, aby każdy dostał tyle samo.',
-  setup_cards_remaining: 'Do usunięcia',
-  setup_cards_missing: 'Brakuje kart do dodanio',
-  setup_cards_total: 'Łącznie kart w talii: {count}',
-  setup_cards_minimum: 'Dołóż jeszcze {missing}, coby kożdy dostał chociaż jedną kartã.',
-  setup_start_game: 'ROZPOCZNIJ GRĘ',
+  setup_mafia_recommended: 'Sugerowano wartość dlo {players} graczy: {count}',
+  setup_step_names: 'Miana',
+  setup_step_balance: 'Balans gry',
+  setup_balance_instruction: 'Coby wyrównać talie, wyciep {remove} karet albo dodej {add}.',
+  setup_remove_instruction: 'Musisz wyciepać {count} karet, coby wyrównać talie.',
+  setup_cards_remaining: 'Do wyciepania',
+  setup_cards_missing: 'Brakuje karet',
+  setup_cards_total: 'Łóncznie karet w talii: {count}',
+  setup_cards_minimum: 'Dodej jeszcze {missing}, coby każdy gracz dostoł aspoń jednóm karte.',
+  setup_start_game: 'Rozpocznij gre',
 };

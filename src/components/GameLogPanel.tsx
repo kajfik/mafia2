@@ -110,7 +110,8 @@ export const GameLogPanel: React.FC<GameLogPanelProps> = ({ logs, players, langu
                     cardId={segment.cardId}
                     label={segment.label}
                     size="xs"
-                    className="mx-0.5 px-1 py-0.5 rounded-full border border-[rgba(242,200,121,0.25)] bg-[rgba(242,200,121,0.06)]"
+                    variant="logSegment"
+                    className="mx-0.5"
                   />
                 )
                 : (

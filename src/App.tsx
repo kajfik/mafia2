@@ -1,5 +1,5 @@
-import { useReducer, useState, useEffect, useMemo, useCallback } from 'react';
-import type { CSSProperties } from 'react';
+import { useReducer, useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import type { CSSProperties, ChangeEvent } from 'react';
 import { gameReducerWrapper, initialWrapper, DEFAULT_PLAYER_NODE_SCALE, PLAYER_NODE_SCALE_MIN, PLAYER_NODE_SCALE_MAX } from './game/gameReducer';
 import { canDoctorSelfHealThisNight } from './game/doctorRules';
 import type { Language, GameState, UndoWrapper } from './game/types';
@@ -24,6 +24,14 @@ import { useGameStorage } from './hooks/useLocalStorage';
 type AppMode = 'LANG_SELECT' | 'GM_SETUP' | 'GM_GAME' | 'PLAYER_GAME';
 type Tab = 'GAME' | 'PLAYERS' | 'LOGS' | 'RULES' | 'CARDS' | 'SETTINGS';
 
+const isValidUndoWrapper = (candidate: unknown): candidate is UndoWrapper => {
+  if (!candidate || typeof candidate !== 'object') {
+    return false;
+  }
+  const value = candidate as Partial<UndoWrapper>;
+  return Array.isArray(value.past) && Array.isArray(value.future) && typeof value.present === 'object' && value.present !== null;
+};
+
 function App() {
   const { savedState, saveGame, clearSave } = useGameStorage();
   
@@ -42,10 +50,12 @@ function App() {
   const [selectedLang, setSelectedLang] = useState<Language>('pl');
   const [tableViewportSize, setTableViewportSize] = useState<number | null>(null);
   const [manualLogRound, setManualLogRound] = useState<number | null>(null);
+  const [playerArtMode, setPlayerArtMode] = useState<'icon' | 'image'>('icon');
   const state = wrapper.present;
   const gmLang = state.settings.language;
   const playerLinkData = usePlayerLinkData();
-  const playerLanguage = playerLinkData?.lang ?? 'pl';
+  const [playerLanguage, setPlayerLanguage] = useState<Language>(() => playerLinkData?.lang ?? 'pl');
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const persistSavedLanguage = useCallback((language: Language) => {
     if (!savedState) {
@@ -71,9 +81,16 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (playerLinkData?.lang) {
+      setPlayerLanguage(playerLinkData.lang);
+    }
+  }, [playerLinkData?.lang]);
+
+  useEffect(() => {
     if (typeof document === 'undefined') return;
-    document.documentElement.lang = getLanguageLocale(gmLang);
-  }, [gmLang]);
+    const targetLang = mode === 'PLAYER_GAME' ? playerLanguage : gmLang;
+    document.documentElement.lang = getLanguageLocale(targetLang);
+  }, [gmLang, mode, playerLanguage]);
 
   const viewportHeightStyle: CSSProperties = { minHeight: 'calc(var(--app-vh, 1vh) * 100)' };
   const navSpacerStyle: CSSProperties = { height: 'calc(4rem + var(--safe-area-bottom, env(safe-area-inset-bottom, 0px)))' };
@@ -144,6 +161,61 @@ function App() {
     }
     dispatch({ type: 'UPDATE_SETTINGS', payload: { language: code } });
   };
+
+  const handlePlayerLanguageChange = (code: Language) => {
+    if (code === playerLanguage) {
+      return;
+    }
+    setPlayerLanguage(code);
+  };
+
+  const handlePlayerArtModeChange = (mode: 'icon' | 'image') => {
+    setPlayerArtMode(mode);
+  };
+
+  const handleExportData = useCallback(() => {
+    if (typeof document === 'undefined') {
+      return;
+    }
+    try {
+      const blob = new Blob([JSON.stringify(wrapper, null, 2)], { type: 'application/json' });
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `mafia-game-${timestamp}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => URL.revokeObjectURL(url), 0);
+    } catch (error) {
+      console.error('Failed to export game data', error);
+    }
+  }, [wrapper]);
+
+  const handleImportFileChange = useCallback(async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      return;
+    }
+    try {
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      if (!isValidUndoWrapper(parsed)) {
+        throw new Error('Invalid save format');
+      }
+      dispatch({ type: 'LOAD_GAME', payload: parsed });
+      saveGame(parsed);
+      setMode('GM_GAME');
+    } catch (error) {
+      console.error('Failed to import game data', error);
+      if (typeof window !== 'undefined') {
+        window.alert(t('settings_import_error', gmLang));
+      }
+    } finally {
+      event.target.value = '';
+    }
+  }, [dispatch, saveGame, gmLang, setMode]);
 
   // Auto-Save when state changes (Only for GM)
   useEffect(() => {
@@ -318,41 +390,12 @@ function App() {
              <div className="h-full overflow-hidden">
               <div className="mafia-panel h-full overflow-hidden">
                 <div className="h-full overflow-y-auto text-white px-3 pt-6 pb-24 sm:px-4 sm:pt-8 space-y-6">
-                  <div className="mafia-panel p-4 space-y-4">
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-2xl font-bold mafia-title text-[var(--color-brass)]">{t('settings_title', gmLang)}</h2>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold">{t('settings_language_title', gmLang)}</h3>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {LANGUAGE_OPTIONS.map(option => {
-                      const isActive = option.code === gmLang;
-                      const optionClasses = isActive
-                        ? 'border-[rgba(242,200,121,0.7)] bg-[rgba(242,200,121,0.1)] text-white'
-                        : 'border-[rgba(242,200,121,0.2)] bg-[rgba(8,8,12,0.6)] text-slate-200 hover:border-[rgba(242,200,121,0.35)]';
-                      return (
-                        <button
-                          key={option.code}
-                          onClick={() => handleLanguageChange(option.code)}
-                          aria-pressed={isActive}
-                          disabled={isActive}
-                          className={`${languageOptionBaseClasses} ${optionClasses}`}
-                        >
-                          <div className="text-base font-semibold">{option.label}</div>
-                          <div className="text-xs uppercase tracking-[0.4em] text-slate-300">
-                            {getLanguageLocale(option.code)}
-                          </div>
-                          {isActive && (
-                            <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5 text-[0.65rem] font-semibold text-white">
-                              {t('settings_language_active', gmLang)}
-                            </span>
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                  </div>
+                  <LanguageSettingsCard
+                    translationLanguage={gmLang}
+                    activeLanguage={gmLang}
+                    optionBaseClasses={languageOptionBaseClasses}
+                    onSelectLanguage={handleLanguageChange}
+                  />
                   <div className="mafia-panel p-4 space-y-4">
                   <div>
                     <div className="flex items-center justify-between text-sm uppercase tracking-[0.4em] text-slate-300">
@@ -400,13 +443,31 @@ function App() {
                     <p className="text-xs text-slate-300 mt-1">{t('settings_bullet_speed_hint', gmLang)}</p>
                   </div>
                   </div>
-                  <div className="mafia-panel p-4 space-y-3">
-                  <h3 className="text-lg font-semibold">{t('settings_storage_title', gmLang)}</h3>
-                  <p className="text-sm text-slate-200">{t('settings_storage_description', gmLang)}</p>
-                  <button onClick={() => { clearSave(); window.location.reload(); }} className="mt-3 mafia-button mafia-button--ember p-3 rounded font-semibold uppercase tracking-[0.3em]">
-                    {t('settings_reset_data_button', gmLang)}
-                  </button>
-                </div>
+                  <div className="mafia-panel p-4 space-y-4">
+                    <h3 className="text-lg font-semibold">{t('settings_storage_title', gmLang)}</h3>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <button
+                        onClick={handleExportData}
+                        className="w-full mafia-button mafia-button--brass p-3 rounded font-semibold uppercase tracking-[0.3em]"
+                      >
+                        {t('settings_export_data_button', gmLang)}
+                      </button>
+                      <button
+                        onClick={() => fileInputRef.current?.click()}
+                        className="w-full mafia-button mafia-button--ember p-3 rounded font-semibold uppercase tracking-[0.3em]"
+                      >
+                        {t('settings_import_data_button', gmLang)}
+                      </button>
+                    </div>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="application/json"
+                      className="hidden"
+                      onChange={handleImportFileChange}
+                    />
+                    <p className="text-xs text-slate-300">{t('settings_import_warning', gmLang)}</p>
+                  </div>
                 </div>
               </div>
              </div>
@@ -426,19 +487,41 @@ function App() {
       <>
         <div className="mafia-app flex flex-col" style={viewportHeightStyle}>
           <div className="flex-1 overflow-hidden mafia-screen rounded-t-[2rem] border border-[rgba(242,200,121,0.12)] p-3 sm:p-6">
-           {activeTab === 'GAME' && <PlayerView />}
-           {activeTab === 'CARDS' && (
-             playerLinkData ? (
-               <CardsTab
-                 language={playerLanguage}
-                 playerCards={playerLinkData.cards}
-                 playerLabels={playerLinkData.labels}
-               />
-             ) : (
-               <div className="p-8 text-white">{t('player_link_invalid', playerLanguage)}</div>
-             )
-           )}
-           {activeTab === 'RULES' && <RulesView language={playerLanguage} />}
+            {activeTab === 'GAME' && (
+              <div className="mafia-panel h-full overflow-hidden">
+                <PlayerView
+                  artMode={playerArtMode}
+                  onArtModeChange={handlePlayerArtModeChange}
+                  language={playerLanguage}
+                />
+              </div>
+            )}
+            {activeTab === 'CARDS' && (
+              <div className="mafia-panel h-full overflow-hidden">
+                <CardsTab
+                  language={playerLanguage}
+                  artMode={playerArtMode}
+                  onArtModeChange={handlePlayerArtModeChange}
+                />
+              </div>
+            )}
+            {activeTab === 'RULES' && (
+              <div className="mafia-panel h-full overflow-hidden">
+                <RulesView language={playerLanguage} />
+              </div>
+            )}
+            {activeTab === 'SETTINGS' && (
+              <div className="mafia-panel h-full overflow-hidden">
+                <div className="h-full overflow-y-auto text-white px-3 pt-6 pb-24 sm:px-4 sm:pt-8 space-y-6">
+                  <LanguageSettingsCard
+                    translationLanguage={playerLanguage}
+                    activeLanguage={playerLanguage}
+                    optionBaseClasses={languageOptionBaseClasses}
+                    onSelectLanguage={handlePlayerLanguageChange}
+                  />
+                </div>
+              </div>
+            )}
           </div>
           <div className="shrink-0" aria-hidden style={navSpacerStyle} />
         </div>
@@ -535,6 +618,56 @@ function computeDisabledPlayerIds(state: GameState): Set<string> {
   }
 
   return disabled;
+}
+
+interface LanguageSettingsCardProps {
+  translationLanguage: Language;
+  activeLanguage: Language;
+  optionBaseClasses: string;
+  onSelectLanguage: (code: Language) => void;
+}
+
+function LanguageSettingsCard({
+  translationLanguage,
+  activeLanguage,
+  optionBaseClasses,
+  onSelectLanguage,
+}: LanguageSettingsCardProps) {
+  return (
+    <div className="mafia-panel p-4 space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold mafia-title text-[var(--color-brass)]">{t('settings_title', translationLanguage)}</h2>
+      </div>
+      <div>
+        <h3 className="text-lg font-semibold">{t('settings_language_title', translationLanguage)}</h3>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {LANGUAGE_OPTIONS.map(option => {
+          const isActive = option.code === activeLanguage;
+          const optionClasses = isActive
+            ? 'border-[rgba(242,200,121,0.7)] bg-[rgba(242,200,121,0.1)] text-white'
+            : 'border-[rgba(242,200,121,0.2)] bg-[rgba(8,8,12,0.6)] text-slate-200 hover:border-[rgba(242,200,121,0.35)]';
+          return (
+            <button
+              key={option.code}
+              onClick={() => onSelectLanguage(option.code)}
+              aria-pressed={isActive}
+              disabled={isActive}
+              className={`${optionBaseClasses} ${optionClasses}`}
+            >
+              <div className="text-base font-semibold">{option.label}</div>
+              <span
+                aria-hidden={!isActive}
+                className={`mt-2 inline-flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5 text-[0.65rem] font-semibold text-white transition-opacity duration-150 ${isActive ? '' : 'opacity-0 pointer-events-none select-none'}`}
+              >
+                {t('settings_language_active', translationLanguage)}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 export default App;

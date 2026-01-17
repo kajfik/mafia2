@@ -953,7 +953,12 @@ input[type='range'].touch-slider::-moz-range-thumb {
 .overflow-y-auto {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .overflow-y-auto {
+    overscroll-behavior: contain;
+  }
 }
 
 ::-webkit-scrollbar {

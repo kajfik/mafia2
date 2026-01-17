@@ -147,7 +147,7 @@ export const CardDisplay: React.FC<CardDisplayProps> = ({ label, glyph, imageSrc
     <article className={composedClass}>
       <div className={`${mediaWrapperBase} ${mediaBackground}`}>
         {imageSrc ? (
-          <img src={imageSrc} alt={label} className="object-contain h-full w-full drop-shadow-[0_12px_25px_rgba(0,0,0,0.4)]" loading="lazy" />
+          <img src={imageSrc} alt={label} className="object-contain h-full w-full" loading="lazy" />
         ) : (
           renderImageFallback()
         )}

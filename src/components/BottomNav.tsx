@@ -87,6 +87,10 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, setTab, isGm, l
             <BookOpenTextIcon {...iconProps('RULES')} aria-hidden />
             <span className={playerTextClass}>{t('nav_rules', language)}</span>
           </button>
+          <button onClick={() => setTab('SETTINGS')} className={btnClass('SETTINGS')} data-active={activeTab === 'SETTINGS'}>
+            <GearSixIcon {...iconProps('SETTINGS')} aria-hidden />
+            <span className={playerTextClass}>{t('nav_settings', language)}</span>
+          </button>
         </>
       )}
     </div>

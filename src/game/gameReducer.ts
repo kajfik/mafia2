@@ -470,7 +470,7 @@ function applyLeechRewards(state: GameState) {
     if (!leechPlayer) return;
     const instance = grantCardInstance(state.players, leechPlayer, 'CloudWalker');
     state.nightCache.reportData.cloudwalkers.leech.push(instance);
-    pushNightLogEntry(state, 'Leech', link.instance, leechPlayer.name, 'night_log_leech_cloudwalker', { num: instance });
+    pushNightLogEntry(state, 'Leech', link.instance, leechPlayer.name, 'log_night_leech_cloudwalker', { num: instance });
   });
   state.nightCache.leechLinks = [];
 }
@@ -490,7 +490,7 @@ function resolveCobraTargets(state: GameState) {
     if (!ateLeech) return;
     const instance = grantCardInstance(state.players, cobraPlayer, 'CloudWalker');
     state.nightCache.reportData.cloudwalkers.cobra.push(instance);
-    pushNightLogEntry(state, 'Cobra', entry.instance, cobraPlayer.name, 'night_log_cobra_cloudwalker', { num: instance });
+    pushNightLogEntry(state, 'Cobra', entry.instance, cobraPlayer.name, 'log_night_cobra_cloudwalker', { num: instance });
   });
   state.nightCache.cobraTargets = [];
 }
@@ -505,8 +505,11 @@ function applyGravediggerRewards(state: GameState) {
     if (!player || !player.status.isAlive) return;
     for (let i = 0; i < bonus; i++) {
       const instance = grantCardInstance(state.players, player, 'CloudWalker');
-      state.nightCache.reportData.cloudwalkers.gravedigger.push(instance);
-      pushNightLogEntry(state, 'Gravedigger', gravediggerInstance, player.name, 'night_log_gravedigger_cloudwalker', { num: instance });
+      state.nightCache.reportData.cloudwalkers.gravedigger.push({
+        num: instance,
+        cardInstance: gravediggerInstance
+      });
+      pushNightLogEntry(state, 'Gravedigger', gravediggerInstance, player.name, 'log_night_cloudwalker_gain', { num: instance });
     }
   });
   state.nightCache.gravediggerActive = [];
@@ -522,7 +525,7 @@ function applyGlazierRewards(state: GameState) {
     const mirrorInstance = grantCardInstance(state.players, glazier, 'Mirror');
     state.nightCache.reportData.cloudwalkers.glazier.push(mirrorInstance);
     const glazierCardInstance = glazier.cards.find(card => card.cardId === 'Glazier')?.instance;
-    pushNightLogEntry(state, 'Glazier', glazierCardInstance, glazier.name, 'night_log_glazier_mirror', { num: mirrorInstance });
+    pushNightLogEntry(state, 'Glazier', glazierCardInstance, glazier.name, 'log_night_glazier_mirror', { num: mirrorInstance });
   });
   state.nightCache.glazierPendingRewards = [];
 }
@@ -716,15 +719,15 @@ function dayResultToEntry(result: DayDamageResult | null): PublicReportEntry | n
   if (!result) return null;
   switch (result.type) {
     case 'ROPEWALKER':
-      return { key: 'day_report_ropewalker_lost', params: { num: result.instance } };
+      return { key: 'public_report_day_ropewalker_lost', params: { num: result.instance } };
     case 'IMMUNITY':
-      return { key: 'day_report_immunity_lost', params: { num: result.instance } };
+      return { key: 'public_report_day_immunity_lost', params: { num: result.instance } };
     case 'KEVLAR':
-      return { key: 'day_report_kevlar_lost', params: { num: result.instance } };
+      return { key: 'public_report_day_kevlar_lost', params: { num: result.instance } };
     case 'CLOUDWALKER':
-      return { key: 'day_report_cloudwalker_lost', params: { num: result.instance } };
+      return { key: 'public_report_day_cloudwalker_lost', params: { num: result.instance } };
     case 'DEATH':
-      return { key: 'day_report_player_left', params: { name: result.playerName } };
+      return { key: 'public_report_day_player_left', params: { name: result.playerName } };
     default:
       return null;
   }
@@ -755,7 +758,7 @@ function finalizeVictoryState(state: GameState): GameState {
   if (state.phase === 'GAME_OVER') {
     return state;
   }
-  const victoryKey = state.victory.side === 'MAFIA' ? 'win_mafia' : 'win_innocent';
+  const victoryKey = state.victory.side === 'MAFIA' ? 'victory_mafia' : 'victory_innocent';
   if (!state.victory.announced) {
     pushGeneralLog(state, victoryKey, {}, 'SYSTEM');
     state.victory = { ...state.victory, announced: true };
@@ -1093,7 +1096,7 @@ function handleBlindExecutionerSelection(state: GameState, targetId: string, log
 
   owner.status.executionerUses = Math.min(2, owner.status.executionerUses + 1);
 
-  logFn('night_log_executioner_save', { saved: savedPlayer.name, victim: targetPlayer.name });
+  logFn('log_night_executioner_save', { saved: savedPlayer.name, victim: targetPlayer.name });
 
   const remainingPrompts = prompts.slice(1);
   state.uiState = {
@@ -1152,7 +1155,7 @@ function handleSockSelection(state: GameState, targetId: string, logFn: (key: st
   consumeCardInstance(owner, 'Sock', state.activeCard.instance);
 
   const firstPlayer = state.players.find(p => p.id === firstTargetId);
-  logFn('report_sock_throw', { first: firstPlayer?.name || '?', second: targetPlayer.name });
+  logFn('log_action_sock_throw', { first: firstPlayer?.name || '?', second: targetPlayer.name });
 
   const remainingPrompts = state.uiState.pendingPrompts.slice(1);
   state.uiState = {
@@ -1183,7 +1186,7 @@ function handleSwampSelection(
   targetPlayer.status.mudCount = (targetPlayer.status.mudCount || 0) + 1;
   owner.status.swampChargesLeft = Math.max(0, owner.status.swampChargesLeft - 1);
 
-  logFn('night_log_swamp_attack', { target: targetPlayer.name });
+  logFn('log_night_swamp_attack', { target: targetPlayer.name });
 
   const remainingPrompts = (state.uiState.pendingPrompts || []).slice(1);
 
@@ -1255,7 +1258,7 @@ function finishNight(state: GameState): GameState {
     if (matrixCard) {
       const matrixPlayer = findPlayerWithCardInstance(mutated.players, matrixCard);
       if (matrixPlayer) {
-        pushNightLogEntry(mutated, 'Matrix', matrixCard.instance, matrixPlayer.name, 'night_log_matrix_bullet_summary', {
+        pushNightLogEntry(mutated, 'Matrix', matrixCard.instance, matrixPlayer.name, 'log_night_matrix_bullet_summary', {
           count: mutated.nightCache.matrixStoredBullets
         });
       }
@@ -1622,16 +1625,16 @@ function internalReducer(state: GameState, action: Action): GameState {
             return state;
           }
           if (ctx.isDeactivated) {
-            pushActionLog('report_heal_fail', { target: targetPlayer.name });
+            pushActionLog('log_doctor_fail', { target: targetPlayer.name });
             return advanceAfterSelection(true);
           }
           if (targetPlayer.id === healer.id && !ctx.canSelf) {
-            pushActionLog('report_heal_self_locked');
+            pushActionLog('log_doctor_self_locked');
             return newState;
           }
           const mode: DoctorHealMode = targetPlayer.id === healer.id ? 'SELF' : 'OTHER';
           recordDoctorProtection(newState, healer.id, targetPlayer.id, card, mode);
-          pushActionLog('report_heal_success', { target: targetPlayer.name });
+          pushActionLog('log_doctor_success', { target: targetPlayer.name });
         } else if (card.cardId === 'Matrix' && card.mode === 'MATRIX_SHOT') {
           if (newState.nightCache.matrixStoredBullets > 0) {
             const targetName = targetPlayer?.name || '?';
@@ -1674,7 +1677,7 @@ function internalReducer(state: GameState, action: Action): GameState {
                 } else {
                   leechLinks.push(payload);
                 }
-                pushActionLog('report_leech', { target: p.name });
+                pushActionLog('log_action_leech', { target: p.name });
                 break;
               }
               case 'Cobra': {
@@ -1687,40 +1690,40 @@ function internalReducer(state: GameState, action: Action): GameState {
                   instance: card.instance,
                   targetId: p.id
                 });
-                pushActionLog('report_cobra', { name: p.name });
+                pushActionLog('log_action_cobra', { name: p.name });
                 break;
               }
               case 'Magnet': {
                 if (!owner || !owner.status.isAlive) break;
                 p.status.isMagnetized = true;
-                pushActionLog('report_magnet', { name: p.name });
+                pushActionLog('log_action_magnet', { name: p.name });
                 break;
               }
               case 'Slime':
                 p.status.isSlimed = true;
                 reportData.slimedTargets.push(p.id);
-                pushActionLog('report_slime', { target: p.name });
+                pushActionLog('log_action_slime', { target: p.name });
                 break;
               case 'Sand':
                 if (p.hasGasMask) {
                   reportData.sandProtectedTargets.push(p.id);
-                  pushActionLog('report_sand_fail', { target: p.name });
+                  pushActionLog('log_action_sand_fail', { target: p.name });
                 } else {
                   p.status.isSanded = true;
                   p.status.isSlimed = false;
                   addUniqueTarget(reportData.sandedTargets, p.id);
-                  pushActionLog('report_sand', { target: p.name });
+                  pushActionLog('log_action_sand', { target: p.name });
                 }
                 break;
               case 'GhostBobo':
                 p.status.isSilenced = true;
                 addUniqueTarget(reportData.ghostTargets, p.id);
-                pushActionLog('report_ghost', { target: p.name });
+                pushActionLog('log_action_ghost', { target: p.name });
                 break;
               case 'Judge':
                 p.status.isCantVote = true;
                 addUniqueTarget(reportData.judgeTargets, p.id);
-                pushActionLog('report_judge', { target: p.name });
+                pushActionLog('log_action_judge', { target: p.name });
                 break;
               case 'SwampMonster':
                 return handleSwampSelection(newState, targetId, pushActionLog);
@@ -1849,7 +1852,7 @@ function internalReducer(state: GameState, action: Action): GameState {
             playerId: matrixPlayer.id,
             instance: activeCard.instance
           };
-          pushNightLogEntry(newState, 'Matrix', activeCard.instance, matrixPlayer.name, 'night_log_matrix_activate');
+          pushNightLogEntry(newState, 'Matrix', activeCard.instance, matrixPlayer.name, 'log_night_matrix_activate');
         }
         newState.uiState = { ...newState.uiState, waitingFor: 'NONE', pendingPrompts: [], selectionContext: null, dayAction: null };
         return advanceNight(newState);
@@ -1977,7 +1980,10 @@ function internalReducer(state: GameState, action: Action): GameState {
       }
       actingTimeLord.status.timeLordSkipUsed = true;
       const logKey = action.payload.targetPhase === 'NIGHT' ? 'log_timelord_skip_night' : 'log_timelord_skip_day';
-      pushGeneralLog(newState, logKey, { player: actingTimeLord.name });
+      pushGeneralLog(newState, logKey, {
+        player: actingTimeLord.name,
+        cardLabel: createCardLabelParam('TimeLord')
+      });
       if (action.payload.targetPhase === 'NIGHT') {
         const workingState =
           newState.currentRound === 1 && !newState.firstNightBriefingDone

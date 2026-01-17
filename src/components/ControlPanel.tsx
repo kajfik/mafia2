@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
-import type { GameState, PublicReportEntry, Player, CardId } from '../game/types';
+import type { GameState, PublicReportEntry, Player, CardId, LogParamMap } from '../game/types';
 import type { Action } from '../game/gameReducer';
 import { t, getCardName } from '../game/translations';
 import { computeCardLabels } from '../game/cardLabels';
+import { resolveLogParams } from '../game/logging';
 
 interface ControlPanelProps {
   state: GameState;
@@ -61,6 +62,25 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
       ),
     [state.players]
   );
+  const timeLordCardLabel = useMemo(() => {
+    const defaultLabel = getCardName('TimeLord', lang);
+    const owner = state.players.find(
+      player =>
+        player.status.isAlive &&
+        !player.status.timeLordSkipUsed &&
+        player.cards.some(card => card.cardId === 'TimeLord')
+    );
+    if (!owner) {
+      return defaultLabel;
+    }
+    const cardIndex = owner.cards.findIndex(card => card.cardId === 'TimeLord');
+    if (cardIndex < 0) {
+      return defaultLabel;
+    }
+    const instance = owner.cards[cardIndex].instance;
+    const fallbackLabel = instance != null ? `${defaultLabel} ${instance}` : defaultLabel;
+    return labelsMap[owner.id]?.[cardIndex] ?? fallbackLabel;
+  }, [state.players, labelsMap, lang]);
   const canUseAnarchistShot = specialRolesInfo.anarchist.ready;
   const canTriggerBomb = specialRolesInfo.terrorist.ready;
   const canCallAstronomer = specialRolesInfo.astronomer.ready;
@@ -146,10 +166,11 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
     ? state.publicReport
     : [];
   const renderReportText = (entry: PublicReportEntry) => {
+    const resolveParams = (params?: LogParamMap) => resolveLogParams(params, state.players, lang);
     if (entry.fragments?.length) {
-      return entry.fragments.map(fragment => t(fragment.key, lang, fragment.params)).join('');
+      return entry.fragments.map(fragment => t(fragment.key, lang, resolveParams(fragment.params))).join('');
     }
-    return t(entry.key, lang, entry.params);
+    return t(entry.key, lang, resolveParams(entry.params));
   };
 
   let actionControls: React.ReactNode = null;
@@ -188,7 +209,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
             onClick={() => dispatch({ type: 'TRIGGER_TIMELORD_SKIP', payload: { targetPhase: 'DAY' } })}
             className={timeLordDayButtonClass}
           >
-            {t('ui_timelord_skip_day', lang)}
+            {t('ui_timelord_skip_day', lang, { cardLabel: timeLordCardLabel })}
           </button>
         </div>
       );
@@ -301,7 +322,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
             onClick={() => dispatch({ type: 'TRIGGER_TIMELORD_SKIP', payload: { targetPhase: 'NIGHT' } })}
             className={timeLordNightButtonClass}
           >
-            {t('ui_timelord_skip_night', lang)}
+            {t('ui_timelord_skip_night', lang, { cardLabel: timeLordCardLabel })}
           </button>
         </div>
       );
@@ -321,7 +342,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
         <div className="bg-[rgba(4,4,8,0.92)] p-4 rounded-2xl text-lg border-l-4 border-[var(--color-bullet)] shadow-inner overflow-y-auto md:flex-1">
            {showPublicReport ? (
              <div className="space-y-2">
-               {(!hasPendingDayReport && reportLines.length === 0) && <div className="font-bold">{t('night_report_default', lang)}</div>}
+               {(!hasPendingDayReport && reportLines.length === 0) && <div className="font-bold">{t('public_report_default', lang)}</div>}
                {reportLines.map((entry, idx) => (
                  <div key={`${entry.key}-${idx}`} className="text-base">
                    {renderReportText(entry)}

@@ -2,6 +2,7 @@ import type { Language, CardId } from './types';
 import type { RuleSection } from './translations/types';
 import { RULES_CONTENT_PL, TRANSLATIONS_PL } from './translations/pl';
 import { RULES_CONTENT_CZ, TRANSLATIONS_CZ } from './translations/cz';
+import { RULES_CONTENT_EN, TRANSLATIONS_EN } from './translations/en';
 import { RULES_CONTENT_PO_NASZYMU, TRANSLATIONS_PO_NASZYMU } from './translations/poNaszymu';
 
 export type { RuleContentBlock, RuleSection } from './translations/types';
@@ -17,11 +18,23 @@ interface LanguageConfigEntry {
 }
 
 const LANGUAGE_CONFIG: Record<Language, LanguageConfigEntry> = {
+  en: {
+    label: 'English',
+    locale: 'en',
+    rules: RULES_CONTENT_EN,
+    dictionary: TRANSLATIONS_EN,
+  },
   pl: {
     label: 'Polski',
     locale: 'pl',
     rules: RULES_CONTENT_PL,
     dictionary: TRANSLATIONS_PL,
+  },
+  cz: {
+    label: 'Čeština',
+    locale: 'cs',
+    rules: RULES_CONTENT_CZ,
+    dictionary: TRANSLATIONS_CZ,
   },
   pl_pn: {
     label: 'Po naszymu',
@@ -29,12 +42,6 @@ const LANGUAGE_CONFIG: Record<Language, LanguageConfigEntry> = {
     rules: RULES_CONTENT_PO_NASZYMU,
     dictionary: TRANSLATIONS_PO_NASZYMU,
     fallback: 'pl',
-  },
-  cz: {
-    label: 'Čeština',
-    locale: 'cs',
-    rules: RULES_CONTENT_CZ,
-    dictionary: TRANSLATIONS_CZ,
   },
 };
 

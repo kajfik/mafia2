@@ -1,4 +1,4 @@
-export type Language = 'pl' | 'pl_pn' | 'cz';
+export type Language = 'pl' | 'pl_pn' | 'cz' | 'en';
 
 export type VictorySide = 'MAFIA' | 'INNOCENT';
 export type VictoryCause = 'NIGHT' | 'DAY';
@@ -188,11 +188,16 @@ export type PublicReportSockOutcome = 'GAS_MASK' | 'ALREADY_DEAD' | 'DOCTOR' | '
 
 export interface PublicReportFragment {
   key: string;
-  params?: Record<string, string | number>;
+  params?: LogParamMap;
 }
 
 export interface PublicReportEntry extends PublicReportFragment {
   fragments?: PublicReportFragment[];
+}
+
+export interface CloudwalkerReward {
+  num: number;
+  cardInstance?: number;
 }
 
 export interface BulletReportLookupEntry {
@@ -215,10 +220,10 @@ export interface PublicReportData {
   cloudwalkers: {
     leech: number[];
     cobra: number[];
-    gravedigger: number[];
+    gravedigger: CloudwalkerReward[];
     glazier: number[];
-    gandalf: number[];
-    horsepiece: number[];
+    gandalf: CloudwalkerReward[];
+    horsepiece: CloudwalkerReward[];
   };
   bullets: PublicReportEntry[];
   victoryKey?: string | null;

@@ -13,6 +13,8 @@ interface CardsTabProps {
   className?: string;
   playerCards?: { cardId: CardId; instance: number }[];
   playerLabels?: string[];
+  artMode?: 'icon' | 'image';
+  onArtModeChange?: (mode: 'icon' | 'image') => void;
 }
 
 interface CardEntry {
@@ -25,8 +27,10 @@ interface CardEntry {
   description?: string;
 }
 
-export const CardsTab: React.FC<CardsTabProps> = ({ language, className, playerCards, playerLabels }) => {
-  const [artMode, setArtMode] = useState<'icon' | 'image'>('icon');
+export const CardsTab: React.FC<CardsTabProps> = ({ language, className, playerCards, playerLabels, artMode, onArtModeChange }) => {
+  const [localArtMode, setLocalArtMode] = useState<'icon' | 'image'>('icon');
+  const resolvedArtMode = artMode ?? localArtMode;
+  const handleArtModeChange = onArtModeChange ?? ((mode: 'icon' | 'image') => setLocalArtMode(mode));
   const cardEntries = useMemo<CardEntry[]>(() => {
     const locale = language === 'pl_pn' ? 'pl' : language;
     const collator = new Intl.Collator(locale, { sensitivity: 'base' });
@@ -82,6 +86,10 @@ export const CardsTab: React.FC<CardsTabProps> = ({ language, className, playerC
   const baseWrapper = 'h-full overflow-y-auto text-white px-3 pt-5 pb-24 sm:px-4 sm:pt-7';
   const wrapperClass = className ? `${baseWrapper} ${className}` : baseWrapper;
   const toggleOptionBase = 'px-4 py-1.5 text-sm font-semibold rounded-xl transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brass)]';
+  const artModeToggleOptions: Array<{ value: 'icon' | 'image'; label: string }> = [
+    { value: 'icon', label: t('cards_toggle_icons', language) },
+    { value: 'image', label: t('cards_toggle_images', language) }
+  ];
 
   return (
     <div className={wrapperClass}>
@@ -92,16 +100,13 @@ export const CardsTab: React.FC<CardsTabProps> = ({ language, className, playerC
               {t('cards_collection_title', language)}
             </h2>
             <div className="inline-flex items-center gap-1 rounded-2xl border border-[rgba(242,200,121,0.3)] bg-[rgba(16,14,20,0.85)] p-1 self-center sm:self-auto">
-              {([
-                { value: 'icon', label: 'Icons' },
-                { value: 'image', label: 'Images' }
-              ] as const).map(option => {
-                const isActive = artMode === option.value;
+              {artModeToggleOptions.map(option => {
+                const isActive = resolvedArtMode === option.value;
                 return (
                   <button
                     key={option.value}
                     type="button"
-                    onClick={() => setArtMode(option.value)}
+                    onClick={() => handleArtModeChange(option.value)}
                     aria-pressed={isActive}
                     className={`${toggleOptionBase} ${isActive ? 'bg-[var(--color-brass)] text-[rgba(20,14,10,0.9)] shadow-[0_10px_25px_rgba(0,0,0,0.35)]' : 'text-white/70 hover:text-white'}`}
                   >
@@ -119,7 +124,7 @@ export const CardsTab: React.FC<CardsTabProps> = ({ language, className, playerC
               label={card.label}
               glyph={card.glyph}
               imageSrc={card.imageSrc}
-              artMode={artMode}
+              artMode={resolvedArtMode}
               indicators={card.indicators}
               description={card.description ?? placeholderDescription}
             />

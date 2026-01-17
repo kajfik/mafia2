@@ -170,67 +170,67 @@ export function resolveDayDamage(state: GameState, targetId: string, type: 'HANG
   if (type === 'HANG') {
     const ropewalkerInstance = consumeCardWithInstance(player, 'RopeWalker');
     if (ropewalkerInstance !== null) {
-      log(state, 'report_ropewalker_lost', { target: player.name, num: ropewalkerInstance });
+      log(state, 'log_day_ropewalker_lost', { target: player.name, num: ropewalkerInstance });
       return { type: 'ROPEWALKER', playerId: player.id, playerName: player.name, instance: ropewalkerInstance };
     }
   }
 
   const immunityInstance = consumeCardWithInstance(player, 'Immunity');
   if (immunityInstance !== null) {
-    log(state, 'report_immunity_lost', { target: player.name, num: immunityInstance });
+    log(state, 'log_day_immunity_lost', { target: player.name, num: immunityInstance });
     return { type: 'IMMUNITY', playerId: player.id, playerName: player.name, instance: immunityInstance };
   }
 
   if (type === 'SHOOT') {
     const vestInstance = consumeCardWithInstance(player, 'KevlarVest');
     if (vestInstance !== null) {
-      log(state, 'report_vest_hit', { target: player.name, num: vestInstance });
+      log(state, 'log_day_vest_hit', { target: player.name, num: vestInstance });
       return { type: 'KEVLAR', playerId: player.id, playerName: player.name, instance: vestInstance };
     }
   }
 
   const cloudwalkerInstance = consumeCardWithInstance(player, 'CloudWalker');
   if (cloudwalkerInstance !== null) {
-    log(state, 'report_life_lost', { target: player.name, num: cloudwalkerInstance });
+    log(state, 'log_day_cloudwalker_lost', { target: player.name, num: cloudwalkerInstance });
     checkLifeLossSideEffects(state, player, { lossType: 'CLOUDWALKER' });
     return { type: 'CLOUDWALKER', playerId: player.id, playerName: player.name, instance: cloudwalkerInstance };
   }
 
   player.status.isAlive = false;
-  log(state, 'report_death', { target: player.name }, 'DEATH');
+  log(state, 'log_day_death', { target: player.name }, 'DEATH');
   checkLifeLossSideEffects(state, player, { lossType: 'DEATH' });
   declareVictory(state, 'DAY');
   return { type: 'DEATH', playerId: player.id, playerName: player.name };
 }
 
 const LOG_FRAGMENT_MAP: Record<string, string> = {
-  night_report_bullet_dead_target: 'night_log_bullet_dead_target',
-  night_report_bullet_matrix_catch: 'night_log_bullet_matrix_catch',
-  night_report_bullet_magnet: 'night_log_bullet_magnet',
-  night_report_bullet_magnet_dead: 'night_log_bullet_magnet_dead',
-  night_report_bullet_split: 'night_log_bullet_split',
-  night_report_bullet_tunnel_single: 'night_log_bullet_tunnel_single',
-  night_report_bullet_tunnel_segment: 'night_log_bullet_tunnel_segment',
-  night_report_bullet_slime: 'night_log_bullet_slime',
-  night_report_bullet_al_capone: 'night_log_bullet_al_capone',
-  night_report_bullet_doctor: 'night_log_bullet_doctor',
-  night_report_bullet_mirror_break: 'night_log_bullet_mirror_break',
-  night_report_bullet_return: 'night_log_bullet_return',
-  night_report_bullet_vest_loss: 'night_log_bullet_vest_loss',
-  night_report_bullet_cloudwalker_loss: 'night_log_bullet_cloudwalker_loss',
-  night_report_bullet_death: 'night_log_bullet_death'
+  public_report_bullet_dead_target: 'log_night_bullet_dead_target',
+  public_report_bullet_matrix_catch: 'log_night_bullet_matrix_catch',
+  public_report_bullet_magnet: 'log_night_bullet_magnet',
+  public_report_bullet_magnet_dead: 'log_night_bullet_magnet_dead',
+  public_report_bullet_split: 'log_night_bullet_split',
+  public_report_bullet_tunnel_single: 'log_night_bullet_tunnel_single',
+  public_report_bullet_tunnel_segment: 'log_night_bullet_tunnel_segment',
+  public_report_bullet_slime: 'log_night_bullet_slime',
+  public_report_bullet_al_capone: 'log_night_bullet_al_capone',
+  public_report_bullet_doctor: 'log_night_bullet_doctor',
+  public_report_bullet_mirror_break: 'log_night_bullet_mirror_break',
+  public_report_bullet_return: 'log_night_bullet_return',
+  public_report_bullet_vest_loss: 'log_night_bullet_vest_loss',
+  public_report_bullet_cloudwalker_loss: 'log_night_bullet_cloudwalker_loss',
+  public_report_bullet_death: 'log_night_bullet_death'
 };
 
 const LOG_FRAGMENT_FIRST_MAP: Record<string, string> = {
-  night_log_bullet_tunnel_single: 'night_log_bullet_tunnel_initial',
-  night_log_bullet_magnet: 'night_log_bullet_magnet_initial',
-  night_log_bullet_mirror_break: 'night_log_bullet_mirror_break_initial',
-  night_log_bullet_slime: 'night_log_bullet_slime_initial',
-  night_log_bullet_al_capone: 'night_log_bullet_al_capone_initial',
-  night_log_bullet_doctor: 'night_log_bullet_doctor_initial',
-  night_log_bullet_vest_loss: 'night_log_bullet_vest_loss_initial',
-  night_log_bullet_cloudwalker_loss: 'night_log_bullet_cloudwalker_loss_initial',
-  night_log_bullet_death: 'night_log_bullet_death_initial'
+  log_night_bullet_tunnel_single: 'log_night_bullet_tunnel_initial',
+  log_night_bullet_magnet: 'log_night_bullet_magnet_initial',
+  log_night_bullet_mirror_break: 'log_night_bullet_mirror_break_initial',
+  log_night_bullet_slime: 'log_night_bullet_slime_initial',
+  log_night_bullet_al_capone: 'log_night_bullet_al_capone_initial',
+  log_night_bullet_doctor: 'log_night_bullet_doctor_initial',
+  log_night_bullet_vest_loss: 'log_night_bullet_vest_loss_initial',
+  log_night_bullet_cloudwalker_loss: 'log_night_bullet_cloudwalker_loss_initial',
+  log_night_bullet_death: 'log_night_bullet_death_initial'
 };
 
 export function resolveNightShot(
@@ -242,10 +242,10 @@ export function resolveNightShot(
 ) {
   const shotId = createShotId();
   const targetName = state.players.find(p => p.id === targetId)?.name || '?';
-  const initialPublicFragment: BulletFragment = { key: 'night_report_bullet_start' };
+  const initialPublicFragment: BulletFragment = { key: 'public_report_bullet_start' };
   const initialLogFragment: BulletLogFragment = context
-    ? { key: 'night_log_bullet_start', params: { cardLabel: context.shooterLabel, shooter: context.shooterName, target: context.initialTargetName } }
-    : { key: 'night_log_bullet_start_generic', params: { target: targetName } };
+    ? { key: 'log_night_bullet_start', params: { cardLabel: context.shooterLabel, shooter: context.shooterName, target: context.initialTargetName } }
+    : { key: 'log_night_bullet_start_generic', params: { target: targetName } };
   const queue: BulletQueueEntry[] = [
     {
       targetId,
@@ -339,9 +339,9 @@ function runBulletPath(
     const target = state.players.find(p => p.id === currentTargetId);
     const targetName = target?.name || '?';
     if (!target || !target.status.isAlive) {
-      pushSharedFragment({ key: 'night_report_bullet_dead_target', params: { target: targetName } });
+      pushSharedFragment({ key: 'public_report_bullet_dead_target', params: { target: targetName } });
       if (pendingMagnetDeadTarget) {
-        pushSharedFragment({ key: 'night_report_bullet_magnet_dead', params: { target: pendingMagnetDeadTarget } });
+        pushSharedFragment({ key: 'public_report_bullet_magnet_dead', params: { target: pendingMagnetDeadTarget } });
       }
       recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId);
       return;
@@ -353,7 +353,7 @@ function runBulletPath(
     if (matrixActive) {
       state.nightCache.matrixStoredBullets++;
       state.nightCache.reportData.matrixBulletsCaught++;
-      pushSharedFragment({ key: 'night_report_bullet_matrix_catch', params: { target: targetName } });
+      pushSharedFragment({ key: 'public_report_bullet_matrix_catch', params: { target: targetName } });
       recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId);
       return;
     }
@@ -364,7 +364,7 @@ function runBulletPath(
         if (!magnetTarget || !magnetTarget.status.isMagnetized || magnetHistory.has(magnetTarget.id)) {
           return false;
         }
-        pushSharedFragment({ key: 'night_report_bullet_magnet', params: { target: magnetTarget.name } });
+        pushSharedFragment({ key: 'public_report_bullet_magnet', params: { target: magnetTarget.name } });
         magnetHistory.add(magnetTarget.id);
         previousTargetId = target.id;
         currentTargetId = magnetTarget.id;
@@ -386,7 +386,7 @@ function runBulletPath(
 
       if (outgoing.length) {
         if (outgoing.length > 1) {
-          pushSharedFragment({ key: 'night_report_bullet_split', params: { count: outgoing.length } });
+          pushSharedFragment({ key: 'public_report_bullet_split', params: { count: outgoing.length } });
         }
         const baseFragments = cloneFragments(currentFragments);
         const baseLogFragments = cloneFragments(currentLogFragments);
@@ -405,7 +405,7 @@ function runBulletPath(
           const tunnelNumber = typeof tunnel.tunnelNumber === 'number'
             ? tunnel.tunnelNumber
             : (tunnelIndex >= 0 ? tunnelIndex + 1 : idx + 1);
-          const fragmentKey = outgoing.length > 1 ? 'night_report_bullet_tunnel_segment' : 'night_report_bullet_tunnel_single';
+          const fragmentKey = outgoing.length > 1 ? 'public_report_bullet_tunnel_segment' : 'public_report_bullet_tunnel_single';
           const fragmentParams: Record<string, string | number> = {
             num: tunnelNumber,
             src: targetName,
@@ -457,12 +457,12 @@ function runBulletPath(
       const mirrorInstance = consumeCardWithInstance(target, 'Mirror');
       registerGlazierMirrorBreak(state, target.id);
       const mirrorLabel = mirrorInstance ?? mirrorCount;
-      pushSharedFragment({ key: 'night_report_bullet_mirror_break', params: { target: targetName, num: mirrorLabel } });
+      pushSharedFragment({ key: 'public_report_bullet_mirror_break', params: { target: targetName, num: mirrorLabel } });
 
       if (!isSniper && !isMatrix && !hadMud) {
         const returnTargetId = cameFromId;
         const returnName = returnTargetId ? state.players.find(p => p.id === returnTargetId)?.name || '?' : targetName;
-        pushSharedFragment({ key: 'night_report_bullet_return', params: { target: returnName } });
+        pushSharedFragment({ key: 'public_report_bullet_return', params: { target: returnName } });
         if (!returnTargetId || returnTargetId === target.id) {
           recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId);
           return;
@@ -473,15 +473,15 @@ function runBulletPath(
         continue;
       }
 
-      pushSharedFragment({ key: 'night_report_bullet_continue' });
+      pushSharedFragment({ key: 'public_report_bullet_continue' });
       if (currentLogFragments.length) {
         currentLogFragments.pop();
       }
       const continueReasonKey = hadMud
-        ? 'night_log_bullet_continue_mud'
+        ? 'log_night_bullet_continue_mud'
         : isSniper
-          ? 'night_log_bullet_continue_sniper'
-          : 'night_log_bullet_continue_matrix';
+          ? 'log_night_bullet_continue_sniper'
+          : 'log_night_bullet_continue_matrix';
       pushLogFragment({ key: continueReasonKey, params: { target: targetName } });
     }
 
@@ -494,26 +494,26 @@ function runBulletPath(
     ) {
       state.nightCache.slimeUsedOnPlayers.push(target.id);
       target.status.isSlimed = false;
-      pushSharedFragment({ key: 'night_report_bullet_slime', params: { target: targetName } });
+      pushSharedFragment({ key: 'public_report_bullet_slime', params: { target: targetName } });
       recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId);
       return;
     }
 
     if (isMafia && !redirected && target.cards.some(rr => rr.cardId === 'AlCapone')) {
-      pushSharedFragment({ key: 'night_report_bullet_al_capone', params: { target: targetName } });
+      pushSharedFragment({ key: 'public_report_bullet_al_capone', params: { target: targetName } });
       recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId);
       return;
     }
 
     if (!isMatrix && consumeDoctorProtection(state, target.id)) {
-      pushSharedFragment({ key: 'night_report_bullet_doctor', params: { target: targetName } });
+      pushSharedFragment({ key: 'public_report_bullet_doctor', params: { target: targetName } });
       recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId);
       return;
     }
 
     const kevlarInstance = consumeCardWithInstance(target, 'KevlarVest');
     if (kevlarInstance !== null) {
-      pushSharedFragment({ key: 'night_report_bullet_vest_loss', params: { target: targetName, num: kevlarInstance } });
+      pushSharedFragment({ key: 'public_report_bullet_vest_loss', params: { target: targetName, num: kevlarInstance } });
       recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId);
       return;
     }
@@ -521,7 +521,7 @@ function runBulletPath(
     const cloudwalkerInstance = consumeCardWithInstance(target, 'CloudWalker');
     if (cloudwalkerInstance !== null) {
       registerCloudwalkerLoss(state);
-      pushSharedFragment({ key: 'night_report_bullet_cloudwalker_loss', params: { target: targetName, num: cloudwalkerInstance } });
+      pushSharedFragment({ key: 'public_report_bullet_cloudwalker_loss', params: { target: targetName, num: cloudwalkerInstance } });
       checkLifeLossSideEffects(state, target, {
         lossType: 'CLOUDWALKER',
         lostInstance: cloudwalkerInstance,
@@ -536,7 +536,7 @@ function runBulletPath(
       lossType: 'DEATH',
       logAppender: fragment => pushLogFragment(fragment)
     });
-    pushSharedFragment({ key: 'night_report_bullet_death', params: { name: targetName } });
+    pushSharedFragment({ key: 'public_report_bullet_death', params: { name: targetName } });
     declareVictory(state, 'NIGHT');
     recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId);
     return;
@@ -570,12 +570,12 @@ function declareVictory(state: GameState, cause: VictoryCause): VictorySide | nu
   if (!side) {
     return null;
   }
-  const key = side === 'MAFIA' ? 'win_mafia' : 'win_innocent';
+  const publicKey = side === 'MAFIA' ? 'victory_mafia' : 'victory_innocent';
   state.victory = { side, cause, announced: false };
   if (cause === 'NIGHT') {
-    state.nightCache.reportData.victoryKey = key;
+    state.nightCache.reportData.victoryKey = publicKey;
   } else {
-    state.uiState.pendingVictoryKey = key;
+    state.uiState.pendingVictoryKey = publicKey;
   }
   return side;
 }
@@ -790,10 +790,13 @@ function checkLifeLossSideEffects(state: GameState, victim: Player, context: Lif
     const k = state.players.find(p => p.cards.some(rr => rr.cardId === 'HorsePiece'));
     if (k && k.status.isAlive) {
       const instance = grantCardInstance(state.players, k, 'CloudWalker');
-      state.nightCache.reportData.cloudwalkers.horsepiece.push(instance);
       const horseInstance = k.cards.find(card => card.cardId === 'HorsePiece')?.instance;
+      state.nightCache.reportData.cloudwalkers.horsepiece.push({
+        num: instance,
+        cardInstance: horseInstance
+      });
       if (!logAppender) {
-        log(state, 'night_log_horsepiece_cloudwalker', {
+        log(state, 'log_night_cloudwalker_gain', {
           cardLabel: createCardLabelParam('HorsePiece', horseInstance),
           player: k.name,
           num: instance
@@ -801,7 +804,7 @@ function checkLifeLossSideEffects(state: GameState, victim: Player, context: Lif
       }
       if (logAppender) {
         logAppender({
-          key: 'night_log_bullet_horsepiece_from_gandalf',
+          key: 'log_night_bullet_horsepiece_from_gandalf',
           params: {
             horse: k.name,
             num: instance,
@@ -817,10 +820,13 @@ function checkLifeLossSideEffects(state: GameState, victim: Player, context: Lif
     const g = state.players.find(p => p.cards.some(rr => rr.cardId === 'Gandalf'));
     if (g && g.status.isAlive) {
       const instance = grantCardInstance(state.players, g, 'CloudWalker');
-      state.nightCache.reportData.cloudwalkers.gandalf.push(instance);
       const gandalfInstance = g.cards.find(card => card.cardId === 'Gandalf')?.instance;
+      state.nightCache.reportData.cloudwalkers.gandalf.push({
+        num: instance,
+        cardInstance: gandalfInstance
+      });
       if (!logAppender) {
-        log(state, 'night_log_gandalf_cloudwalker', {
+        log(state, 'log_night_cloudwalker_gain', {
           cardLabel: createCardLabelParam('Gandalf', gandalfInstance),
           player: g.name,
           num: instance
@@ -828,7 +834,7 @@ function checkLifeLossSideEffects(state: GameState, victim: Player, context: Lif
       }
       if (logAppender) {
         logAppender({
-          key: 'night_log_bullet_gandalf_from_horse',
+          key: 'log_night_bullet_gandalf_from_horse',
           params: {
             gandalf: g.name,
             num: instance,
@@ -949,7 +955,7 @@ function recordBulletReport(
     existingEntry.logFragments = mergeFragmentSequences(existingEntry.logFragments, logClone);
   } else {
     const entry = {
-      key: 'night_report_bullet_compound',
+      key: 'public_report_bullet_compound',
       fragments: publicClone
     };
     state.nightCache.reportData.bullets.push(entry);
@@ -984,7 +990,7 @@ function finalizeBulletShot(state: GameState, shotId: string) {
   }
   const clonedFragments = cloneFragments(entry.logFragments);
   const text = composeBulletText(state, clonedFragments);
-  const hasDeath = entry.logFragments.some(fragment => fragment.key === 'night_report_bullet_death');
+  const hasDeath = entry.logFragments.some(fragment => fragment.key === 'public_report_bullet_death');
   state.logs.push({
     id: Math.random().toString(),
     timestamp: Date.now(),

@@ -9,15 +9,67 @@ interface RulesViewProps {
   language?: Language;
 }
 
-type CardNameLookup = Record<string, { cardId: CardId; label: string }>;
+type CardLabelLookup = Record<CardId, string>;
 
-const normalizeCardKey = (value: string) => value.trim().toLowerCase();
+const CARD_TOKEN_PATTERN = /\{\{card:([A-Za-z0-9]+)(?:\|([^}]+))?\}\}/g;
 
-const renderBlock = (block: RuleContentBlock, key: string, cardLookup: CardNameLookup) => {
+const renderRichText = (text: string, key: string, cardLabels: CardLabelLookup) => {
+  const nodes: React.ReactNode[] = [];
+  const regex = new RegExp(CARD_TOKEN_PATTERN);
+  let lastIndex = 0;
+  let cardIndex = 0;
+  let textIndex = 0;
+
+  const pushText = (value: string) => {
+    if (!value) return;
+    nodes.push(
+      <React.Fragment key={`${key}-text-${textIndex++}`}>
+        {value}
+      </React.Fragment>
+    );
+  };
+
+  let match: RegExpExecArray | null;
+  while ((match = regex.exec(text)) !== null) {
+    const [fullMatch, rawCardId, rawLabel] = match;
+    pushText(text.slice(lastIndex, match.index));
+    const cardId = rawCardId as CardId;
+    const label = (rawLabel ?? '').trim() || cardLabels[cardId];
+    if (!cardLabels[cardId]) {
+      pushText(fullMatch);
+    } else {
+      nodes.push(
+        <CardLabelBadge
+          key={`${key}-card-${cardIndex++}`}
+          cardId={cardId}
+          label={label}
+          size="xs"
+          variant="inline"
+          className="mx-0.5 align-baseline"
+        />
+      );
+    }
+    lastIndex = regex.lastIndex;
+  }
+
+  pushText(text.slice(lastIndex));
+
+  if (nodes.length === 0) {
+    return text;
+  }
+
+  return nodes.length === 1 ? nodes[0] : nodes;
+};
+
+const renderBlock = (
+  block: RuleContentBlock,
+  key: string,
+  renderText: (text: string, key: string) => React.ReactNode
+) => {
   if (block.kind === 'paragraph') {
     return (
       <p key={key} className="text-slate-100/90 leading-relaxed">
-        {block.text}
+        {renderText(block.text, `${key}-paragraph`)}
       </p>
     );
   }
@@ -30,26 +82,17 @@ const renderBlock = (block: RuleContentBlock, key: string, cardLookup: CardNameL
 
     return (
       <div key={key} className="space-y-2">
-        {block.title && <p className="text-[var(--color-brass)] text-sm font-semibold tracking-[0.2em] uppercase">{block.title}</p>}
+        {block.title && (
+          <p className="text-[var(--color-brass)] text-sm font-semibold tracking-[0.2em] uppercase">
+            {renderText(block.title, `${key}-title`)}
+          </p>
+        )}
         <ListTag className={listClass}>
-          {block.items.map((item, idx) => {
-            const normalized = normalizeCardKey(item);
-            const matchedCard = cardLookup[normalized];
-            return (
-              <li key={`${key}-item-${idx}`}>
-                {matchedCard ? (
-                  <CardLabelBadge
-                    cardId={matchedCard.cardId}
-                    label={matchedCard.label}
-                    size="sm"
-                    className="inline-flex px-2 py-0.5 rounded-full border border-[rgba(242,200,121,0.25)] bg-[rgba(242,200,121,0.08)] text-[var(--color-brass)]"
-                  />
-                ) : (
-                  item
-                )}
-              </li>
-            );
-          })}
+          {block.items.map((item, idx) => (
+            <li key={`${key}-item-${idx}`}>
+              {renderText(item, `${key}-item-${idx}`)}
+            </li>
+          ))}
         </ListTag>
       </div>
     );
@@ -62,9 +105,10 @@ interface SectionCardProps {
   section: RuleSection;
   level?: number;
   renderBlockFn: (block: RuleContentBlock, key: string) => React.ReactNode;
+  renderText: (text: string, key: string) => React.ReactNode;
 }
 
-const SectionCard: React.FC<SectionCardProps> = ({ section, level = 1, renderBlockFn }) => {
+const SectionCard: React.FC<SectionCardProps> = ({ section, level = 1, renderBlockFn, renderText }) => {
   const HeadingTag = level === 1 ? 'h3' : level === 2 ? 'h4' : 'h5';
   const containerClass =
     level === 1
@@ -81,7 +125,7 @@ const SectionCard: React.FC<SectionCardProps> = ({ section, level = 1, renderBlo
 
   return (
     <article className={`rounded-lg border p-4 sm:p-5 space-y-4 ${containerClass}`}>
-      <HeadingTag className={headingClass}>{section.title}</HeadingTag>
+      <HeadingTag className={headingClass}>{renderText(section.title, `${section.title}-heading`)}</HeadingTag>
       <div className="space-y-3">
         {section.blocks.map((block, idx) => renderBlockFn(block, `${section.title}-block-${idx}`))}
       </div>
@@ -89,7 +133,13 @@ const SectionCard: React.FC<SectionCardProps> = ({ section, level = 1, renderBlo
       {section.subsections?.length ? (
         <div className="space-y-4">
           {section.subsections.map((sub, idx) => (
-            <SectionCard key={`${section.title}-sub-${idx}`} section={sub} level={level + 1} renderBlockFn={renderBlockFn} />
+            <SectionCard
+              key={`${section.title}-sub-${idx}`}
+              section={sub}
+              level={level + 1}
+              renderBlockFn={renderBlockFn}
+              renderText={renderText}
+            />
           ))}
         </div>
       ) : null}
@@ -101,15 +151,16 @@ export const RulesView: React.FC<RulesViewProps> = ({ language = 'pl' }) => {
   const sections = RULES_CONTENT[language] ?? [];
   const headingTitle = t('rules_header_title', language);
   const emptyMessage = t('rules_missing_language', language);
-  const cardLookup = useMemo<CardNameLookup>(() => {
-    const lookup: CardNameLookup = {};
+  const cardLabels = useMemo<CardLabelLookup>(() => {
+    const lookup = {} as CardLabelLookup;
     CARD_IDS.forEach(cardId => {
       const label = getCardName(cardId, language);
-      lookup[normalizeCardKey(label)] = { cardId, label };
+      lookup[cardId] = label;
     });
     return lookup;
   }, [language]);
-  const renderBlockWithCards = (block: RuleContentBlock, key: string) => renderBlock(block, key, cardLookup);
+  const renderText = (text: string, key: string) => renderRichText(text, key, cardLabels);
+  const renderBlockWithCards = (block: RuleContentBlock, key: string) => renderBlock(block, key, renderText);
 
   return (
     <div className="h-full overflow-y-auto text-white space-y-8 px-3 pt-6 pb-24 sm:px-4 sm:pt-8">
@@ -124,7 +175,12 @@ export const RulesView: React.FC<RulesViewProps> = ({ language = 'pl' }) => {
       ) : (
         <section className="space-y-6">
           {sections.map(section => (
-            <SectionCard key={section.title} section={section} renderBlockFn={renderBlockWithCards} />
+            <SectionCard
+              key={section.title}
+              section={section}
+              renderBlockFn={renderBlockWithCards}
+              renderText={renderText}
+            />
           ))}
         </section>
       )}

@@ -1,6 +1,7 @@
 import React from 'react';
-import type { GameState, PublicReportEntry } from '../game/types';
+import type { GameState, PublicReportEntry, LogParamMap } from '../game/types';
 import { t } from '../game/translations';
+import { resolveLogParams } from '../game/logging';
 import { GameLogPanel } from './GameLogPanel';
 
 interface LogsTabProps {
@@ -26,10 +27,11 @@ export const LogsTab: React.FC<LogsTabProps> = ({ state, selectedRound, onSelect
   const reportEntries = state.publicReportsByRound?.[activeRound] ?? [];
 
   const renderReportText = (entry: PublicReportEntry) => {
+    const resolveParams = (params?: LogParamMap) => resolveLogParams(params, state.players, lang);
     if (entry.fragments?.length) {
-      return entry.fragments.map(fragment => t(fragment.key, lang, fragment.params)).join('');
+      return entry.fragments.map(fragment => t(fragment.key, lang, resolveParams(fragment.params))).join('');
     }
-    return t(entry.key, lang, entry.params);
+    return t(entry.key, lang, resolveParams(entry.params));
   };
 
   return (
