@@ -462,14 +462,11 @@ export const TRANSLATIONS_CZ = {
   wake_up_executioner_save: 'Probouzí se {role}. Koho chce zachránit před šibenicí?',
   wake_up_executioner_victim: 'Kdo má skončit na šibenici místo něj?',
   log_night_executioner_save: '{saved} je chráněn před rozsudkem, místo něj zemře {victim}.',
-  log_executioner_same_target: '{cardLabel} {player} nemůže označit stejného hráče ({target}) jako oběť i chráněného.',
 
   // Sock
   wake_up_sock_first: 'Mezi koho hodit Ponožku? Označ prvního hráče.',
   wake_up_sock_second: 'Nyní označ souseda tohoto hráče.',
   log_action_sock_throw: '{cardLabel} {player} hodil Ponožku mezi hráče {first} a {second}.',
-  log_sock_invalid_neighbor: '{cardLabel} {player} nemůže hodit Ponožku mezi {first} a {target}, protože nejsou sousedé.',
-  log_sock_same_target: '{cardLabel} {player} musí vybrat dva různé hráče.',
   log_sock_throw_intro: '{cardLabel} {player} hodil Ponožku mezi hráče {first} a {second}. ',
   log_sock_result_gasmask: 'Plynová maska zachránila hráče {name}. ',
   log_sock_result_dead: 'Hráč {name} byl již mrtvý. ',

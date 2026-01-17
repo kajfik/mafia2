@@ -579,7 +579,7 @@ function computeDisabledPlayerIds(state: GameState): Set<string> {
     }
   }
 
-  if (state.activeCard.cardId === 'BlindExecutioner' && currentPrompt === 'action_executioner_victim') {
+  if (state.activeCard.cardId === 'BlindExecutioner' && currentPrompt === 'wake_up_executioner_victim') {
     const savedId = selectionContext?.cardId === 'BlindExecutioner' ? selectionContext.data?.['savedId'] : undefined;
     if (savedId) {
       disabled.add(savedId);

@@ -462,14 +462,11 @@ export const TRANSLATIONS_PL = {
   wake_up_executioner_save: 'Budzi się {role}. Kogo chce ułaskawić spod szubienicy?',
   wake_up_executioner_victim: 'Kto ma trafić na szubienicę zamiast niego?',
   log_night_executioner_save: '{saved} jest chroniony przed wyrokiem, zamiast niego zginie {victim}.',
-  log_executioner_same_target: '{cardLabel} {player} nie może wskazać tego samego gracza ({target}) jako ofiary i chronionego.',
 
   // Sock
   wake_up_sock_first: 'Pomiędzy kogo rzucić Skarpetkę? Wskaż pierwszego gracza.',
   wake_up_sock_second: 'Teraz wskaż sąsiada tego gracza.',
   log_action_sock_throw: '{cardLabel} {player} wycelował Skarpetką między graczy {first} i {second}.',
-  log_sock_invalid_neighbor: '{cardLabel} {player} nie może rzucić Skarpetki między {first} i {target}, gdyż nie są sąsiadami.',
-  log_sock_same_target: '{cardLabel} {player} musi wybrać dwóch różnych graczy.',
   log_sock_throw_intro: '{cardLabel} {player} rzucił Skarpetkę między graczy {first} i {second}. ',
   log_sock_result_gasmask: 'Maska Gazowa ocaliła gracza {name}. ',
   log_sock_result_dead: 'Gracz {name} był już martwy. ',

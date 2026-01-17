@@ -1071,7 +1071,6 @@ function handleBlindExecutionerSelection(state: GameState, targetId: string, log
   }
 
   if (savedId === targetId) {
-    logFn('log_executioner_same_target', { target: targetPlayer.name });
     return state;
   }
 
@@ -1132,14 +1131,11 @@ function handleSockSelection(state: GameState, targetId: string, logFn: (key: st
   }
 
   if (firstTargetId === targetId) {
-    logFn('log_sock_same_target', { target: targetPlayer.name });
     return state;
   }
 
   const neighborIds = getAliveNeighbors(state.players, firstTargetId).map(p => p.id);
   if (!neighborIds.includes(targetId)) {
-    const firstPlayer = state.players.find(p => p.id === firstTargetId);
-    logFn('log_sock_invalid_neighbor', { first: firstPlayer?.name || '?', target: targetPlayer.name });
     return state;
   }
 

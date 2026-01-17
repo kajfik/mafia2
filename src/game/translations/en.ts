@@ -462,14 +462,11 @@ export const TRANSLATIONS_EN = {
   wake_up_executioner_save: '{role} wakes up. Who do they want to save from the gallows?',
   wake_up_executioner_victim: 'Who should go to the gallows instead?',
   log_night_executioner_save: '{saved} is protected from the sentence; {victim} will die instead.',
-  log_executioner_same_target: '{cardLabel} {player} cannot indicate the same player ({target}) as both victim and protected.',
 
   // Sock
   wake_up_sock_first: 'Between whom to throw the Sock? Indicate the first player.',
   wake_up_sock_second: 'Now indicate that player\'s neighbor.',
   log_action_sock_throw: '{cardLabel} {player} aimed the Sock between players {first} and {second}.',
-  log_sock_invalid_neighbor: '{cardLabel} {player} cannot throw the Sock between {first} and {target} because they are not neighbors.',
-  log_sock_same_target: '{cardLabel} {player} must choose two different players.',
   log_sock_throw_intro: '{cardLabel} {player} threw the Sock between players {first} and {second}. ',
   log_sock_result_gasmask: 'Gas Mask saved player {name}. ',
   log_sock_result_dead: 'Player {name} was already dead. ',

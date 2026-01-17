@@ -461,14 +461,11 @@ export const TRANSLATIONS_PO_NASZYMU = {
   wake_up_executioner_save: 'Budzi se {role}. Kogo chce ułaskawić ze szubienicy?',
   wake_up_executioner_victim: 'Kto mo iść na szubienice zamiast niego?',
   log_night_executioner_save: '{saved} je chróniony przed wyrokym, zamiast niego zginie {victim}.',
-  log_executioner_same_target: '{cardLabel} {player} niemoże pokozać tego samego gracza ({target}) jako ofiary a chrónionego.',
 
   // Sock
   wake_up_sock_first: 'miyndzy kogo ciepnąć Fusekle? Pokoż piyrwszego gracza.',
   wake_up_sock_second: 'Teraz pokoż sónsiada tego gracza.',
   log_action_sock_throw: '{cardLabel} {player} wycelował Fuseklom miyndzy graczy {first} a {second}.',
-  log_sock_invalid_neighbor: '{cardLabel} {player} niemoże ciepnąć Fusekli miyndzy {first} a {target}, bo nie sóm sónsiadami.',
-  log_sock_same_target: '{cardLabel} {player} musi wybrać dwóch roztomajtych graczy.',
   log_sock_throw_intro: '{cardLabel} {player} ciepnął Fusekle miyndzy graczy {first} a {second}. ',
   log_sock_result_gasmask: 'Maska Gazowo ocaliła gracza {name}. ',
   log_sock_result_dead: 'Gracz {name} był już martwy. ',
