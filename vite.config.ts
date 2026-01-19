@@ -6,5 +6,6 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true,   // exposes to your LAN
+    base: '/mafia/', // for GitHub Pages
   },
 })
