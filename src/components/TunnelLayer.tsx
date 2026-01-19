@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import type { Tunnel } from '../game/types';
 import { PLAYER_NODE_SCALE_MIN, PLAYER_NODE_SCALE_MAX } from '../game/gameReducer';
 
@@ -48,7 +48,8 @@ type TunnelCssVars = React.CSSProperties & {
 
 export const TunnelLayer: React.FC<TunnelLayerProps> = ({ tunnels, positions, playerNodeScale, tableSizePx }) => {
   const layerRef = useRef<SVGSVGElement | null>(null);
-  const glowFilterId = useMemo(() => `tunnel-glow-${Math.random().toString(36).slice(2)}`, []);
+  const uniqueId = useId();
+  const glowFilterId = `tunnel-glow-${uniqueId}`;
   const [rootFontSize, setRootFontSize] = useState(() => readRootFontSize());
 
   useEffect(() => {
