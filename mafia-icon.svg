@@ -1,0 +1,47 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title>Stylized M icon for Mafia game</title>
+  <desc>Glowing brass and ember letter M on a noir gradient badge</desc>
+  <defs>
+    <radialGradient id="bg-glow" cx="0.3" cy="0.25" r="0.85">
+      <stop offset="0%" stop-color="#2d0f10" />
+      <stop offset="55%" stop-color="#0d0b12" />
+      <stop offset="100%" stop-color="#020204" />
+    </radialGradient>
+    <linearGradient id="border-sheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f2c879" stop-opacity="0.85" />
+      <stop offset="45%" stop-color="#c5533d" stop-opacity="0.55" />
+      <stop offset="100%" stop-color="#f2c879" stop-opacity="0.35" />
+    </linearGradient>
+    <linearGradient id="m-fill" x1="0.25" y1="0" x2="0.75" y2="1">
+      <stop offset="0%" stop-color="#f9e2b8" />
+      <stop offset="40%" stop-color="#f2c879" />
+      <stop offset="75%" stop-color="#c5533d" />
+      <stop offset="100%" stop-color="#72231c" />
+    </linearGradient>
+    <linearGradient id="m-stroke" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#97402b" stop-opacity="0.85" />
+    </linearGradient>
+    <radialGradient id="flare" cx="0.3" cy="0.2" r="0.6">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <filter id="m-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#f2c879" flood-opacity="0.35" />
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="0.8" />
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="url(#bg-glow)" />
+  <rect x="14" y="14" width="228" height="228" rx="44" fill="transparent" stroke="url(#border-sheen)" stroke-width="4" />
+  <g filter="url(#m-glow)">
+    <path
+      d="M181.33 68.34 L182.74 87.52 L130.46 178.16 Q130.46 178.16 128.7 181.24 Q126.94 184.32 125.27 188.72 Q123.6 193.12 123.6 197.52 L121.84 197.52 L114.98 182.21 Z M62 181.15 L62 194 L42.46 194 L42.46 192.24 Q42.64 192.24 43.96 192.24 Q45.28 192.24 45.28 192.24 Q50.03 192.24 53.73 189.34 Q57.42 186.43 58.13 181.15 Z M69.74 183.97 Q69.74 184.14 69.74 184.32 Q69.74 184.5 69.74 184.85 Q69.74 187.66 71.77 190.04 Q73.79 192.42 76.61 192.42 L79.25 192.42 L79.25 194 L68.51 194 L68.51 183.97 Z M72.74 68.34 L74.32 68.34 L80.48 85.94 L68.69 194 L56.37 194 Z M74.32 68.34 L131.87 162.85 L121.84 197.52 L69.74 110.05 Z M182.91 68.34 L199.63 194 L171.3 194 L162.5 113.04 L181.33 68.34 Z M194.18 181.15 L197.87 181.15 Q198.75 186.43 202.45 189.34 Q206.14 192.24 210.72 192.24 Q210.72 192.24 212.13 192.24 Q213.54 192.24 213.54 192.24 L213.54 194 L194.18 194 Z M170.24 183.97 L171.47 183.97 L171.47 194 L160.74 194 L160.74 192.42 L163.38 192.42 Q166.37 192.42 168.3 190.04 Q170.24 187.66 170.24 184.85 Q170.24 184.5 170.24 184.32 Q170.24 184.14 170.24 183.97 Z"
+      fill="url(#m-fill)"
+      stroke="url(#m-stroke)"
+      stroke-width="5"
+      stroke-linejoin="round"
+    />
+  </g>
+  <ellipse cx="84" cy="70" rx="54" ry="38" transform="rotate(-14 84 70)" fill="url(#flare)" />
+  <ellipse cx="182" cy="190" rx="44" ry="30" transform="rotate(-18 182 190)" fill="#c5533d" fill-opacity="0.25" />
+</svg>
