@@ -4,8 +4,8 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: '/mafia/', // for GitHub Pages
   server: {
     host: true,   // exposes to your LAN
-    base: '/mafia/', // for GitHub Pages
   },
 })
