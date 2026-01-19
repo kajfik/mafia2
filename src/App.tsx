@@ -34,10 +34,12 @@ const isValidUndoWrapper = (candidate: unknown): candidate is UndoWrapper => {
 
 function App() {
   const { savedState, saveGame, clearSave } = useGameStorage();
-  
   const [wrapper, dispatch] = useReducer(gameReducerWrapper, initialWrapper);
-  
+
   const [mode, setMode] = useState<AppMode>(() => {
+    if (typeof window === 'undefined') {
+      return 'LANG_SELECT';
+    }
     const params = new URLSearchParams(window.location.search);
     if (params.get('data')) {
       return 'PLAYER_GAME';

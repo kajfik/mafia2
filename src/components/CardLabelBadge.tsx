@@ -20,7 +20,7 @@ const VARIANT_CLASS: Record<CardLabelBadgeVariant, string> = {
   default: 'px-2 py-0.5 text-[var(--color-brass)] border-[rgba(242,200,121,0.25)] bg-[rgba(242,200,121,0.08)]',
   gmActive: 'px-2 py-0.2 text-slate-50 border-[rgba(242,200,121,0.28)] bg-[rgba(242,200,121,0.12)] shadow-[0_4px_15px_rgba(0,0,0,0.25)]',
   gmInactive: 'px-2 py-0.5 text-[rgba(255,255,255,0.4)] border-[rgba(197,83,61,0.35)] bg-[rgba(197,83,61,0.18)]',
-  logSegment: 'px-1 py-0.5 border-[rgba(242,200,121,0.25)] bg-[rgba(242,200,121,0.06)] text-[0.85rem] font-medium relative top-[1.5px]',
+  logSegment: 'pl-1 pr-2 py-0.5 border-[rgba(242,200,121,0.25)] bg-[rgba(242,200,121,0.06)] text-[0.85rem] font-medium relative top-[1.5px]',
   inline: 'px-2 py-0.5 border-[rgba(242,200,121,0.2)] bg-[rgba(242,200,121,0.04)] text-current',
 };
 

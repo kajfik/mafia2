@@ -1,8 +1,9 @@
 import React from 'react';
-import type { GameState, PublicReportEntry, LogParamMap } from '../game/types';
+import type { GameState, PublicReportEntry } from '../game/types';
 import { t } from '../game/translations';
-import { resolveLogParams } from '../game/logging';
+import { translateTemplateSegments, type LogDisplaySegment } from '../game/logging';
 import { GameLogPanel } from './GameLogPanel';
+import { CardLabelBadge } from './CardLabelBadge';
 
 interface LogsTabProps {
   state: GameState;
@@ -26,13 +27,30 @@ export const LogsTab: React.FC<LogsTabProps> = ({ state, selectedRound, onSelect
   const filteredLogs = state.logs.filter(log => log.round === activeRound);
   const reportEntries = state.publicReportsByRound?.[activeRound] ?? [];
 
-  const renderReportText = (entry: PublicReportEntry) => {
-    const resolveParams = (params?: LogParamMap) => resolveLogParams(params, state.players, lang);
-    if (entry.fragments?.length) {
-      return entry.fragments.map(fragment => t(fragment.key, lang, resolveParams(fragment.params))).join('');
-    }
-    return t(entry.key, lang, resolveParams(entry.params));
+  const buildReportSegments = (entry: PublicReportEntry): LogDisplaySegment[] => {
+    const fragments = entry.fragments?.length ? entry.fragments : [entry];
+    return fragments.flatMap(fragment =>
+      translateTemplateSegments(fragment.key, fragment.params, state.players, lang)
+    );
   };
+
+  const renderSegmentNodes = (segments: LogDisplaySegment[], keyPrefix: string) =>
+    segments.map((segment, idx) =>
+      segment.kind === 'cardLabel' ? (
+        <CardLabelBadge
+          key={`${keyPrefix}-card-${idx}`}
+          cardId={segment.cardId}
+          label={segment.label}
+          size="xs"
+          variant="logSegment"
+          className="mx-0.5"
+        />
+      ) : (
+        <React.Fragment key={`${keyPrefix}-text-${idx}`}>
+          {segment.text}
+        </React.Fragment>
+      )
+    );
 
   return (
     <div className="h-full flex flex-col gap-4 overflow-y-auto text-white px-3 pt-6 pb-24 sm:px-4 sm:pt-8">
@@ -67,7 +85,7 @@ export const LogsTab: React.FC<LogsTabProps> = ({ state, selectedRound, onSelect
               )}
               {reportEntries.map((entry, idx) => (
                 <div key={`${entry.key}-${idx}`} className="text-slate-50">
-                  {renderReportText(entry)}
+                  {renderSegmentNodes(buildReportSegments(entry), `logs-report-${idx}`)}
                 </div>
               ))}
             </div>

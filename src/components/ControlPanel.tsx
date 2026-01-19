@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react';
-import type { GameState, PublicReportEntry, Player, CardId, LogParamMap } from '../game/types';
+import type { GameState, PublicReportEntry, Player, CardId } from '../game/types';
 import type { Action } from '../game/gameReducer';
 import { t, getCardName } from '../game/translations';
 import { computeCardLabels } from '../game/cardLabels';
-import { resolveLogParams } from '../game/logging';
+import { translateTemplateSegments, type LogDisplaySegment } from '../game/logging';
+import { CardLabelBadge } from './CardLabelBadge';
 
 interface ControlPanelProps {
   state: GameState;
@@ -165,13 +166,31 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
     : state.phase === 'DAY_ANNOUNCEMENT' || state.phase === 'GAME_OVER'
     ? state.publicReport
     : [];
-  const renderReportText = (entry: PublicReportEntry) => {
-    const resolveParams = (params?: LogParamMap) => resolveLogParams(params, state.players, lang);
-    if (entry.fragments?.length) {
-      return entry.fragments.map(fragment => t(fragment.key, lang, resolveParams(fragment.params))).join('');
-    }
-    return t(entry.key, lang, resolveParams(entry.params));
+
+  const buildReportSegments = (entry: PublicReportEntry): LogDisplaySegment[] => {
+    const fragments = entry.fragments?.length ? entry.fragments : [entry];
+    return fragments.flatMap(fragment =>
+      translateTemplateSegments(fragment.key, fragment.params, state.players, lang)
+    );
   };
+
+  const renderSegmentNodes = (segments: LogDisplaySegment[], keyPrefix: string) =>
+    segments.map((segment, idx) =>
+      segment.kind === 'cardLabel' ? (
+        <CardLabelBadge
+          key={`${keyPrefix}-card-${idx}`}
+          cardId={segment.cardId}
+          label={segment.label}
+          size="xs"
+          variant="logSegment"
+          className="mx-0.5"
+        />
+      ) : (
+        <React.Fragment key={`${keyPrefix}-text-${idx}`}>
+          {segment.text}
+        </React.Fragment>
+      )
+    );
 
   let actionControls: React.ReactNode = null;
   if (state.phase === 'GAME_OVER') {
@@ -343,11 +362,14 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
            {showPublicReport ? (
              <div className="space-y-2">
                {(!hasPendingDayReport && reportLines.length === 0) && <div className="font-bold">{t('public_report_default', lang)}</div>}
-               {reportLines.map((entry, idx) => (
-                 <div key={`${entry.key}-${idx}`} className="text-base">
-                   {renderReportText(entry)}
-                 </div>
-               ))}
+               {reportLines.map((entry, idx) => {
+                 const segments = buildReportSegments(entry);
+                 return (
+                   <div key={`${entry.key}-${idx}`} className="text-base">
+                     {renderSegmentNodes(segments, `control-report-${idx}`)}
+                   </div>
+                 );
+               })}
              </div>
            ) : state.activeCard ? (
              <div>

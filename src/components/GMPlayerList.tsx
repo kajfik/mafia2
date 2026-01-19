@@ -13,7 +13,11 @@ type QrModalState = { playerName: string; url: string; dataUrl: string | null; i
 type ManualCopyState = { playerName: string; url: string; reason?: string };
 type ShareSupport = { available: true } | { available: false; reason: 'insecure-context' | 'unsupported' };
 
-export const GMPlayerList: React.FC<{ state: GameState }> = ({ state }) => {
+interface GMPlayerListProps {
+  state: GameState;
+}
+
+export const GMPlayerList: React.FC<GMPlayerListProps> = ({ state }) => {
   const lang = state.settings.language;
   const labelsMap = useMemo(() => computeCardLabels(state.players, lang), [state.players, lang]);
   const locale = getLanguageLocale(lang);

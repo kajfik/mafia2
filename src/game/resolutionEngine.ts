@@ -207,7 +207,6 @@ const LOG_FRAGMENT_MAP: Record<string, string> = {
   public_report_bullet_dead_target: 'log_night_bullet_dead_target',
   public_report_bullet_matrix_catch: 'log_night_bullet_matrix_catch',
   public_report_bullet_magnet: 'log_night_bullet_magnet',
-  public_report_bullet_magnet_dead: 'log_night_bullet_magnet_dead',
   public_report_bullet_split: 'log_night_bullet_split',
   public_report_bullet_tunnel_single: 'log_night_bullet_tunnel_single',
   public_report_bullet_tunnel_segment: 'log_night_bullet_tunnel_segment',
@@ -310,7 +309,6 @@ function runBulletPath(
   let currentFragments = fragments;
   let currentLogFragments = logFragments;
   let currentSegments = segments;
-  let pendingMagnetDeadTarget: string | null = null;
   const isMafia = sourceType === 'MAFIA';
   const isSniper = sourceType === 'SNIPER';
   const isMatrix = sourceType === 'MATRIX';
@@ -340,13 +338,9 @@ function runBulletPath(
     const targetName = target?.name || '?';
     if (!target || !target.status.isAlive) {
       pushSharedFragment({ key: 'public_report_bullet_dead_target', params: { target: targetName } });
-      if (pendingMagnetDeadTarget) {
-        pushSharedFragment({ key: 'public_report_bullet_magnet_dead', params: { target: pendingMagnetDeadTarget } });
-      }
       recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId);
       return;
     }
-    pendingMagnetDeadTarget = null;
 
     const matrixTrap = state.nightCache.matrixTrap;
     const matrixActive = matrixTrap && matrixTrap.playerId === target.id && target.cards.some(rr => rr.cardId === 'Matrix');
@@ -361,7 +355,12 @@ function runBulletPath(
     if (!isMatrix) {
       const neighbors = getNeighbors(state.players, currentTargetId);
       const tryMagnet = (magnetTarget: Player | null) => {
-        if (!magnetTarget || !magnetTarget.status.isMagnetized || magnetHistory.has(magnetTarget.id)) {
+        if (
+          !magnetTarget ||
+          !magnetTarget.status.isAlive ||
+          !magnetTarget.status.isMagnetized ||
+          magnetHistory.has(magnetTarget.id)
+        ) {
           return false;
         }
         pushSharedFragment({ key: 'public_report_bullet_magnet', params: { target: magnetTarget.name } });
@@ -369,7 +368,6 @@ function runBulletPath(
         previousTargetId = target.id;
         currentTargetId = magnetTarget.id;
         redirected = true;
-        pendingMagnetDeadTarget = magnetTarget.name;
         return true;
       };
 

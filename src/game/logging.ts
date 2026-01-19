@@ -219,13 +219,22 @@ function buildSegmentsFromTemplate(
   return segments;
 }
 
+export function translateTemplateSegments(
+  key: string,
+  params: LogParamMap | undefined,
+  players: Player[],
+  lang: Language
+): LogDisplaySegment[] {
+  const template = getTranslationTemplate(key, lang);
+  return buildSegmentsFromTemplate(template, params, players, lang);
+}
+
 function translateFragmentSegments(
   fragment: LogMessageFragment,
   players: Player[],
   lang: Language
 ): LogDisplaySegment[] {
-  const template = getTranslationTemplate(fragment.key, lang);
-  return buildSegmentsFromTemplate(template, fragment.params, players, lang);
+  return translateTemplateSegments(fragment.key, fragment.params, players, lang);
 }
 
 export function renderLogFragments(
@@ -257,8 +266,7 @@ export function translateLogEntrySegments(
     return entry.translationFragments.flatMap(fragment => translateFragmentSegments(fragment, players, lang));
   }
   if (entry.translationKey) {
-    const template = getTranslationTemplate(entry.translationKey, lang);
-    return buildSegmentsFromTemplate(template, entry.translationParams, players, lang);
+    return translateTemplateSegments(entry.translationKey, entry.translationParams, players, lang);
   }
   if (entry.text) {
     return [{ kind: 'text', text: entry.text }];
