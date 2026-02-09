@@ -111,7 +111,7 @@ export const SetupWizard: React.FC<SetupWizardProps> = ({ dispatch, language }) 
                 type="button"
                 onClick={() => adjustPlayerCount(1)}
                 aria-label={t('setup_step_count', language) + ' +'}
-                className="flex h-full w-14 items-center justify-center text-center text-xl font-semibold leading-none text-white/80 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brass)]"
+                className="flex h-full w-20 items-center justify-center text-center text-xl font-semibold leading-none text-white/80 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brass)]"
               >
                 <PlusIcon size={18} weight="bold" />
               </button>
@@ -120,7 +120,7 @@ export const SetupWizard: React.FC<SetupWizardProps> = ({ dispatch, language }) 
                 type="button"
                 onClick={() => adjustPlayerCount(-1)}
                 aria-label={t('setup_step_count', language) + ' -'}
-                className="flex h-full w-14 items-center justify-center text-center text-xl font-semibold leading-none text-white/80 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brass)]"
+                className="flex h-full w-20 items-center justify-center text-center text-xl font-semibold leading-none text-white/80 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brass)]"
               >
                 <MinusIcon size={18} weight="bold" />
               </button>
