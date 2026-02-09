@@ -388,7 +388,6 @@ export const TRANSLATIONS_EN = {
   gm_players_share_unsupported: 'This browser does not support the Share button. Copy the link below.',
   gm_players_share_failure_reason: 'Sharing failed on this device. Copy the link manually.',
   gm_players_share_title: '{player} — Player Link',
-  gm_players_share_text: 'Open cards for player {player} in the app.',
   gm_players_copy_success: 'Link for player {player} copied! Send it to them.',
   gm_players_qr_error: 'Could not generate QR code. Link copied to clipboard.',
   gm_players_modal_close_qr_aria: 'Close QR code window',

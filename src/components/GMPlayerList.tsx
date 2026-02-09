@@ -60,8 +60,6 @@ export const GMPlayerList: React.FC<GMPlayerListProps> = ({ state }) => {
   } as const;
   const mafiaBadgeBase = 'inline-flex items-center gap-2 rounded-full border px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.3em] bg-[rgba(255,82,103,0.12)] border-[rgba(255,99,125,0.55)] text-[#ff9cae]';
 
-  const shareText = (playerName: string) => t('gm_players_share_text', lang, { player: playerName });
-
   const getShareSupport = (): ShareSupport => {
     if (typeof window === 'undefined') return { available: false, reason: 'unsupported' };
     const isSecure = window.isSecureContext || window.location.hostname === 'localhost';
@@ -87,22 +85,10 @@ export const GMPlayerList: React.FC<GMPlayerListProps> = ({ state }) => {
     return `${origin}${pathname}?data=${code}`;
   };
 
-  const shareDataForLink = (playerName: string, url: string): ShareData => {
-    const base: ShareData = {
-      title: t('gm_players_share_title', lang, { player: playerName }),
-      text: shareText(playerName)
-    };
-    if (typeof window !== 'undefined') {
-      const isHttps = url.startsWith('https://');
-      const isLocalhost = /^https?:\/\/(localhost|127\.0\.0\.1)(:\\d+)?/i.test(url);
-      if (isHttps || isLocalhost) {
-        base.url = url;
-        return base;
-      }
-    }
-    base.text = `${base.text} ${url}`;
-    return base;
-  };
+  const shareDataForLink = (playerName: string, url: string): ShareData => ({
+    title: t('gm_players_share_title', lang, { player: playerName }),
+    url
+  });
 
   const attemptClipboardCopy = async (url: string) => {
     if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {

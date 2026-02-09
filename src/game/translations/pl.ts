@@ -388,7 +388,6 @@ export const TRANSLATIONS_PL = {
   gm_players_share_unsupported: 'Ta przeglądarka nie obsługuje przycisku Udostępnij. Skopiuj link poniżej.',
   gm_players_share_failure_reason: 'Udostępnianie nie powiodło się na tym urządzeniu. Skopiuj link ręcznie.',
   gm_players_share_title: '{player} — link gracza',
-  gm_players_share_text: 'Otwórz karty gracza {player} w aplikacji.',
   gm_players_copy_success: 'Link do gracza {player} skopiowany! Wyślij go tej osobie.',
   gm_players_qr_error: 'Nie można wygenerować kodu QR. Link został skopiowany do schowka.',
   gm_players_modal_close_qr_aria: 'Zamknij okno kodu QR',

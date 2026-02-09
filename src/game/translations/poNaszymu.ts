@@ -388,7 +388,6 @@ export const TRANSLATIONS_PO_NASZYMU = {
   gm_players_share_unsupported: 'Ta przeglądarka nimo przycisku Udostympnij. Skopiuj link na dole.',
   gm_players_share_failure_reason: 'Udostympniani sie nie udało. Skopiuj link ryncznie.',
   gm_players_share_title: '{player} — link gracza',
-  gm_players_share_text: 'Otwórz karty gracza {player} w aplikacji.',
   gm_players_copy_success: 'Link do gracza {player} skopiowany! Poślij mu go.',
   gm_players_qr_error: 'Nie idzie zrobić kodu QR. Link je w schowku.',
   gm_players_modal_close_qr_aria: 'Zawrzyj okno kodu QR',

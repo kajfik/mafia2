@@ -388,7 +388,6 @@ export const TRANSLATIONS_CZ = {
   gm_players_share_unsupported: 'Tento prohlížeč nepodporuje tlačítko Sdílet. Zkopírujte odkaz níže.',
   gm_players_share_failure_reason: 'Sdílení na tomto zařízení selhalo. Zkopírujte odkaz ručně.',
   gm_players_share_title: '{player} — odkaz hráče',
-  gm_players_share_text: 'Otevřete karty hráče {player} v aplikaci.',
   gm_players_copy_success: 'Odkaz na hráče {player} zkopírován! Pošlete mu ho.',
   gm_players_qr_error: 'Nelze vygenerovat QR kód. Odkaz byl zkopírován do schránky.',
   gm_players_modal_close_qr_aria: 'Zavřít okno QR kódu',
