@@ -111,7 +111,9 @@ export function buildPublicReportEntries(state: GameState): PublicReportEntry[] 
   }
 
   if (data.bullets.length) {
-    entries.push(...shuffleEntries(data.bullets));
+    const matrixBullets = data.bullets.filter(entry => entry.isMatrixShot);
+    const normalBullets = data.bullets.filter(entry => !entry.isMatrixShot);
+    entries.push(...shuffleEntries(normalBullets), ...matrixBullets);
   }
 
   if (data.sock.usedBy) {

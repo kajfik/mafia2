@@ -338,7 +338,7 @@ function runBulletPath(
     const targetName = target?.name || '?';
     if (!target || !target.status.isAlive) {
       pushSharedFragment({ key: 'public_report_bullet_dead_target', params: { target: targetName } });
-      recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId);
+      recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId, isMatrix);
       return;
     }
 
@@ -348,7 +348,7 @@ function runBulletPath(
       state.nightCache.matrixStoredBullets++;
       state.nightCache.reportData.matrixBulletsCaught++;
       pushSharedFragment({ key: 'public_report_bullet_matrix_catch', params: { target: targetName } });
-      recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId);
+      recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId, isMatrix);
       return;
     }
 
@@ -462,7 +462,7 @@ function runBulletPath(
         const returnName = returnTargetId ? state.players.find(p => p.id === returnTargetId)?.name || '?' : targetName;
         pushSharedFragment({ key: 'public_report_bullet_return', params: { target: returnName } });
         if (!returnTargetId || returnTargetId === target.id) {
-          recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId);
+          recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId, isMatrix);
           return;
         }
         currentTargetId = returnTargetId;
@@ -493,26 +493,26 @@ function runBulletPath(
       state.nightCache.slimeUsedOnPlayers.push(target.id);
       target.status.isSlimed = false;
       pushSharedFragment({ key: 'public_report_bullet_slime', params: { target: targetName } });
-      recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId);
+      recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId, isMatrix);
       return;
     }
 
     if (isMafia && !redirected && target.cards.some(rr => rr.cardId === 'AlCapone')) {
       pushSharedFragment({ key: 'public_report_bullet_al_capone', params: { target: targetName } });
-      recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId);
+      recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId, isMatrix);
       return;
     }
 
     if (!isMatrix && consumeDoctorProtection(state, target.id)) {
       pushSharedFragment({ key: 'public_report_bullet_doctor', params: { target: targetName } });
-      recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId);
+      recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId, isMatrix);
       return;
     }
 
     const kevlarInstance = consumeCardWithInstance(target, 'KevlarVest');
     if (kevlarInstance !== null) {
       pushSharedFragment({ key: 'public_report_bullet_vest_loss', params: { target: targetName, num: kevlarInstance } });
-      recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId);
+      recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId, isMatrix);
       return;
     }
 
@@ -525,7 +525,7 @@ function runBulletPath(
         lostInstance: cloudwalkerInstance,
         logAppender: fragment => pushLogFragment(fragment)
       });
-      recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId);
+      recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId, isMatrix);
       return;
     }
 
@@ -536,7 +536,7 @@ function runBulletPath(
     });
     pushSharedFragment({ key: 'public_report_bullet_death', params: { name: targetName } });
     declareVictory(state, 'NIGHT');
-    recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId);
+    recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId, isMatrix);
     return;
   }
 }
@@ -956,7 +956,8 @@ function recordBulletReport(
   logFragments: BulletLogFragment[],
   segments: BulletAnimationSegment[],
   shotId: string,
-  sourceId: string | null
+  sourceId: string | null,
+  isMatrixShot: boolean
 ) {
   if (!fragments.length) return;
   const publicClone = cloneFragments(fragments);
@@ -965,11 +966,13 @@ function recordBulletReport(
   const existingEntry = lookup[shotId];
   if (existingEntry) {
     existingEntry.publicEntry.fragments = mergeFragmentSequences(existingEntry.publicEntry.fragments ?? [], publicClone);
+    existingEntry.publicEntry.isMatrixShot = existingEntry.publicEntry.isMatrixShot || isMatrixShot;
     existingEntry.logFragments = mergeFragmentSequences(existingEntry.logFragments, logClone);
   } else {
     const entry = {
       key: 'public_report_bullet_compound',
-      fragments: publicClone
+      fragments: publicClone,
+      isMatrixShot
     };
     state.nightCache.reportData.bullets.push(entry);
     lookup[shotId] = {

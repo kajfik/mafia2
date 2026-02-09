@@ -193,6 +193,7 @@ export interface PublicReportFragment {
 
 export interface PublicReportEntry extends PublicReportFragment {
   fragments?: PublicReportFragment[];
+  isMatrixShot?: boolean;
 }
 
 export interface SockReportOutcome {
