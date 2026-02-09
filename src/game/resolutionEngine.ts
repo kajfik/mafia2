@@ -446,7 +446,7 @@ function runBulletPath(
 
     const mirrorCount = countCards(target, 'Mirror');
     const mirrorIntact = mirrorCount > 0;
-    if (mirrorIntact) {
+    if (!isMatrix && mirrorIntact) {
       const hadMud = target.status.mudCount > 0;
       if (hadMud) {
         target.status.mudCount = Math.max(0, target.status.mudCount - 1);

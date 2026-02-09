@@ -114,7 +114,7 @@ export const RULES_CONTENT_PO_NASZYMU: RuleSection[] = [
       {
         title: `e) Kula od ${card('Matrix', 'Matrixa')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: [card('Mirror', 'Zwierciadło'), card('KevlarVest', 'Kewlar'), card('CloudWalker', 'Mrakoszlap')] }
+          { kind: 'list', ordered: true, items: [card('KevlarVest', 'Kewlar'), card('CloudWalker', 'Mrakoszlap')] }
         ]
       }
     ]
@@ -304,7 +304,7 @@ export const TRANSLATIONS_PO_NASZYMU = {
   card_description_RopeWalker: 'Karta obrónno przed śmierciom na szubienicy.',
   card_description_Sand: 'Gracz z kartóm Piosek każdej nocy pokazuje grocza, kierego posypuje pioskym. Piosek ruszy efekt Śliny, a gracz je zaś podatny na strzał. Ochrone przed Pioskym majóm gracze z Gazmaskóm (Szileny Strzelec 2, Mag 2 a Duch Bobo).',
   card_description_Slime: 'Gracz z kartóm Ślina każdej nocy pokazuje grocza, kierego chce oślinić. Oślinióny gracz je roz w nocy chróniony przed kulóm Mafii, Szilenego Strzelca a Snipera (kula se z niego ześlizgnie). Efekt Śliny idzie zruszyć Pioskym.',
-  card_description_Sniper: 'Sniper może roz za gre pokozać grocza, w kierego strzilo silnym pociskym. Je tak silny, że rozbijo nawet Zwierciadło a leci dali.',
+  card_description_Sniper: 'Sniper może roz za gre pokozać grocza, w kierego strzilo silnym pociskym. Tyn je tak silny, że rozbije aj Zwierciadło a leci dali.',
   card_description_Sock: 'Gracz z Fuseklóm może roz za gre w nocy ciepnóć Fusekle miyndzy dwóch graczy, kierzi padajóm od jejigo smrodu. Przed smrodym Fusekli chróni jyny Gazmaska, Doktor a Mrakoszlap. Szileny Strzelec 2, Mag 2 a Duch Bobo majóm Gazmaske.',
   card_description_Spyglass: 'Luneta se budzi pod kóniec każdej trzeci nocy (zaczynajónc od drugi) a dowiaduje se od Prowadzóncego, kierzi gracze byli tej nocy obudzóni.',
   card_description_SwampMonster: 'Jożin z Bażin może trzi razy za gre pokozać w nocy gracza, kierymu poplami Zwierciadło. Kula rozbijo brudne Zwierciadło, a leci dali. Jożin może użyć swojóm zdolność wiyncej razy w jednóm noc. Jak mo Jożin też karte Mafiana, Snipera albo Szilenego Strzelca, może poplamić Zwierciadło jyny dwa razy.',

@@ -114,7 +114,7 @@ export const RULES_CONTENT_CZ: RuleSection[] = [
       {
         title: `e) Kulka od ${card('Matrix', 'Matrixe')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: [card('Mirror', 'Zrcadlo'), card('KevlarVest', 'Kevlar'), card('CloudWalker', 'Mrákošlap')] }
+          { kind: 'list', ordered: true, items: [card('KevlarVest', 'Kevlar'), card('CloudWalker', 'Mrákošlap')] }
         ]
       }
     ]

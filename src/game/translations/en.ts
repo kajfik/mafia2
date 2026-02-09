@@ -114,7 +114,7 @@ export const RULES_CONTENT_EN: RuleSection[] = [
       {
         title: `e) Bullet from ${card('Matrix', 'Matrix')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: [card('Mirror', 'Mirror'), card('KevlarVest', 'Kevlar Vest'), card('CloudWalker', 'CloudWalker')] }
+          { kind: 'list', ordered: true, items: [card('KevlarVest', 'Kevlar Vest'), card('CloudWalker', 'CloudWalker')] }
         ]
       }
     ]

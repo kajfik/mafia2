@@ -114,7 +114,7 @@ export const RULES_CONTENT_PL: RuleSection[] = [
       {
         title: `e) Pocisk od ${card('Matrix', 'Matrixa')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: [card('Mirror', 'Zwierciadło'), card('KevlarVest', 'Kamizelka kuloodporna'), card('CloudWalker', 'Chmurostąp')] }
+          { kind: 'list', ordered: true, items: [card('KevlarVest', 'Kamizelka kuloodporna'), card('CloudWalker', 'Chmurostąp')] }
         ]
       }
     ]
