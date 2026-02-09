@@ -880,6 +880,9 @@ body::after {
   background: rgba(6, 5, 10, 0.85);
   color: rgba(255, 255, 255, 0.85);
   padding: 0.35rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 120ms ease, border-color 150ms ease, color 150ms ease, background 150ms ease;
 }
 

@@ -115,6 +115,28 @@ export const GameTable: React.FC<Props> = ({ players, phase, selectedId, onSelec
     return Math.min(MAX_RADIUS, Math.max(MIN_RADIUS, desired));
   }, [tableSize, playerNodeScale]);
 
+  const effectivePlayerNodeScale = useMemo(() => {
+    if (!tableSize || players.length < 2) {
+      return playerNodeScale;
+    }
+
+    const rootFontSize = typeof window !== 'undefined'
+      ? parseCssSize(window.getComputedStyle(document.documentElement).fontSize) || 16
+      : 16;
+    const radiusPx = (circleRadiusPercent / 100) * tableSize;
+    const circumference = 2 * Math.PI * radiusPx;
+    const spacing = circumference / players.length;
+    const maxDiameterPx = spacing * 0.9;
+    const baseDiameterPx = playerNodeScale * 4 * rootFontSize;
+
+    if (!Number.isFinite(maxDiameterPx) || maxDiameterPx <= 0 || baseDiameterPx <= 0) {
+      return playerNodeScale;
+    }
+
+    const scaleToFit = maxDiameterPx / (4 * rootFontSize);
+    return Math.min(playerNodeScale, scaleToFit);
+  }, [circleRadiusPercent, players.length, playerNodeScale, tableSize]);
+
   const centerLabelScale = useMemo(() => {
     if (!tableSize) {
       return 1;
@@ -151,7 +173,7 @@ export const GameTable: React.FC<Props> = ({ players, phase, selectedId, onSelec
           <TunnelLayer
             tunnels={tunnels}
             positions={positioned}
-            playerNodeScale={playerNodeScale}
+            playerNodeScale={effectivePlayerNodeScale}
             tableSizePx={tableSize}
           />
         )}
@@ -173,7 +195,7 @@ export const GameTable: React.FC<Props> = ({ players, phase, selectedId, onSelec
             isActive={selectedId === p.id}
             onClick={onSelect}
             disabled={disabledPlayerIds?.has(p.id) ?? false}
-            size={playerNodeScale}
+            size={effectivePlayerNodeScale}
             isHighlighted={Boolean(highlightedPlayerIds?.has(p.id))}
             communistSuppressionActive={communistSuppressionActive}
             showMatrixIcon={matrixTrapPlayerId === p.id}

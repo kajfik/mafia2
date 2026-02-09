@@ -469,7 +469,7 @@ export const TRANSLATIONS_PO_NASZYMU = {
   log_night_executioner_save: '{saved} je chróniony przed wyrokym, zamiast niego zginie {victim}.',
 
   // Sock
-  wake_up_sock_first: 'miyndzy kogo ciepnóć Fusekle? Pokoż piyrwszego gracza.',
+  wake_up_sock_first: 'Miyndzy kogo ciepnóć Fusekle? Pokoż piyrwszego gracza.',
   wake_up_sock_second: 'Teraz pokoż sómsiada tego gracza.',
   log_action_sock_throw: `{cardLabel} {player} wycelował ${card('Sock', 'Fuseklóm')} miyndzy graczy {first} a {second}.`,
   log_sock_throw_intro: `{cardLabel} {player} ciepnół ${card('Sock', 'Fusekle')} miyndzy graczy {first} a {second}. `,

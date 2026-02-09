@@ -21,6 +21,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
   const showPublicReport = state.phase === 'DAY_ANNOUNCEMENT' || state.phase === 'GAME_OVER' || hasPendingDayReport;
   const isDayAnnouncement = state.phase === 'DAY_ANNOUNCEMENT';
   const isDayMain = state.phase === 'DAY_MAIN';
+  const hideWakeMessageOnMobileDay = isDayAnnouncement || isDayMain;
   const canReplayBullets = state.phase === 'NIGHT_REPLAY' && Boolean(state.nightCache.bulletAnimations?.length);
   const alivePlayers = useMemo(() => state.players.filter(player => player.status.isAlive), [state.players]);
   const specialRolesInfo = useMemo(() => {
@@ -210,7 +211,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
     );
   } else if (isFirstNightBriefing) {
     actionControls = (
-      <button onClick={() => dispatch({ type: 'NEXT_PHASE' })} className={`${emberActionButtonClass} p-3 rounded-xl`}>
+      <button onClick={() => dispatch({ type: 'NEXT_PHASE' })} className={`${emberActionButtonClass} w-full p-3 rounded-xl`}>
         {t('ui_first_night_done', lang)}
       </button>
     );
@@ -362,10 +363,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
 
   return (
     <div className={containerClass}>
-      <div className="flex flex-col w-full md:flex-1">
-        <div className="bg-[rgba(4,4,8,0.92)] p-4 rounded-2xl text-lg border-l-4 border-[var(--color-bullet)] shadow-inner overflow-y-auto md:flex-1">
+      <div className={`flex flex-col w-full md:flex-1 ${!showPublicReport && hideWakeMessageOnMobileDay ? 'hidden sm:flex' : ''}`}>
+        <div
+          className="bg-[rgba(4,4,8,0.92)] p-4 rounded-2xl text-lg border-l-4 border-[var(--color-bullet)] shadow-inner overflow-y-auto md:flex-1 flex flex-col"
+        >
            {showPublicReport ? (
-             <div className="space-y-2">
+             <div className="space-y-2 flex-1">
                {(!hasPendingDayReport && reportLines.length === 0) && <div className="font-bold">{t('public_report_default', lang)}</div>}
                {reportLines.map((entry, idx) => {
                  const segments = buildReportSegments(entry);
@@ -377,8 +380,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
                })}
              </div>
            ) : state.activeCard ? (
-             <div>
-               <div className={`font-bold min-h-[3.5rem] ${activePlayerIsJailed ? 'text-red-400' : ''}`}>{wakeMessage}</div>
+             <div className="flex flex-col flex-1">
+               <div
+                 className={`font-bold min-h-[3.5rem] flex-1 ${activePlayerIsJailed ? 'text-red-400' : ''}`}
+               >
+                 {wakeMessage}
+               </div>
                {activeCardInfo?.playerName && (
                  activePlayerIsJailed ? (
                    <div className="text-sm text-red-300 mt-1">
@@ -395,7 +402,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
                )}
              </div>
            ) : (
-             <div className="min-h-[3.5rem]">{wakeMessage}</div>
+             <div className="flex flex-col flex-1">
+               <div className="min-h-[3.5rem] flex-1">{wakeMessage}</div>
+             </div>
            )}
         </div>
       </div>

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { MinusIcon, PlusIcon } from '@phosphor-icons/react';
 import { t, getCardName } from '../game/translations';
 import { CARDS_CONFIG } from '../game/gameConfig';
 import type { Language, CardId } from '../game/types';
@@ -45,6 +46,7 @@ export const SetupWizard: React.FC<SetupWizardProps> = ({ dispatch, language }) 
   const [playerCountInput, setPlayerCountInput] = useState('7');
   const [mafiaCount, setMafiaCount] = useState(() => getDefaultMafiaCount(7));
   const [names, setNames] = useState<string[]>([]);
+  const nameInputRefs = useRef<Array<HTMLInputElement | null>>([]);
   
   // For Step 4 (Card Removal)
   // We keep a local count of every card available
@@ -66,6 +68,14 @@ export const SetupWizard: React.FC<SetupWizardProps> = ({ dispatch, language }) 
     const isPlayerCountValid = hasPlayerCount
       && roundedPlayerCount >= MIN_PLAYER_COUNT
       && roundedPlayerCount <= MAX_PLAYER_COUNT;
+    const adjustPlayerCount = (delta: number) => {
+      const current = Number(playerCountInput);
+      const safeCurrent = Number.isFinite(current) ? Math.round(current) : playerCount;
+      const next = Math.min(MAX_PLAYER_COUNT, Math.max(MIN_PLAYER_COUNT, safeCurrent + delta));
+      setPlayerCount(next);
+      setPlayerCountInput(String(next));
+      setMafiaCount(getDefaultMafiaCount(next));
+    };
 
     return (
       <div className="w-full max-w-md mx-auto">
@@ -73,28 +83,49 @@ export const SetupWizard: React.FC<SetupWizardProps> = ({ dispatch, language }) 
           <h2 className="text-2xl font-bold">
             {t('setup_step_count', language)} ({MIN_PLAYER_COUNT}-{MAX_PLAYER_COUNT})
           </h2>
-          <input 
-            type="number" 
-            value={playerCountInput}
-            onChange={(e) => {
-              const rawValue = e.target.value;
-              setPlayerCountInput(rawValue);
-              if (rawValue.trim() === '') {
-                return;
-              }
-              const numericValue = Number(rawValue);
-              if (!Number.isFinite(numericValue)) {
-                return;
-              }
-              const nextCount = Math.round(numericValue);
-              if (nextCount < MIN_PLAYER_COUNT || nextCount > MAX_PLAYER_COUNT) {
-                return;
-              }
-              setPlayerCount(nextCount);
-              setMafiaCount(getDefaultMafiaCount(nextCount));
-            }}
-            className="mafia-input text-3xl text-center w-32 font-bold tracking-[0.2em]"
-          />
+          <div className="flex items-center justify-center gap-2">
+            <input 
+              type="number" 
+              value={playerCountInput}
+              onChange={(e) => {
+                const rawValue = e.target.value;
+                setPlayerCountInput(rawValue);
+                if (rawValue.trim() === '') {
+                  return;
+                }
+                const numericValue = Number(rawValue);
+                if (!Number.isFinite(numericValue)) {
+                  return;
+                }
+                const nextCount = Math.round(numericValue);
+                if (nextCount < MIN_PLAYER_COUNT || nextCount > MAX_PLAYER_COUNT) {
+                  return;
+                }
+                setPlayerCount(nextCount);
+                setMafiaCount(getDefaultMafiaCount(nextCount));
+              }}
+              className="mafia-input text-3xl text-center w-32 h-12 font-bold tracking-[0.2em]"
+            />
+            <div className="flex h-12 overflow-hidden rounded-xl border border-[rgba(242,200,121,0.25)] bg-[rgba(10,8,13,0.85)]">
+              <button
+                type="button"
+                onClick={() => adjustPlayerCount(1)}
+                aria-label={t('setup_step_count', language) + ' +'}
+                className="flex h-full w-14 items-center justify-center text-center text-xl font-semibold leading-none text-white/80 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brass)]"
+              >
+                <PlusIcon size={18} weight="bold" />
+              </button>
+              <span className="w-px bg-[rgba(242,200,121,0.25)]" />
+              <button
+                type="button"
+                onClick={() => adjustPlayerCount(-1)}
+                aria-label={t('setup_step_count', language) + ' -'}
+                className="flex h-full w-14 items-center justify-center text-center text-xl font-semibold leading-none text-white/80 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brass)]"
+              >
+                <MinusIcon size={18} weight="bold" />
+              </button>
+            </div>
+          </div>
           <button 
             onClick={() => {
               if (!isPlayerCountValid) {
@@ -175,10 +206,24 @@ export const SetupWizard: React.FC<SetupWizardProps> = ({ dispatch, language }) 
                 <input 
                   type="text" 
                   value={name}
+                  ref={(el) => {
+                    nameInputRefs.current[i] = el;
+                  }}
                   onChange={(e) => {
                     const newNames = [...names];
                     newNames[i] = e.target.value;
                     setNames(newNames);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key !== 'Enter') {
+                      return;
+                    }
+                    e.preventDefault();
+                    const nextInput = nameInputRefs.current[i + 1];
+                    if (nextInput) {
+                      nextInput.focus();
+                      nextInput.select();
+                    }
                   }}
                   className="mafia-input flex-1 text-base"
                 />
@@ -312,7 +357,7 @@ export const SetupWizard: React.FC<SetupWizardProps> = ({ dispatch, language }) 
                       disabled={!canDecrease}
                       aria-label={`${getCardName(id, language)} -`}
                     >
-                      -
+                      <MinusIcon size={18} weight="bold" />
                     </button>
                     <span className="setup-card-count">
                       {count}
@@ -323,7 +368,7 @@ export const SetupWizard: React.FC<SetupWizardProps> = ({ dispatch, language }) 
                       className="setup-adjust setup-adjust--add"
                       aria-label={`${getCardName(id, language)} +`}
                     >
-                      +
+                      <PlusIcon size={18} weight="bold" />
                     </button>
                   </div>
                 </div>
