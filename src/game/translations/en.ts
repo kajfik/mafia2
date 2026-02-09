@@ -346,6 +346,12 @@ export const TRANSLATIONS_EN = {
   cards_placeholder_description: 'Description coming soon.',
   cards_toggle_icons: 'Icons',
   cards_toggle_images: 'Images',
+  player_add_card_title: 'Add a gained card',
+  player_add_card_button: 'Add card',
+  player_add_card_type_label: 'Card type',
+  player_add_card_instance_label: 'Instance number',
+  player_add_card_submit: 'Add card',
+  player_add_card_duplicate: 'That card is already on your list.',
 
   // Settings
   settings_language_title: 'App Language',
@@ -528,7 +534,7 @@ export const TRANSLATIONS_EN = {
   log_day_death: '{target} dies.',
 
   // Morning Report
-  public_report_default: 'The town of Palermo wakes up.',
+  public_report_default: 'The Palermo Town wakes up.',
   public_report_matrix: `${card('Matrix')} used his function tonight. Number of bullets intercepted: {count}.`,
   public_report_cloudwalker_gain: `{cardLabel} gains ${card('CloudWalker', 'CloudWalker {num}')}.`,
   public_report_glazier_mirror: `${card('Glazier')} creates ${card('Mirror', 'Mirror {num}')}.`,
@@ -645,7 +651,7 @@ export const TRANSLATIONS_EN = {
   setup_remove: 'To distribute roles correctly, you must remove some cards...',
   setup_step_count: 'Number of Players',
   setup_step_mafia: 'Number of Mafia Cards',
-  setup_mafia_description: 'Choose how many Mafia cards will be in the deck. Minimum {min}, maximum {max} (one less than the number of players).',
+  setup_mafia_description: 'Choose how many Mafia cards will be in the deck ({min} - {max}).',
   setup_mafia_label: 'Mafia Cards in Deck',
   setup_mafia_recommended: 'Recommended count for {players} players: {count}',
   setup_step_names: 'Names',

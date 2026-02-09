@@ -50,7 +50,6 @@ function App() {
   const [activeTab, setActiveTab] = useState<Tab>('GAME');
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedLang, setSelectedLang] = useState<Language>('pl');
-  const [tableViewportSize, setTableViewportSize] = useState<number | null>(null);
   const [manualLogRound, setManualLogRound] = useState<number | null>(null);
   const [playerArtMode, setPlayerArtMode] = useState<'icon' | 'image'>('icon');
   const state = wrapper.present;
@@ -94,7 +93,10 @@ function App() {
     document.documentElement.lang = getLanguageLocale(targetLang);
   }, [gmLang, mode, playerLanguage]);
 
-  const viewportHeightStyle: CSSProperties = { minHeight: 'calc(var(--app-vh, 1vh) * 100)' };
+  const viewportHeightStyle: CSSProperties = {
+    height: 'calc(var(--app-vh, 1vh) * 100)',
+    minHeight: 'calc(var(--app-vh, 1vh) * 100)'
+  };
   const navSpacerStyle: CSSProperties = { height: 'calc(4rem + var(--safe-area-bottom, env(safe-area-inset-bottom, 0px)))' };
   const hasPendingDayReport = Boolean(state.uiState.pendingDayReport?.length);
   const hideGameTabTable = state.phase === 'DAY_ANNOUNCEMENT' || hasPendingDayReport;
@@ -233,7 +235,7 @@ function App() {
     return (
       <div className="mafia-app flex items-center justify-center px-6" style={viewportHeightStyle}>
         <div className="mafia-screen flex flex-col items-center gap-8 rounded-[2.5rem] p-8 text-center w-full max-w-2xl">
-          <span className="mafia-badge">Town of Palermo</span>
+          <span className="mafia-badge">Palermo Town</span>
           <h1 className="mafia-title text-4xl">{t('app_title', selectedLang)}</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
             {LANGUAGE_OPTIONS.map(option => (
@@ -305,14 +307,14 @@ function App() {
           <div className="flex-1 relative overflow-hidden mafia-screen flex flex-col min-h-0 rounded-t-[2rem] border border-[rgba(242,200,121,0.12)] p-3 sm:p-6">
           
           {activeTab === 'GAME' && (
-            <div className="h-full flex flex-1 flex-col min-h-0 gap-4">
+            <div
+              className="flex-1 h-full min-h-0 grid gap-4"
+              style={{ gridTemplateRows: hideGameTabTable ? 'minmax(0, 1fr)' : 'minmax(0, 1fr) auto' }}
+            >
               {!hideGameTabTable && (
-                <div className="flex-1 min-h-0 overflow-hidden">
-                  <div className="h-full min-h-0 flex flex-col gap-4 lg:flex-row lg:items-start">
-                    <div
-                      className="mafia-panel flex-1 min-h-0 p-4 lg:flex-1 lg:basis-1/2"
-                      style={tableViewportSize ? { height: tableViewportSize, maxHeight: tableViewportSize } : undefined}
-                    >
+                <div className="min-h-0">
+                  <div className="h-full min-h-0 flex flex-col gap-4 lg:flex-row lg:items-stretch">
+                    <div className="mafia-panel flex-1 min-h-0 p-4 lg:flex-1 lg:basis-1/2">
                       <GameTable
                         players={state.players}
                         phase={state.phase}
@@ -321,7 +323,6 @@ function App() {
                         tunnels={state.globalTunnels}
                         disabledPlayerIds={disabledPlayerIds}
                         playerNodeScale={state.settings.playerNodeScale}
-                        onTableSizeChange={setTableViewportSize}
                         highlightedPlayerIds={highlightedPlayerIds}
                         communistSuppressionActive={state.uiState.communistSuppressionActive}
                         bulletAnimations={state.nightCache.bulletAnimations}
@@ -330,10 +331,7 @@ function App() {
                         matrixTrapPlayerId={state.nightCache.matrixTrap?.playerId ?? null}
                       />
                     </div>
-                    <div
-                      className="hidden lg:flex lg:flex-col lg:flex-1 lg:basis-1/2 min-h-0 mafia-panel p-4"
-                      style={tableViewportSize ? { height: tableViewportSize, maxHeight: tableViewportSize } : undefined}
-                    >
+                    <div className="hidden lg:flex lg:flex-col lg:flex-1 lg:basis-1/2 min-h-0 mafia-panel p-4">
                       <GameLogPanel
                         logs={state.logs}
                         players={state.players}
@@ -346,7 +344,7 @@ function App() {
                   </div>
                 </div>
               )}
-              <div className={hideGameTabTable ? 'flex-1 min-h-0' : 'mt-2 sm:mt-4'}>
+              <div className="min-h-0">
                 <ControlPanel state={state} dispatch={dispatch} fullHeight={hideGameTabTable} />
               </div>
             </div>

@@ -346,6 +346,12 @@ export const TRANSLATIONS_CZ = {
   cards_placeholder_description: 'Popis se připravuje.',
   cards_toggle_icons: 'Ikony',
   cards_toggle_images: 'Grafika',
+  player_add_card_title: 'Přidat získanou kartu',
+  player_add_card_button: 'Přidat kartu',
+  player_add_card_type_label: 'Typ karty',
+  player_add_card_instance_label: 'Číslo karty',
+  player_add_card_submit: 'Přidat kartu',
+  player_add_card_duplicate: 'Tato karta už je v seznamu.',
 
   // Settings
   settings_language_title: 'Jazyk aplikace',
@@ -645,7 +651,7 @@ export const TRANSLATIONS_CZ = {
   setup_remove: 'Pro správné rozdání rolí musíš odstranit několik karet...',
   setup_step_count: 'Počet hráčů',
   setup_step_mafia: 'Počet karet Mafie',
-  setup_mafia_description: 'Vyber, kolik karet Mafie bude v balíčku. Minimum {min}, maximum {max} (o jednu méně než počet hráčů).',
+  setup_mafia_description: 'Vyber, kolik karet Mafie bude v balíčku ({min} - {max}).',
   setup_mafia_label: 'Karty Mafie v balíčku',
   setup_mafia_recommended: 'Doporučená hodnota pro {players} hráčů: {count}',
   setup_step_names: 'Jména',

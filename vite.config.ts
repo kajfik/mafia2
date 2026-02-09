@@ -9,6 +9,7 @@ export default defineConfig({
     host: true, // exposes to your LAN
   },
   build: {
+    chunkSizeWarningLimit: 1000,
         rollupOptions: {
             output:{
                 manualChunks(id) {

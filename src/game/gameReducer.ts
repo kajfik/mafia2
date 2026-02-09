@@ -416,6 +416,12 @@ function shouldSkipNightCard(state: GameState, card: ActiveCardInstance | null):
     }
     return hasJailerActedThisNight(state, owner.id);
   }
+  if (card.cardId === 'SwampMonster') {
+    if (!owner || !owner.status.isAlive) {
+      return true;
+    }
+    return owner.status.swampChargesLeft <= 0;
+  }
   return false;
 }
 

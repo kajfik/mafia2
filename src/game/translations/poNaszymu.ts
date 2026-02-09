@@ -307,7 +307,7 @@ export const TRANSLATIONS_PO_NASZYMU = {
   card_description_Sniper: 'Sniper może roz za gre pokozać grocza, w kierego strzilo silnym pociskym. Je tak silny, że rozbijo nawet Zwierciadło a leci dali.',
   card_description_Sock: 'Gracz z Fuseklóm może roz za gre w nocy ciepnóć Fusekle miyndzy dwóch graczy, kierzi padajóm od jejigo smrodu. Przed smrodym Fusekli chróni jyny Gazmaska, Doktor a Mrakoszlap. Szileny Strzelec 2, Mag 2 a Duch Bobo majóm Gazmaske.',
   card_description_Spyglass: 'Luneta se budzi pod kóniec każdej trzeci nocy (zaczynajónc od drugi) a dowiaduje se od Prowadzóncego, kierzi gracze byli tej nocy obudzóni.',
-  card_description_SwampMonster: 'Jożin z Bażin może trzi razy za gre pokozać w nocy gracza, kierymu poplami Zwierciadło. Kula rozbijo brudne Zwierciadło, a leci dali. Jożin może użyć swojóm zdolność wiyncej razy w jednóm noc. Jak gracz mo też karte Mafiana, Snipera albo Szilonego Strzelca, może poplamić Zwierciadło jyny dwa razy.',
+  card_description_SwampMonster: 'Jożin z Bażin może trzi razy za gre pokozać w nocy gracza, kierymu poplami Zwierciadło. Kula rozbijo brudne Zwierciadło, a leci dali. Jożin może użyć swojóm zdolność wiyncej razy w jednóm noc. Jak mo Jożin też karte Mafiana, Snipera albo Szilenego Strzelca, może poplamić Zwierciadło jyny dwa razy.',
   card_description_Terrorist: 'Terrorysta może roz za gre w dziyń użyć swojóm zdolność, godajónc "Bomba!", po czym strzylo do wszystkich graczy.',
   card_description_TimeLord: 'Pan Czasu może roz za gre na poczóntku dnia albo nocy powiedzieć "Jeżech Panym czasu!" a przeskoczyć cały dziyń albo noc.',
 
@@ -346,6 +346,12 @@ export const TRANSLATIONS_PO_NASZYMU = {
   cards_placeholder_description: 'Opis se robi.',
   cards_toggle_icons: 'Ikony',
   cards_toggle_images: 'Grafiki',
+  player_add_card_title: 'Przidej zdobytóm karte',
+  player_add_card_button: 'Przidej karte',
+  player_add_card_type_label: 'Typ karty',
+  player_add_card_instance_label: 'Numer karty',
+  player_add_card_submit: 'Przidej karte',
+  player_add_card_duplicate: 'Ta karta uż je na liście.',
 
   // Settings
   settings_language_title: 'Jynzyk aplikacji',
@@ -644,7 +650,7 @@ export const TRANSLATIONS_PO_NASZYMU = {
   setup_remove: 'Aby poprawnie rozdać role, musisz wyciepać pore karet...',
   setup_step_count: 'Liczba graczy',
   setup_step_mafia: 'Liczba karet Mafii',
-  setup_mafia_description: 'Wybier, wiela karet Mafii bydzie w talii. Minimum {min}, maksimum {max} (o jednego mjyni niż liczba graczy).',
+  setup_mafia_description: 'Wybier, wiela karet Mafii bydzie w talii ({min} - {max}).',
   setup_mafia_label: 'Karty Mafii w talii',
   setup_mafia_recommended: 'Sugerowano wartość dlo {players} graczy: {count}',
   setup_step_names: 'Miana',
@@ -654,6 +660,6 @@ export const TRANSLATIONS_PO_NASZYMU = {
   setup_cards_remaining: 'Do wyciepania',
   setup_cards_missing: 'Brakuje karet',
   setup_cards_total: 'Łóncznie karet w talii: {count}',
-  setup_cards_minimum: 'Dodej eszcze {missing}, aby każdy gracz dostoł aspóń jednóm karte.',
+  setup_cards_minimum: 'Przidej eszcze {missing}, aby każdy gracz dostoł aspóń jednóm karte.',
   setup_start_game: 'Rozpocznij gre',
 };

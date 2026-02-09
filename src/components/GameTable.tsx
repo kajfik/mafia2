@@ -56,7 +56,7 @@ export const GameTable: React.FC<Props> = ({ players, phase, selectedId, onSelec
       const rect = container.getBoundingClientRect();
       const nextSize = Math.min(rect.width, rect.height);
       const panelInset = getPanelVerticalInset(container.parentElement as HTMLElement | null);
-      const totalPanelHeight = nextSize + panelInset;
+      const totalPanelHeight = rect.height + panelInset;
 
       if (panelHeightRef.current !== totalPanelHeight) {
         panelHeightRef.current = totalPanelHeight;
@@ -82,7 +82,7 @@ export const GameTable: React.FC<Props> = ({ players, phase, selectedId, onSelec
       const { width, height } = entry.contentRect;
       const nextSize = Math.min(width, height);
       const panelInset = getPanelVerticalInset(container.parentElement as HTMLElement | null);
-      const totalPanelHeight = nextSize + panelInset;
+      const totalPanelHeight = height + panelInset;
 
       if (panelHeightRef.current !== totalPanelHeight) {
         panelHeightRef.current = totalPanelHeight;

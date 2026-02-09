@@ -346,6 +346,12 @@ export const TRANSLATIONS_PL = {
   cards_placeholder_description: 'Opis w przygotowaniu.',
   cards_toggle_icons: 'Ikony',
   cards_toggle_images: 'Grafiki',
+  player_add_card_title: 'Dodaj zdobytą kartę',
+  player_add_card_button: 'Dodaj kartę',
+  player_add_card_type_label: 'Typ karty',
+  player_add_card_instance_label: 'Numer karty',
+  player_add_card_submit: 'Dodaj kartę',
+  player_add_card_duplicate: 'Ta karta jest już na liście.',
 
   // Settings
   settings_language_title: 'Język aplikacji',
@@ -645,7 +651,7 @@ export const TRANSLATIONS_PL = {
   setup_remove: 'Aby poprawnie rozdać role, musisz usunąć kilka kart...',
   setup_step_count: 'Liczba graczy',
   setup_step_mafia: 'Liczba kart Mafii',
-  setup_mafia_description: 'Wybierz, ile kart Mafii znajdzie się w talii. Minimum {min}, maksimum {max} (o jednego mniej niż liczba graczy).',
+  setup_mafia_description: 'Wybierz, ile kart Mafii znajdzie się w talii ({min} - {max}).',
   setup_mafia_label: 'Karty Mafii w talii',
   setup_mafia_recommended: 'Sugerowana wartość dla {players} graczy: {count}',
   setup_step_names: 'Imiona',

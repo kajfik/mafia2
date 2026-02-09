@@ -1,6 +1,14 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import type { Player, GamePhase } from '../game/types';
 import { PLAYER_NODE_SCALE_MIN, PLAYER_NODE_SCALE_MAX } from '../game/gameReducer';
+import matrixIcon from '../../icons/matrix.jpg';
+import slimeIcon from '../../icons/slime.png';
+import sandIcon from '../../icons/sand.png';
+import magnetIcon from '../../icons/magnet.png';
+import meciarIcon from '../../icons/meciar.png';
+import kovacIcon from '../../icons/kovac.png';
+import cantVoteIcon from '../../icons/cant_vote.png';
+import silencedIcon from '../../icons/silenced.png';
 
 interface Props {
   player: Player;
@@ -94,35 +102,35 @@ export const PlayerNode: React.FC<Props> = ({ player, x, y, phase, isActive, onC
         <>
           {matrixBadgeActive && (
             <img
-              src="/icons/matrix.jpg"
+              src={matrixIcon}
               className="absolute -bottom-2 -left-2"
               style={{ height: `${matrixIconSize}rem`, width: 'auto', maxWidth: `${matrixIconSize * 1.4}rem`, objectFit: 'contain' }}
               alt="Matrix activated"
             />
           )}
-          {player.status.isSlimed && <img src="/icons/slime.png" className="absolute -top-2 -right-2" style={{ width: `${iconSize}rem`, height: `${iconSize}rem` }} />}
-          {player.status.isSanded && <img src="/icons/sand.png" className="absolute -top-2 -right-2" style={{ width: `${iconSize}rem`, height: `${iconSize}rem` }} />}
-          {player.status.isMagnetized && <img src="/icons/magnet.png" className="absolute -bottom-2 -right-2" style={{ width: `${iconSize}rem`, height: `${iconSize}rem` }} />}
+          {player.status.isSlimed && <img src={slimeIcon} className="absolute -top-2 -right-2" style={{ width: `${iconSize}rem`, height: `${iconSize}rem` }} />}
+          {player.status.isSanded && <img src={sandIcon} className="absolute -top-2 -right-2" style={{ width: `${iconSize}rem`, height: `${iconSize}rem` }} />}
+          {player.status.isMagnetized && <img src={magnetIcon} className="absolute -bottom-2 -right-2" style={{ width: `${iconSize}rem`, height: `${iconSize}rem` }} />}
         </>
       )}
       {!isNight && player.status.isAlive && !communistSuppressionActive && (
         <>
-         {player.cards.some(rr => rr.cardId === 'Meciar') && <img src="/icons/meciar.png" className="absolute -top-2 -right-2" style={{ width: `${iconSize}rem`, height: `${iconSize}rem` }} />}
-         {player.cards.some(rr => rr.cardId === 'Kovac') && <img src="/icons/kovac.png" className="absolute -top-2 -left-2" style={{ width: `${iconSize}rem`, height: `${iconSize}rem` }} />}
+         {player.cards.some(rr => rr.cardId === 'Meciar') && <img src={meciarIcon} className="absolute -top-2 -right-2" style={{ width: `${iconSize}rem`, height: `${iconSize}rem` }} />}
+         {player.cards.some(rr => rr.cardId === 'Kovac') && <img src={kovacIcon} className="absolute -top-2 -left-2" style={{ width: `${iconSize}rem`, height: `${iconSize}rem` }} />}
         </>
       )}
       {!isNight && player.status.isAlive && (
         <>
           {player.status.isCantVote && (
             <img
-              src="/icons/cant_vote.png"
+              src={cantVoteIcon}
               className="absolute -bottom-2 -left-2"
               style={{ width: `${iconSize}rem`, height: `${iconSize}rem` }}
             />
           )}
           {player.status.isSilenced && (
             <img
-              src="/icons/silenced.png"
+              src={silencedIcon}
               className="absolute -bottom-2 left-1/2 -translate-x-1/2"
               style={{ width: `${iconSize}rem`, height: `${iconSize}rem` }}
             />

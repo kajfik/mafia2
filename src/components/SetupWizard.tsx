@@ -7,14 +7,6 @@ import type { Action } from '../game/gameReducer';
 const MIN_PLAYER_COUNT = 2;
 const MAX_PLAYER_COUNT = 20;
 
-function clampPlayerCount(value: number): number {
-  if (Number.isNaN(value)) {
-    return MIN_PLAYER_COUNT;
-  }
-  const rounded = Math.round(value);
-  return Math.min(MAX_PLAYER_COUNT, Math.max(MIN_PLAYER_COUNT, rounded));
-}
-
 function clampMafiaCount(value: number, players: number): number {
   if (Number.isNaN(value)) {
     return 1;
@@ -28,7 +20,16 @@ function getDefaultMafiaCount(players: number): number {
   if (players <= 0) {
     return 1;
   }
-  const recommended = Math.floor((players + 2) / 2) - 1;
+  let recommended = 1;
+  let maxPlayersForTier = 4;
+  let increment = 2;
+
+  while (players > maxPlayersForTier) {
+    recommended += 1;
+    maxPlayersForTier += increment;
+    increment += 1;
+  }
+
   const max = Math.max(1, players - 1);
   return Math.min(Math.max(recommended, 1), max);
 }
@@ -41,6 +42,7 @@ interface SetupWizardProps {
 export const SetupWizard: React.FC<SetupWizardProps> = ({ dispatch, language }) => {
   const [step, setStep] = useState(1);
   const [playerCount, setPlayerCount] = useState(7);
+  const [playerCountInput, setPlayerCountInput] = useState('7');
   const [mafiaCount, setMafiaCount] = useState(() => getDefaultMafiaCount(7));
   const [names, setNames] = useState<string[]>([]);
   
@@ -58,16 +60,36 @@ export const SetupWizard: React.FC<SetupWizardProps> = ({ dispatch, language }) 
 
   // --- STEP 1: Player Count ---
   if (step === 1) {
+    const parsedPlayerCount = Number(playerCountInput);
+    const hasPlayerCount = Number.isFinite(parsedPlayerCount);
+    const roundedPlayerCount = hasPlayerCount ? Math.round(parsedPlayerCount) : playerCount;
+    const isPlayerCountValid = hasPlayerCount
+      && roundedPlayerCount >= MIN_PLAYER_COUNT
+      && roundedPlayerCount <= MAX_PLAYER_COUNT;
+
     return (
       <div className="w-full max-w-md mx-auto">
         <div className="setup-panel text-white items-center text-center">
-          <h2 className="text-2xl font-bold">{t('setup_step_count', language)}</h2>
+          <h2 className="text-2xl font-bold">
+            {t('setup_step_count', language)} ({MIN_PLAYER_COUNT}-{MAX_PLAYER_COUNT})
+          </h2>
           <input 
             type="number" 
-            min={MIN_PLAYER_COUNT} max={MAX_PLAYER_COUNT} 
-            value={playerCount} 
+            value={playerCountInput}
             onChange={(e) => {
-              const nextCount = clampPlayerCount(Number(e.target.value));
+              const rawValue = e.target.value;
+              setPlayerCountInput(rawValue);
+              if (rawValue.trim() === '') {
+                return;
+              }
+              const numericValue = Number(rawValue);
+              if (!Number.isFinite(numericValue)) {
+                return;
+              }
+              const nextCount = Math.round(numericValue);
+              if (nextCount < MIN_PLAYER_COUNT || nextCount > MAX_PLAYER_COUNT) {
+                return;
+              }
               setPlayerCount(nextCount);
               setMafiaCount(getDefaultMafiaCount(nextCount));
             }}
@@ -75,9 +97,15 @@ export const SetupWizard: React.FC<SetupWizardProps> = ({ dispatch, language }) 
           />
           <button 
             onClick={() => {
+              if (!isPlayerCountValid) {
+                return;
+              }
+              setPlayerCount(roundedPlayerCount);
+              setMafiaCount(getDefaultMafiaCount(roundedPlayerCount));
               setStep(2);
             }}
-            className={nextButtonClass}
+            className={`${nextButtonClass} ${!isPlayerCountValid ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={!isPlayerCountValid}
           >
             {t('setup_next', language)} &rarr;
           </button>

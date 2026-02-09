@@ -96,7 +96,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
     (!!state.uiState.dayAction && !voteInProgress);
   const isSpyglassStage = state.activeCard?.cardId === 'Spyglass';
   const timeLordButtonBase =
-    'mafia-button font-bold text-center w-full h-full flex items-center justify-center tracking-[0.2em] uppercase shadow-[0_12px_25px_rgba(0,0,0,0.55)] rounded-xl overflow-hidden min-h-[3.25rem] sm:min-h-[4rem] px-4 py-3';
+    'mafia-button font-bold text-center w-full h-full flex items-center justify-center tracking-[0.2em] uppercase shadow-[0_12px_25px_rgba(0,0,0,0.55)] rounded-xl overflow-hidden min-h-[3rem] sm:min-h-[3.5rem] px-4 py-3';
   const timeLordDayButtonClass = `${timeLordButtonBase} mafia-button--chronos-day`;
   const timeLordNightButtonClass = `${timeLordButtonBase} mafia-button--chronos-night`;
   const emberActionButtonClass = 'mafia-button mafia-button--ember font-bold tracking-[0.2em] uppercase';
@@ -319,7 +319,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
     }
   } else if (state.phase !== 'NIGHT_ACTIVE') {
     const nextPhaseButton = (
-      <button onClick={() => dispatch({ type: 'NEXT_PHASE' })} className="bg-[#1f1e27] border border-[rgba(242,200,121,0.2)] p-3 rounded-xl font-bold tracking-[0.2em] uppercase">{t('ui_next_phase', lang)} &rarr;</button>
+      <button
+        onClick={() => dispatch({ type: 'NEXT_PHASE' })}
+        className="bg-[#1f1e27] border border-[rgba(242,200,121,0.2)] rounded-xl font-bold tracking-[0.2em] uppercase self-start flex items-center justify-center leading-tight w-full h-full min-h-[2.75rem] sm:min-h-[3rem] px-3 py-2 text-xs sm:text-sm"
+      >
+        {t('ui_next_phase', lang)} &rarr;
+      </button>
     );
     if (canReplayBullets) {
       actionControls = (
@@ -335,11 +340,11 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
       );
     } else if (canSkipNight) {
       actionControls = (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 items-start">
           {nextPhaseButton}
           <button
             onClick={() => dispatch({ type: 'TRIGGER_TIMELORD_SKIP', payload: { targetPhase: 'NIGHT' } })}
-            className={timeLordNightButtonClass}
+            className={`${timeLordNightButtonClass} h-full min-h-[2.75rem] sm:min-h-[3rem] px-3 py-2 self-start leading-tight text-xs sm:text-sm`}
           >
             {t('ui_timelord_skip_night', lang, { cardLabel: timeLordCardLabel })}
           </button>
@@ -373,7 +378,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
              </div>
            ) : state.activeCard ? (
              <div>
-               <div className={`font-bold ${activePlayerIsJailed ? 'text-red-400' : ''}`}>{wakeMessage}</div>
+               <div className={`font-bold min-h-[3.5rem] ${activePlayerIsJailed ? 'text-red-400' : ''}`}>{wakeMessage}</div>
                {activeCardInfo?.playerName && (
                  activePlayerIsJailed ? (
                    <div className="text-sm text-red-300 mt-1">
@@ -389,12 +394,16 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
                  <div className="text-sm text-slate-200 mt-1">{spyglassRevealText}</div>
                )}
              </div>
-           ) : wakeMessage}
+           ) : (
+             <div className="min-h-[3.5rem]">{wakeMessage}</div>
+           )}
         </div>
       </div>
-      <div className="flex flex-col gap-2 w-full md:w-[30rem]">
-        {actionControls}
-        <div className="flex gap-1 mt-auto">
+      <div className="flex flex-col gap-1 w-full md:w-[30rem] min-h-[5.75rem] sm:min-h-[6.75rem]">
+        <div className="flex-1 min-h-0 [&>*]:h-full">
+          {actionControls}
+        </div>
+        <div className="flex gap-1 mt-auto pt-1">
           <button onClick={() => dispatch({ type: 'UNDO' })} className="flex-1 bg-[#2f2c3b] text-xs py-2 rounded-xl tracking-[0.3em] uppercase text-slate-100">{t('ui_undo', lang)}</button>
         </div>
       </div>

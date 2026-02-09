@@ -78,16 +78,31 @@ export interface CardDisplayProps {
   indicators?: CardIndicator[];
   description?: string;
   className?: string;
+  actionButton?: React.ReactNode;
+  isDisabled?: boolean;
 }
 
 const CARD_BASE_CLASS = 'flex flex-col overflow-hidden rounded-2xl border border-[rgba(242,200,121,0.18)] bg-[rgba(14,12,18,0.9)]';
 const FALLBACK_DESCRIPTION = 'Description coming soon.';
 
-export const CardDisplay: React.FC<CardDisplayProps> = ({ label, glyph, imageSrc, artMode, indicators = [], description, className }) => {
+export const CardDisplay: React.FC<CardDisplayProps> = ({
+  label,
+  glyph,
+  imageSrc,
+  artMode,
+  indicators = [],
+  description,
+  className,
+  actionButton,
+  isDisabled
+}) => {
   const Glyph = glyph;
   const showIcon = artMode === 'icon';
   const sizeClass = showIcon ? '' : 'min-h-[450px]';
-  const composedClass = className ? `${CARD_BASE_CLASS} ${sizeClass} ${className}` : `${CARD_BASE_CLASS} ${sizeClass}`;
+  const disabledClass = isDisabled ? 'opacity-60 grayscale' : '';
+  const composedClass = className
+    ? `${CARD_BASE_CLASS} ${sizeClass} ${disabledClass} ${className}`
+    : `${CARD_BASE_CLASS} ${sizeClass} ${disabledClass}`;
 
   const renderImageFallback = () => (
     <div className="flex items-center justify-center w-full h-full text-[rgba(242,200,121,0.5)] text-sm font-semibold tracking-[0.4em] uppercase">
@@ -116,17 +131,20 @@ export const CardDisplay: React.FC<CardDisplayProps> = ({ label, glyph, imageSrc
           {label}
         </h3>
       </div>
-      {indicators.length > 0 && (
-        <div className="flex flex-wrap items-center gap-2 text-white/80">
-          {indicators.map(indicator => {
-            const meta = INDICATOR_META[indicator];
-            if (!meta) return null;
-            return (
-              <IconBadge key={`${label}-${indicator}`} label={meta.label} className={meta.className}>
-                <meta.Glyph />
-              </IconBadge>
-            );
-          })}
+      {(indicators.length > 0 || actionButton) && (
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center gap-2 text-white/80 flex-1">
+            {indicators.map(indicator => {
+              const meta = INDICATOR_META[indicator];
+              if (!meta) return null;
+              return (
+                <IconBadge key={`${label}-${indicator}`} label={meta.label} className={meta.className}>
+                  <meta.Glyph />
+                </IconBadge>
+              );
+            })}
+          </div>
+          {actionButton && <div className="flex-shrink-0">{actionButton}</div>}
         </div>
       )}
     </div>
