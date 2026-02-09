@@ -334,6 +334,7 @@ export const TRANSLATIONS_PL = {
   logs_heading: 'Dziennik nocy i dnia',
   logs_subheading: 'Pokazywany raport nocy i dnia #{round}',
   logs_round_label: 'Runda',
+  logs_view_label: 'Widok',
   logs_public_report_title: 'Raport publiczny',
   logs_public_report_placeholder: 'Raport publiczny pojawi się na początku dnia.',
   logs_round_title: 'Dziennik rundy',

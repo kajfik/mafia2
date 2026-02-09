@@ -599,7 +599,7 @@ function resolveShooterEntries(state: GameState, entries: ShooterQueuedShot[], s
     if (!shooter || shooter.status.isJailed) {
       return;
     }
-    const targetName = state.players.find(p => p.id === entry.targetId)?.name || 'Unknown';
+    const targetName = state.players.find(p => p.id === entry.targetId)?.name || '?';
     const cardId: CardId = sourceType === 'SNIPER' ? 'Sniper' : 'MadGunman';
     const shooterLabel = createCardLabelParam(cardId, entry.instance);
     resolveNightShot(state, entry.targetId, sourceType, shooter.id, {
@@ -634,7 +634,7 @@ export function processNightShotQueue(state: GameState) {
             player: player.name
           });
         } else {
-          const targetName = state.players.find(p => p.id === consensusTargetId)?.name || 'Unknown';
+          const targetName = state.players.find(p => p.id === consensusTargetId)?.name || '?';
           const cardLabel = createCardLabelParam('Mafia', instance);
           resolveNightShot(state, consensusTargetId, 'MAFIA', player.id, {
             shooterLabel: cardLabel,

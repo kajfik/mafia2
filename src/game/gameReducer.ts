@@ -1337,31 +1337,39 @@ function internalReducer(state: GameState, action: Action): GameState {
   switch (action.type) {
     case 'START_GAME': {
       const { names, customDeck, language } = action.payload;
-      const players: Player[] = names.map((name, i) => ({
-        id: `p${i}`, name, cards: [], inactiveCards: [], hasGasMask: false,
-        status: {
-          isAlive: true,
-          isJailed: false,
-          isSilenced: false,
-          isCantVote: false,
-          isSlimed: false,
-          isSanded: false,
-          isMagnetized: false,
-          mudCount: 0,
-          swampChargesLeft: 0,
-          matrixAbilityUsed: false,
-          gravediggerUsed: false,
-          massMurdererUsed: false,
-          jailerAbilityUsed: false,
-          executionerStatus: 'NONE',
-          executionerUses: 0,
-          anarchistShotUsed: false,
-          terroristBombUsed: false,
-          astronomerNightUsed: false,
-          communistEqualityUsed: false,
-          timeLordSkipUsed: false
-        }
-      }));
+      const players: Player[] = names.map((name, i) => {
+        const trimmedName = name.trim();
+        const safeName = trimmedName === '' ? String(i + 1) : trimmedName;
+        return {
+          id: `p${i}`,
+          name: safeName,
+          cards: [],
+          inactiveCards: [],
+          hasGasMask: false,
+          status: {
+            isAlive: true,
+            isJailed: false,
+            isSilenced: false,
+            isCantVote: false,
+            isSlimed: false,
+            isSanded: false,
+            isMagnetized: false,
+            mudCount: 0,
+            swampChargesLeft: 0,
+            matrixAbilityUsed: false,
+            gravediggerUsed: false,
+            massMurdererUsed: false,
+            jailerAbilityUsed: false,
+            executionerStatus: 'NONE',
+            executionerUses: 0,
+            anarchistShotUsed: false,
+            terroristBombUsed: false,
+            astronomerNightUsed: false,
+            communistEqualityUsed: false,
+            timeLordSkipUsed: false
+          }
+        };
+      });
       const dealt = dealCards(players, customDeck);
       const startedState: GameState = { 
         ...state, 

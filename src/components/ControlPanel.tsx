@@ -358,15 +358,17 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
   
   const baseContainerClass = 'mafia-panel text-white p-4 shadow-2xl flex flex-col md:flex-row gap-4 border border-[rgba(242,200,121,0.12)] backdrop-blur';
   const containerClass = fullHeight
-    ? `${baseContainerClass} flex-1 min-h-0 overflow-y-auto`
+    ? `${baseContainerClass} flex-1 min-h-0 h-full overflow-y-auto md:justify-end md:items-end pb-[calc(4rem+var(--safe-area-bottom))] md:pb-4`
     : `${baseContainerClass} flex-shrink-0`;
+  const reportColumnClass = `flex flex-col w-full md:flex-1 ${!showPublicReport && hideWakeMessageOnMobileDay ? 'hidden sm:flex' : ''}`;
+  const reportPanelClass = `bg-[rgba(4,4,8,0.92)] p-4 rounded-2xl text-lg border-l-4 border-[var(--color-bullet)] shadow-inner flex flex-col ${fullHeight ? 'overflow-visible' : 'overflow-y-auto md:flex-1'}`;
+
+  const actionPanelClass = fullHeight ? 'min-h-0' : 'flex-1 min-h-0 [&>*]:h-full';
 
   return (
     <div className={containerClass}>
-      <div className={`flex flex-col w-full md:flex-1 ${!showPublicReport && hideWakeMessageOnMobileDay ? 'hidden sm:flex' : ''}`}>
-        <div
-          className="bg-[rgba(4,4,8,0.92)] p-4 rounded-2xl text-lg border-l-4 border-[var(--color-bullet)] shadow-inner overflow-y-auto md:flex-1 flex flex-col"
-        >
+      <div className={reportColumnClass}>
+        <div className={reportPanelClass}>
            {showPublicReport ? (
              <div className="space-y-2 flex-1">
                {(!hasPendingDayReport && reportLines.length === 0) && <div className="font-bold">{t('public_report_default', lang)}</div>}
@@ -382,7 +384,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
            ) : state.activeCard ? (
              <div className="flex flex-col flex-1">
                <div
-                 className={`font-bold min-h-[3.5rem] flex-1 ${activePlayerIsJailed ? 'text-red-400' : ''}`}
+                 className={`font-bold flex-1 ${isSpyglassStage ? '' : 'min-h-[3.5rem]'} ${activePlayerIsJailed ? 'text-red-400' : ''}`}
                >
                  {wakeMessage}
                </div>
@@ -408,8 +410,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
            )}
         </div>
       </div>
-      <div className="flex flex-col gap-1 w-full md:w-[30rem] min-h-[5.75rem] sm:min-h-[6.75rem]">
-        <div className="flex-1 min-h-0 [&>*]:h-full">
+      <div className="flex flex-col gap-1 w-full md:w-[30rem] min-h-[5.75rem] sm:min-h-[7.0rem] flex-shrink-0">
+        <div className={actionPanelClass}>
           {actionControls}
         </div>
         <div className="flex gap-1 mt-auto pt-1">

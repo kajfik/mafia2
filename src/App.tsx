@@ -359,8 +359,8 @@ function App() {
           )}
           
           {activeTab === 'LOGS' && (
-            <div className="h-full overflow-hidden">
-              <div className="mafia-panel h-full overflow-hidden">
+            <div className="h-full min-h-0 flex flex-col overflow-hidden">
+              <div className="mafia-panel h-full min-h-0 flex flex-col overflow-hidden">
                 <LogsTab
                   state={state}
                   selectedRound={activeLogRound}

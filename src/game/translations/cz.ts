@@ -334,6 +334,7 @@ export const TRANSLATIONS_CZ = {
   logs_heading: 'Deník noci a dne',
   logs_subheading: 'Zobrazuje se hlášení noci a dne #{round}',
   logs_round_label: 'Kolo',
+  logs_view_label: 'Zobrazení',
   logs_public_report_title: 'Veřejné hlášení',
   logs_public_report_placeholder: 'Veřejné hlášení se objeví na začátku dne.',
   logs_round_title: 'Deník kola',

@@ -334,6 +334,7 @@ export const TRANSLATIONS_EN = {
   logs_heading: 'Day and Night Log',
   logs_subheading: 'Showing report for night and day #{round}',
   logs_round_label: 'Round',
+  logs_view_label: 'View',
   logs_public_report_title: 'Public Report',
   logs_public_report_placeholder: 'The public report will appear at the start of the day.',
   logs_round_title: 'Round Log',

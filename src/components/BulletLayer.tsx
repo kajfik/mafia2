@@ -31,6 +31,36 @@ function resolveEntrySource(entry: BulletAnimationEntry, fallback: string | null
   return entry.sourceId ?? segmentSource ?? fallback;
 }
 
+function resolveGroupSource(entries: BulletAnimationEntry[]): string | null {
+  for (const entry of entries) {
+    if (entry.sourceId) {
+      return entry.sourceId;
+    }
+  }
+  for (const entry of entries) {
+    const segmentSource = entry.segments.find(segment => segment.fromId)?.fromId ?? null;
+    if (segmentSource) {
+      return segmentSource;
+    }
+  }
+  return null;
+}
+
+function normalizeRootSources(roots: ShotEdge[], treeSourceId: string | null) {
+  if (!roots.length) return;
+  const targetToSource = new Map<string, string>();
+  roots.forEach(root => {
+    if (root.fromId) {
+      targetToSource.set(root.toId, root.fromId);
+    }
+  });
+  roots.forEach(root => {
+    if (!root.fromId) {
+      root.fromId = targetToSource.get(root.toId) ?? treeSourceId ?? null;
+    }
+  });
+}
+
 function buildShotTrees(entries: BulletAnimationEntry[]): ShotTree[] {
   const grouped = new Map<string, BulletAnimationEntry[]>();
   entries.forEach(entry => {
@@ -43,18 +73,22 @@ function buildShotTrees(entries: BulletAnimationEntry[]): ShotTree[] {
 
   const trees: ShotTree[] = [];
   grouped.forEach((groupEntries, shotId) => {
-    const treeSourceId = resolveEntrySource(groupEntries[0], null);
+    const treeSourceId = resolveGroupSource(groupEntries);
     const roots: ShotEdge[] = [];
     groupEntries.forEach(entry => {
       let branch = roots;
       const entrySourceId = resolveEntrySource(entry, treeSourceId);
       const normalizedSegments = entry.segments.length ? entry.segments.map(segment => ({ ...segment })) : [];
       if (normalizedSegments.length) {
-        if (!normalizedSegments[0].fromId && entrySourceId) {
-          normalizedSegments[0].fromId = entrySourceId;
+        const initialSourceId = entrySourceId ?? treeSourceId;
+        if (!normalizedSegments[0].fromId && initialSourceId) {
+          normalizedSegments[0].fromId = initialSourceId;
         }
-      } else if (entrySourceId) {
-        normalizedSegments.push({ fromId: entrySourceId, toId: entrySourceId });
+      } else {
+        const fallbackSource = entrySourceId ?? treeSourceId;
+        if (fallbackSource) {
+          normalizedSegments.push({ fromId: fallbackSource, toId: fallbackSource });
+        }
       }
       normalizedSegments.forEach(segment => {
         if (!segment.toId) return;
@@ -68,6 +102,7 @@ function buildShotTrees(entries: BulletAnimationEntry[]): ShotTree[] {
       });
     });
     if (roots.length) {
+      normalizeRootSources(roots, treeSourceId);
       trees.push({ shotId, sourceId: treeSourceId, roots });
     }
   });
@@ -117,16 +152,20 @@ export const BulletLayer: React.FC<BulletLayerProps> = ({ animations, positions,
 
     const animateMove = (dotId: string, from: { x: number; y: number }, to: { x: number; y: number }) => new Promise<void>(resolve => {
       ensureDot(dotId, from);
-      // Use a double rAF to guarantee the browser paints the starting point before moving the dot.
-      const rafStart = window.requestAnimationFrame(() => {
-        const rafMove = window.requestAnimationFrame(() => {
-          setDots(prev => prev.map(dot => (dot.id === dotId ? { ...dot, x: to.x, y: to.y, duration } : dot)));
-          const timer = window.setTimeout(() => resolve(), duration);
-          timeouts.push(timer);
+      // Defer to a macrotask so the origin position can commit before the move.
+      const timeout = window.setTimeout(() => {
+        // Use a double rAF to guarantee the browser paints the starting point before moving the dot.
+        const rafStart = window.requestAnimationFrame(() => {
+          const rafMove = window.requestAnimationFrame(() => {
+            setDots(prev => prev.map(dot => (dot.id === dotId ? { ...dot, x: to.x, y: to.y, duration } : dot)));
+            const timer = window.setTimeout(() => resolve(), duration);
+            timeouts.push(timer);
+          });
+          rafs.push(rafMove);
         });
-        rafs.push(rafMove);
-      });
-      rafs.push(rafStart);
+        rafs.push(rafStart);
+      }, 0);
+      timeouts.push(timeout);
     });
 
     let branchCounter = 0;
@@ -161,7 +200,9 @@ export const BulletLayer: React.FC<BulletLayerProps> = ({ animations, positions,
     const playShot = async (tree: ShotTree) => {
       const sequences = tree.roots.map((edge, idx) => {
         const originId = edge.fromId ?? tree.sourceId;
-        const startPoint = getPoint(originId) ?? getPoint(edge.toId);
+        const originPoint = getPoint(originId);
+        const targetPoint = getPoint(edge.toId);
+        const startPoint = originPoint ?? targetPoint;
         if (!startPoint) {
           return Promise.resolve();
         }

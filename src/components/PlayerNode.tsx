@@ -82,7 +82,7 @@ export const PlayerNode: React.FC<Props> = ({ player, x, y, phase, isActive, onC
       aria-disabled={disabled}
     >
       <div
-        className={`rounded-full border-2 flex items-center justify-center transition-all duration-200 ${circleBorderClass} ${circleShadowClass} ${highlightClass}`}
+        className={`rounded-full border-2 flex items-center justify-center transition-colors transition-shadow duration-200 ${circleBorderClass} ${circleShadowClass} ${highlightClass}`}
         style={{
           width: `${innerSize}rem`,
           height: `${innerSize}rem`,
