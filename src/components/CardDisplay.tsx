@@ -16,10 +16,10 @@ const SunGlyph: React.FC = () => (
   </svg>
 );
 
-const GasMaskGlyph: React.FC = () => (
+export const GasMaskGlyph: React.FC<React.SVGProps<SVGSVGElement>> = ({ className, ...rest }) => (
   <svg
     viewBox="0 0 24 24"
-    className="h-5 w-5"
+    className={className ?? 'h-5 w-5'}
     role="presentation"
     aria-hidden="true"
     fill="none"
@@ -27,6 +27,7 @@ const GasMaskGlyph: React.FC = () => (
     strokeWidth="1.5"
     strokeLinecap="round"
     strokeLinejoin="round"
+    {...rest}
   >
     <path d="M8 15v3.5a4 4 0 0 0 8 0V15" />
     <path d="M7 9a5 5 0 0 1 10 0v3.5A2.5 2.5 0 0 1 14.5 15h-5A2.5 2.5 0 0 1 7 12.5V9Z" />

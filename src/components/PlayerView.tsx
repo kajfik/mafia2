@@ -4,7 +4,7 @@ import type { CardId, Language } from '../game/types';
 import { t, getCardName, getLanguageLocale, getCardDescription } from '../game/translations';
 import { getCardIcon } from '../game/cardIcons';
 import { getCardGlyph } from '../game/cardGlyphs';
-import { isNightCard, isDayCard, givesGasMask } from '../game/cardIndicators';
+import { isNightCard, isDayCard, givesGasMask, isPassiveCard } from '../game/cardIndicators';
 import { CARDS_CONFIG } from '../game/gameConfig';
 import { CardDisplay } from './CardDisplay';
 import type { CardIndicator } from './CardDisplay';
@@ -104,6 +104,19 @@ export const PlayerView: React.FC<PlayerViewProps> = ({ className, artMode: artM
     return new Set([...base, ...extra]);
   }, [playerData, addedCards]);
 
+  const [passiveCards, activeCards] = useMemo(() => {
+    const passive: LabeledCard[] = [];
+    const active: LabeledCard[] = [];
+    sortedCards.forEach(card => {
+      if (isPassiveCard(card.card.cardId)) {
+        passive.push(card);
+      } else {
+        active.push(card);
+      }
+    });
+    return [passive, active];
+  }, [sortedCards]);
+
   const parsedInstance = Number(pendingInstance);
   const isInstanceValid = Number.isInteger(parsedInstance) && parsedInstance >= 1;
   const isDuplicate = isInstanceValid && existingCardKeys.has(buildCardKey({ cardId: pendingCardId, instance: parsedInstance }));
@@ -143,6 +156,8 @@ export const PlayerView: React.FC<PlayerViewProps> = ({ className, artMode: artM
   }
 
   const { name } = playerData;
+  const sectionTitleClass = 'text-xs uppercase tracking-[0.35em] text-white/60';
+  const gridClass = 'grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4';
 
   return (
     <div className={wrapperClass}>
@@ -276,42 +291,90 @@ export const PlayerView: React.FC<PlayerViewProps> = ({ className, artMode: artM
           </section>
         )}
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-          {sortedCards.map(({ key, label, icon, glyph, indicators, description }, idx) => {
-            const isDisabled = disabledCardSet.has(key);
-            const actionButtonLabel = isDisabled ? 'Re-enable card' : 'Disable card';
-            const actionButton = (
-              <button
-                type="button"
-                onClick={() => toggleCardDisabled(key)}
-                aria-pressed={isDisabled}
-                aria-label={actionButtonLabel}
-                title={actionButtonLabel}
-                className={`inline-flex h-9 w-9 items-center justify-center rounded-full border text-base font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brass)] ${
-                  isDisabled
-                    ? 'border-[rgba(120,227,195,0.5)] bg-[rgba(120,227,195,0.1)] text-[#a9f5d0] hover:bg-[rgba(120,227,195,0.18)]'
-                    : 'border-[rgba(245,132,132,0.5)] bg-[rgba(245,132,132,0.1)] text-[rgba(255,180,180,0.95)] hover:bg-[rgba(245,132,132,0.2)]'
-                }`}
-              >
-                {isDisabled ? '↺' : '×'}
-              </button>
-            );
+        {activeCards.length > 0 && (
+          <section className="space-y-3">
+            <h3 className={sectionTitleClass}>{t('cards_section_active', resolvedLanguage)}</h3>
+            <div className={gridClass}>
+              {activeCards.map(({ card, key, label, icon, glyph, indicators, description }, idx) => {
+                const isDisabled = disabledCardSet.has(key);
+                const actionButtonLabel = isDisabled ? 'Re-enable card' : 'Disable card';
+                const actionButton = (
+                  <button
+                    type="button"
+                    onClick={() => toggleCardDisabled(key)}
+                    aria-pressed={isDisabled}
+                    aria-label={actionButtonLabel}
+                    title={actionButtonLabel}
+                    className={`inline-flex h-9 w-9 items-center justify-center rounded-full border text-base font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brass)] ${
+                      isDisabled
+                        ? 'border-[rgba(120,227,195,0.5)] bg-[rgba(120,227,195,0.1)] text-[#a9f5d0] hover:bg-[rgba(120,227,195,0.18)]'
+                        : 'border-[rgba(245,132,132,0.5)] bg-[rgba(245,132,132,0.1)] text-[rgba(255,180,180,0.95)] hover:bg-[rgba(245,132,132,0.2)]'
+                    }`}
+                  >
+                    {isDisabled ? '↺' : '×'}
+                  </button>
+                );
 
-            return (
-            <CardDisplay
-              key={`${key}-${idx}`}
-              label={label}
-              glyph={glyph}
-              imageSrc={icon}
-              artMode={resolvedArtMode}
-              indicators={indicators}
-              description={description}
-              actionButton={actionButton}
-              isDisabled={isDisabled}
-            />
-            );
-          })}
-        </div>
+                return (
+                  <CardDisplay
+                    key={`${key}-${idx}`}
+                    label={label}
+                    glyph={glyph}
+                    imageSrc={icon}
+                    artMode={resolvedArtMode}
+                    indicators={indicators}
+                    description={description}
+                    actionButton={actionButton}
+                    isDisabled={isDisabled}
+                    className={isPassiveCard(card.cardId) ? 'card-passive' : undefined}
+                  />
+                );
+              })}
+            </div>
+          </section>
+        )}
+        {passiveCards.length > 0 && (
+          <section className="space-y-3">
+            <h3 className={sectionTitleClass}>{t('cards_section_passive', resolvedLanguage)}</h3>
+            <div className={gridClass}>
+              {passiveCards.map(({ card, key, label, icon, glyph, indicators, description }, idx) => {
+                const isDisabled = disabledCardSet.has(key);
+                const actionButtonLabel = isDisabled ? 'Re-enable card' : 'Disable card';
+                const actionButton = (
+                  <button
+                    type="button"
+                    onClick={() => toggleCardDisabled(key)}
+                    aria-pressed={isDisabled}
+                    aria-label={actionButtonLabel}
+                    title={actionButtonLabel}
+                    className={`inline-flex h-9 w-9 items-center justify-center rounded-full border text-base font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brass)] ${
+                      isDisabled
+                        ? 'border-[rgba(120,227,195,0.5)] bg-[rgba(120,227,195,0.1)] text-[#a9f5d0] hover:bg-[rgba(120,227,195,0.18)]'
+                        : 'border-[rgba(245,132,132,0.5)] bg-[rgba(245,132,132,0.1)] text-[rgba(255,180,180,0.95)] hover:bg-[rgba(245,132,132,0.2)]'
+                    }`}
+                  >
+                    {isDisabled ? '↺' : '×'}
+                  </button>
+                );
+
+                return (
+                  <CardDisplay
+                    key={`${key}-${idx}`}
+                    label={label}
+                    glyph={glyph}
+                    imageSrc={icon}
+                    artMode={resolvedArtMode}
+                    indicators={indicators}
+                    description={description}
+                    actionButton={actionButton}
+                    isDisabled={isDisabled}
+                    className={isPassiveCard(card.cardId) ? 'card-passive' : undefined}
+                  />
+                );
+              })}
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );

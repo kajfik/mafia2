@@ -3,7 +3,9 @@ import type { CardId, Language } from '../game/types';
 import { CARD_IDS } from '../game/types';
 import type { RuleSection, RuleContentBlock } from '../game/translations';
 import { RULES_CONTENT, getCardName, t } from '../game/translations';
+import { LineSegmentIcon } from '@phosphor-icons/react';
 import { CardLabelBadge } from './CardLabelBadge';
+import { GasMaskGlyph } from './CardDisplay';
 
 interface RulesViewProps {
   language?: Language;
@@ -11,13 +13,45 @@ interface RulesViewProps {
 
 type CardLabelLookup = Record<CardId, string>;
 
-const CARD_TOKEN_PATTERN = /\{\{card:([A-Za-z0-9]+)(?:\|([^}]+))?\}\}/g;
+const TOKEN_PATTERN = /\{\{(card:([A-Za-z0-9]+)(?:\|([^}]+))?|gasMask(?:\|([^}]+))?|tunnel(?:\|([^}]+))?)\}\}/g;
+
+const GasMaskBadge: React.FC<{ label: string }> = ({ label }) => (
+  <span
+    className="inline-flex items-center gap-1 leading-tight rounded-full border align-baseline px-2 py-0.5 border-[rgba(132,201,178,0.4)] bg-[rgba(132,201,178,0.08)] text-[#a9f5d0] mx-0.5"
+    title={label}
+  >
+    <span
+      className="h-5 w-5 inline-flex self-center shrink-0 items-center justify-center rounded-full border border-[rgba(132,201,178,0.4)] bg-[rgba(132,201,178,0.08)] text-[#a9f5d0]"
+      aria-hidden
+    >
+      <GasMaskGlyph className="h-3 w-3" />
+    </span>
+    <span>{label}</span>
+  </span>
+);
+
+const TunnelBadge: React.FC<{ label: string }> = ({ label }) => (
+  <span
+    className="inline-flex items-center gap-1 leading-tight rounded-full border align-baseline px-2 py-0.5 border-[rgba(197,83,61,0.45)] bg-[rgba(197,83,61,0.12)] text-[rgba(255,188,150,0.95)] mx-0.5"
+    title={label}
+  >
+    <span
+      className="h-5 w-5 inline-flex self-center shrink-0 items-center justify-center rounded-full border border-[rgba(197,83,61,0.45)] bg-[rgba(197,83,61,0.12)] text-[rgba(255,188,150,0.95)]"
+      aria-hidden
+    >
+      <LineSegmentIcon className="h-3 w-3" weight="bold" />
+    </span>
+    <span>{label}</span>
+  </span>
+);
 
 const renderRichText = (text: string, key: string, cardLabels: CardLabelLookup) => {
   const nodes: React.ReactNode[] = [];
-  const regex = new RegExp(CARD_TOKEN_PATTERN);
+  const regex = new RegExp(TOKEN_PATTERN);
   let lastIndex = 0;
   let cardIndex = 0;
+  let gasMaskIndex = 0;
+  let tunnelIndex = 0;
   let textIndex = 0;
 
   const pushText = (value: string) => {
@@ -31,22 +65,34 @@ const renderRichText = (text: string, key: string, cardLabels: CardLabelLookup) 
 
   let match: RegExpExecArray | null;
   while ((match = regex.exec(text)) !== null) {
-    const [fullMatch, rawCardId, rawLabel] = match;
+    const [fullMatch, rawToken, rawCardId, rawLabel, rawGasMaskLabel, rawTunnelLabel] = match;
     pushText(text.slice(lastIndex, match.index));
-    const cardId = rawCardId as CardId;
-    const label = (rawLabel ?? '').trim() || cardLabels[cardId];
-    if (!cardLabels[cardId]) {
-      pushText(fullMatch);
-    } else {
+    if (rawToken.startsWith('card:')) {
+      const cardId = rawCardId as CardId;
+      const label = (rawLabel ?? '').trim() || cardLabels[cardId];
+      if (!cardLabels[cardId]) {
+        pushText(fullMatch);
+      } else {
+        nodes.push(
+          <CardLabelBadge
+            key={`${key}-card-${cardIndex++}`}
+            cardId={cardId}
+            label={label}
+            size="xs"
+            variant="inline"
+            className="mx-0.5 align-baseline"
+          />
+        );
+      }
+    } else if (rawToken.startsWith('gasMask')) {
+      const label = (rawGasMaskLabel ?? '').trim() || 'Gas Mask';
       nodes.push(
-        <CardLabelBadge
-          key={`${key}-card-${cardIndex++}`}
-          cardId={cardId}
-          label={label}
-          size="xs"
-          variant="inline"
-          className="mx-0.5 align-baseline"
-        />
+        <GasMaskBadge key={`${key}-gas-${gasMaskIndex++}`} label={label} />
+      );
+    } else {
+      const label = (rawTunnelLabel ?? '').trim() || 'Tunnel';
+      nodes.push(
+        <TunnelBadge key={`${key}-tunnel-${tunnelIndex++}`} label={label} />
       );
     }
     lastIndex = regex.lastIndex;

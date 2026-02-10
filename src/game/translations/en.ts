@@ -3,6 +3,10 @@ import type { CardId } from '../types';
 
 const card = (cardId: CardId, labelOverride?: string) =>
   labelOverride ? `{{card:${cardId}|${labelOverride}}}` : `{{card:${cardId}}}`;
+const gasMask = (labelOverride?: string) =>
+  labelOverride ? `{{gasMask|${labelOverride}}}` : '{{gasMask}}';
+const tunnel = (labelOverride?: string) =>
+  labelOverride ? `{{tunnel|${labelOverride}}}` : '{{tunnel}}';
 
 export const RULES_CONTENT_EN: RuleSection[] = [
   {
@@ -18,7 +22,7 @@ export const RULES_CONTENT_EN: RuleSection[] = [
     blocks: [
       { kind: 'paragraph', text: 'At the beginning of the game, each player receives the same number of cards.' },
       { kind: 'paragraph', text: 'Before the first night, players should familiarize themselves with the mechanics of their night cards.' },
-      { kind: 'paragraph', text: `The dealing system includes safeguards against severely unbalanced distributions (e.g., all ${card('CloudWalker', 'CloudWalkers')} going to a single player). Details can be found in the "Card Balance Rules" section.` }
+      { kind: 'paragraph', text: `The dealing system includes safeguards against severely unbalanced distributions (e.g., all ${card('CloudWalker', 'Cloudwalkers')} going to a single player). Details can be found in the "Card Balance Rules" section.` }
     ]
   },
   {
@@ -63,19 +67,19 @@ export const RULES_CONTENT_EN: RuleSection[] = [
   {
     title: 'Defensive Rules',
     blocks: [
-      { kind: 'paragraph', text: `Players possess defensive abilities which activate automatically. Using a ${card('CloudWalker', 'CloudWalker')}, ${card('Immunity', 'Immunity')}, ${card('KevlarVest', 'Kevlar Vest')}, ${card('Mirror', 'Mirror')}, or ${card('RopeWalker', 'RopeWalker')} card results in its permanent consumption.` },
+      { kind: 'paragraph', text: `Players possess defensive abilities which activate automatically. Using a ${card('CloudWalker', 'Cloudwalker')}, ${card('Immunity', 'Immunity')}, ${card('KevlarVest', 'Kevlar Vest')}, ${card('Mirror', 'Mirror')}, or ${card('RopeWalker', 'Ropewalker')} card results in its permanent consumption.` },
     ],
     subsections: [
       {
-        title: 'Tunnel',
+        title: tunnel('Tunnel'),
         blocks: [
           { kind: 'paragraph', text: 'If the tunnel entrance (first player) is hit, the bullet travels through the tunnel to the exit (second player). If multiple tunnels originate from one player, the bullet splits into fragments that travel through all tunnels (retaining standard bullet properties). Neither the bullet nor fragments can pass through the same tunnel twice. In the case of two or three tunnels in the same direction between the same players, the bullet does not split but travels through the earliest created tunnel.' }
         ]
       },
       {
-        title: 'Gas Mask',
+        title: gasMask('Gas Mask'),
         blocks: [
-          { kind: 'paragraph', text: `Holders of ${card('Mage', 'Mage 2')}, ${card('MadGunman', 'Mad Gunman 2')}, and ${card('GhostBobo', 'Ghost Bobo')} cards possess a Gas Mask, protecting them against ${card('Sand', 'Sand')} and the smell of the ${card('Sock', 'Sock')}.` }
+          { kind: 'paragraph', text: `Holders of ${card('Mage', 'Mage 2')}, ${card('MadGunman', 'Mad Gunman 2')}, and ${card('GhostBobo', 'Ghost Bobo')} cards possess a ${gasMask('Gas Mask')}, protecting them against ${card('Sand', 'Sand')} and the smell of the ${card('Sock', 'Sock')}.` }
         ]
       }
     ]
@@ -90,31 +94,31 @@ export const RULES_CONTENT_EN: RuleSection[] = [
       {
         title: `a) Bullet from ${card('Mafia', 'Mafia')}`,
         blocks: [
-          { kind: 'list', title: `The ${card('Mafia', 'Mafioso')} with the highest priority shoots:`, ordered: true, items: [card('Magnet', 'Magnet'), 'Tunnel', card('Mirror', 'Mirror'), card('Slime', 'Slime'), card('AlCapone', 'Al Capone'), card('Doctor', 'Doctor'), card('KevlarVest', 'Kevlar Vest'), card('CloudWalker', 'CloudWalker')] }
+          { kind: 'list', title: `The ${card('Mafia', 'Mafioso')} with the highest priority shoots:`, ordered: true, items: [card('Magnet', 'Magnet'), tunnel('Tunnel'), card('Mirror', 'Mirror'), card('Slime', 'Slime'), card('AlCapone', 'Al Capone'), card('Doctor', 'Doctor'), card('KevlarVest', 'Kevlar Vest'), card('CloudWalker', 'Cloudwalker')] }
         ]
       },
       {
         title: `b) Bullet from ${card('MadGunman', 'Mad Gunman')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), 'Tunnel', card('Mirror', 'Mirror'), card('Slime', 'Slime'), card('Doctor', 'Doctor'), card('KevlarVest', 'Kevlar Vest'), card('CloudWalker', 'CloudWalker')] }
+          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), tunnel('Tunnel'), card('Mirror', 'Mirror'), card('Slime', 'Slime'), card('Doctor', 'Doctor'), card('KevlarVest', 'Kevlar Vest'), card('CloudWalker', 'Cloudwalker')] }
         ]
       },
       {
         title: `c) Bullet from ${card('Sniper', 'Sniper')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), 'Tunnel', card('Mirror', 'Mirror'), card('Slime', 'Slime'), card('Doctor', 'Doctor'), card('KevlarVest', 'Kevlar Vest'), card('CloudWalker', 'CloudWalker')] }
+          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), tunnel('Tunnel'), card('Mirror', 'Mirror'), card('Slime', 'Slime'), card('Doctor', 'Doctor'), card('KevlarVest', 'Kevlar Vest'), card('CloudWalker', 'Cloudwalker')] }
         ]
       },
       {
         title: `d) Smell of the ${card('Sock', 'Sock')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: ['Gas Mask', card('Doctor', 'Doctor'), card('CloudWalker', 'CloudWalker')] }
+          { kind: 'list', ordered: true, items: [gasMask('Gas Mask'), card('Doctor', 'Doctor'), card('CloudWalker', 'Cloudwalker')] }
         ]
       },
       {
         title: `e) Bullet from ${card('Matrix', 'Matrix')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: [card('KevlarVest', 'Kevlar Vest'), card('CloudWalker', 'CloudWalker')] }
+          { kind: 'list', ordered: true, items: [card('KevlarVest', 'Kevlar Vest'), card('CloudWalker', 'Cloudwalker')] }
         ]
       }
     ]
@@ -128,13 +132,13 @@ export const RULES_CONTENT_EN: RuleSection[] = [
       {
         title: 'a) Sentencing by vote',
         blocks: [
-          { kind: 'list', ordered: true, items: [card('RopeWalker', 'RopeWalker'), card('Immunity', 'Immunity'), card('CloudWalker', 'CloudWalker')] }
+          { kind: 'list', ordered: true, items: [card('RopeWalker', 'Ropewalker'), card('Immunity', 'Immunity'), card('CloudWalker', 'Cloudwalker')] }
         ]
       },
       {
         title: `b) Shot during the day (${card('Anarchist', 'Anarchist')}, ${card('MassMurderer', 'Mass Murderer')}, ${card('Terrorist', 'Bomb')})`,
         blocks: [
-          { kind: 'list', ordered: true, items: [card('Immunity', 'Immunity'), card('KevlarVest', 'Kevlar Vest'), card('CloudWalker', 'CloudWalker')] }
+          { kind: 'list', ordered: true, items: [card('Immunity', 'Immunity'), card('KevlarVest', 'Kevlar Vest'), card('CloudWalker', 'Cloudwalker')] }
         ]
       }
     ]
@@ -223,9 +227,9 @@ export const RULES_CONTENT_EN: RuleSection[] = [
           `A player may hold only one ${card('Slime', 'Slime')} card.`,
           `A player may hold only one card from the pair ${card('Atheist', 'Atheist')} / ${card('Matrix')}.`,
           `A player holding a ${card('Mafia', 'Mafia')} card cannot receive ${card('Doctor', 'Doctor')} or ${card('Spyglass', 'Spyglass')}.`,
-          `A player may receive a maximum of two ${card('CloudWalker', 'CloudWalkers')}.`,
-          `A player may receive a maximum of two ${card('RopeWalker', 'RopeWalkers')}.`,
-          `A player holding a ${card('Gravedigger', 'Gravedigger')}, ${card('Leech', 'Leech')}, ${card('AlCapone', 'Al Capone')}, ${card('Gandalf')}, or ${card('HorsePiece', 'Horse Piece')} card may receive only one ${card('CloudWalker', 'CloudWalker')}.`
+          `A player may receive a maximum of two ${card('CloudWalker', 'Cloudwalkers')}.`,
+          `A player may receive a maximum of two ${card('RopeWalker', 'Ropewalkers')}.`,
+          `A player holding a ${card('Gravedigger', 'Gravedigger')}, ${card('Leech', 'Leech')}, ${card('AlCapone', 'Al Capone')}, ${card('Gandalf')}, or ${card('HorsePiece', 'Horse Piece')} card may receive only one ${card('CloudWalker', 'Cloudwalker')}.`
         ]
       }
     ]
@@ -239,7 +243,7 @@ export const TRANSLATIONS_EN = {
   role_Astronomer: 'Astronomer',
   role_Atheist: 'Atheist',
   role_BlindExecutioner: 'Blind Executioner',
-  role_CloudWalker: 'CloudWalker',
+  role_CloudWalker: 'Cloudwalker',
   role_Cobra: 'Cobra',
   role_Communist: 'Communist',
   role_Doctor: 'Doctor',
@@ -262,7 +266,7 @@ export const TRANSLATIONS_EN = {
   role_Meciar: 'Meciar',
   role_Mage: 'Mage',
   role_Mirror: 'Mirror',
-  role_RopeWalker: 'RopeWalker',
+  role_RopeWalker: 'Ropewalker',
   role_Sand: 'Sand',
   role_Slime: 'Slime',
   role_Sniper: 'Sniper',
@@ -278,21 +282,21 @@ export const TRANSLATIONS_EN = {
   card_description_Astronomer: 'The Astronomer can use their ability once per game during the day by saying "Night!", immediately ending the day even if a vote is in progress.',
   card_description_Atheist: 'A tunnel created by a Mage leading to the Atheist fails to work. The Announcer does not inform the Mage that they created a tunnel to an Atheist.',
   card_description_BlindExecutioner: 'The Blind Executioner can indicate two players at night, twice per game. If the first indicated player is sentenced to hang the next day, the second indicated player dies instead.',
-  card_description_CloudWalker: 'CloudWalker is a basic defense card acting as an extra life. It is consumed if the player has no other protection available.',
-  card_description_Cobra: 'Every even night, the Cobra points to a player they believe holds the Leech card. If they guess correctly, they gain a CloudWalker at the end of the night and devour the Leech (the player with that card loses their abilities).',
+  card_description_CloudWalker: 'Cloudwalker is a basic defense card acting as an extra life. It is consumed if the player has no other protection available.',
+  card_description_Cobra: 'Every even night, the Cobra points to a player they believe holds the Leech card. If they guess correctly, they gain a Cloudwalker at the end of the night and devour the Leech (the player with that card loses their abilities).',
   card_description_Communist: 'The Communist can use their ability once per game during the day by saying "Citizens, in this round we are all equal," canceling the abilities of Meciar, Kovac, Ghost Bobo, and the Judge for one day.',
   card_description_Doctor: 'Every night, the Doctor points to a player to heal, protecting them once from a bullet or the smell of the Sock. Every third night (starting from the first or second), they may heal themselves. If the Doctor is left alone against one or more Mafiosi and cannot heal themselves, they are deactivated.',
-  card_description_Gandalf: 'If Horse Piece loses a CloudWalker, Gandalf gains it. They can only gain one CloudWalker per night this way.',
+  card_description_Gandalf: 'If Horse Piece loses a Cloudwalker, Gandalf gains it. They can only gain one Cloudwalker per night this way.',
   card_description_Glazier: 'If the Glazier has no Mirror, and another player has theirs destroyed during the night, the Glazier gains it at the end of the night. They can receive only one Mirror per night.',
   card_description_GhostBobo: 'Every even night, Ghost Bobo points to a player who will be forbidden from speaking the next day (only the Communist can lift this ban). If the accused player is silenced by Ghost Bobo, they designate a person to defend them by interpreting their facial expressions and gestures.',
-  card_description_Gravedigger: 'Once per game at night, the Gravedigger can dig graves to recover CloudWalkers, gaining as many CloudWalkers at the end of the night as were lost by other players that night.',
-  card_description_HorsePiece: 'If Gandalf loses a CloudWalker, Horse Piece gains it. They can only gain one CloudWalker per night this way.',
+  card_description_Gravedigger: 'Once per game at night, the Gravedigger can dig graves to recover Cloudwalkers, gaining as many Cloudwalkers at the end of the night as were lost by other players that night.',
+  card_description_HorsePiece: 'If Gandalf loses a Cloudwalker, Horse Piece gains it. They can only gain one Cloudwalker per night this way.',
   card_description_Immunity: 'Defense card used if hit by a bullet during the day or sentenced to hang.',
-  card_description_Jailer: 'Once per game, the Jailer can indicate a player to imprison, blocking their ability for that night. The Announcer wakes the imprisoned player but clearly signals that they are in prison.',
+  card_description_Jailer: 'Once per game, the Jailer can indicate a player to imprison, blocking their abilities for that night. The Announcer wakes the imprisoned player but clearly signals that they are in prison.',
   card_description_Judge: 'Every even night, the Judge points to a player who will be forbidden from voting the next day. The Communist can lift this ban.',
   card_description_KevlarVest: 'Defense card used if hit by a bullet.',
   card_description_Kovac: 'Kovac reduces the number of votes cast for his death by 1. If the Communist uses their ability, Kovac loses this function.',
-  card_description_Leech: 'Every night, the Leech points to a player to latch onto. If that player loses a CloudWalker or dies that night, the Leech gains a CloudWalker. The Leech can be devoured by the Cobra.',
+  card_description_Leech: 'Every night, the Leech points to a player to latch onto. If that player loses a Cloudwalker or dies that night, the Leech gains a Cloudwalker. The Leech can be devoured by the Cobra.',
   card_description_MadGunman: 'The Mad Gunman fires one shot every even night.',
   card_description_Mafia: 'A Mafioso can win the game by eliminating all ordinary players, using a bullet every night. To fire, all Mafiosi must point to the same player at night. To coordinate their targets, they wake up at the start of the first night.',
   card_description_Mage: 'Every night, the Mage selects two players to create a one-way tunnel. If the first player (entrance) is hit, the bullet travels through the tunnel to the second player (exit).',
@@ -305,8 +309,8 @@ export const TRANSLATIONS_EN = {
   card_description_Sand: 'The player with the Sand card targets a player every night to throw sand at. Sand neutralizes the effect of Slime, making the player vulnerable to being hit. Players with a Gas Mask (Mad Gunman 2, Mage 2, and Ghost Bobo) are protected against Sand.',
   card_description_Slime: 'The player with the Slime card indicates a player every night to cover with slime. The slimed player is protected once during the night against a bullet from the Mafia, Mad Gunman, and Sniper (the bullet slides off). The Slime effect can be neutralized by Sand.',
   card_description_Sniper: 'Once per game, the Sniper can indicate a player to shoot with a high-caliber bullet. It is so powerful that it shatters Mirrors and continues its trajectory.',
-  card_description_Sock: 'Once per game at night, the player with the Sock can throw it between two players, who are then overcome by its smell. Only a Gas Mask, Doctor, and CloudWalker protect against the Sock\'s smell. Mad Gunman 2, Mage 2, and Ghost Bobo possess a Gas Mask.',
-  card_description_Spyglass: 'The Spyglass wakes up at the end of every third night (starting from the second) and is informed by the Announcer which roles were active that night.',
+  card_description_Sock: 'Once per game at night, the player with the Sock can throw it between two players, who are then overcome by its smell. Only a Gas Mask, Doctor, and Cloudwalker protect against the Sock\'s smell. Mad Gunman 2, Mage 2, and Ghost Bobo possess a Gas Mask.',
+  card_description_Spyglass: 'The Spyglass wakes up at the end of every third night (starting from the second) and is informed by the Announcer which players were active that night.',
   card_description_SwampMonster: 'The Swamp Monster can indicate a player three times per game at night to muddy their Mirror. A bullet shatters a muddy Mirror but keeps flying. The Swamp Monster can use their ability multiple times in the same night. If the player also holds a Mafioso, Sniper, or Mad Gunman card, they can muddy a Mirror only twice.',
   card_description_Terrorist: 'The Terrorist can use their ability once per game during the day by saying "Bomb!", then shooting all players.',
   card_description_TimeLord: 'The Time Lord can say "I am the Time Lord!" once per game at the beginning of the day or night to skip the current phase.',
@@ -347,6 +351,8 @@ export const TRANSLATIONS_EN = {
   cards_placeholder_description: 'Description coming soon.',
   cards_toggle_icons: 'Icons',
   cards_toggle_images: 'Images',
+  cards_section_passive: 'Passive abilities',
+  cards_section_active: 'Active abilities',
   player_add_card_title: 'Add a gained card',
   player_add_card_button: 'Add card',
   player_add_card_type_label: 'Card type',
@@ -422,7 +428,7 @@ export const TRANSLATIONS_EN = {
   log_tunnel_created: '{cardLabel} {player} created tunnel {tunnelNumber} ({source} -> {target}).',
 
   // Slime
-  wake_up_slime: '{role} wakes up. Who do they want to slimed?',
+  wake_up_slime: '{role} wakes up. Who do they want to cover with slime?',
   log_action_slime: '{cardLabel} {player} slimed player {target}.',
   public_report_slime: '{name} is dripping with slime.',
   public_report_slime_multi: '{name} is dripping with slime (x{count}).',
@@ -430,8 +436,8 @@ export const TRANSLATIONS_EN = {
   // Leech
   wake_up_leech: '{role} wakes up. Who do they want to latch onto?',
   log_action_leech: '{cardLabel} {player} latched onto player {target}.',
-  public_report_leech_cloudwalker: `${card('Leech')} gains ${card('CloudWalker', 'CloudWalker {num}')}.`,
-  log_night_leech_cloudwalker: `{cardLabel} {player} gains ${card('CloudWalker', 'CloudWalker {num}')}.`,
+  public_report_leech_cloudwalker: `${card('Leech')} gains ${card('CloudWalker', 'Cloudwalker {num}')}.`,
+  log_night_leech_cloudwalker: `{cardLabel} {player} gains ${card('CloudWalker', 'Cloudwalker {num}')}.`,
 
   // Sand
   wake_up_sand: '{role} wakes up. Who do they want to throw sand at?',
@@ -443,8 +449,8 @@ export const TRANSLATIONS_EN = {
   // Cobra
   wake_up_cobra: '{role} wakes up. Who do they want to bite?',
   log_action_cobra: '{name} was bitten.',
-  public_report_cobra_cloudwalker: `${card('Cobra')} devours ${card('Leech')} and gains ${card('CloudWalker', 'CloudWalker {num}')}.`,
-  log_night_cobra_cloudwalker: `{cardLabel} {player} devours ${card('Leech')} and gains ${card('CloudWalker', 'CloudWalker {num}')}.`,
+  public_report_cobra_cloudwalker: `${card('Cobra')} devours ${card('Leech')} and gains ${card('CloudWalker', 'Cloudwalker {num}')}.`,
+  log_night_cobra_cloudwalker: `{cardLabel} {player} devours ${card('Leech')} and gains ${card('CloudWalker', 'Cloudwalker {num}')}.`,
 
   // Magnet
   wake_up_magnet: '{role} wakes up. Who do they want to magnetize?',
@@ -477,18 +483,18 @@ export const TRANSLATIONS_EN = {
   log_sock_result_gasmask: 'Gas Mask saved player {name}. ',
   log_sock_result_dead: 'Player {name} was already dead. ',
   log_sock_result_doctor: `${card('Doctor')} saved player {name}. `,
-  log_sock_result_cloudwalker: `Player {name} lost ${card('CloudWalker', 'CloudWalker {num}')}. `,
+  log_sock_result_cloudwalker: `Player {name} lost ${card('CloudWalker', 'Cloudwalker {num}')}. `,
   log_sock_result_death: 'Player {name} leaves the game. ',
   public_report_sock_used: `${card('Sock', 'A Sock')} was thrown between two players. `,
   public_report_sock_first_gasmask: 'The first player was saved by a Gas Mask',
   public_report_sock_first_dead: 'The first player was already dead',
   public_report_sock_first_doctor: `The first player was saved by ${card('Doctor', 'a Doctor')}`,
-  public_report_sock_first_cloudwalker: `The first player lost ${card('CloudWalker', 'CloudWalker {num}')}`,
+  public_report_sock_first_cloudwalker: `The first player lost ${card('CloudWalker', 'Cloudwalker {num}')}`,
   public_report_sock_first_death: 'The first player, {name}, leaves our game',
   public_report_sock_second_gasmask: ', and the second was saved by a Gas Mask.',
   public_report_sock_second_dead: ', and the second player was already dead.',
   public_report_sock_second_doctor: `, and the second was saved by ${card('Doctor', 'a Doctor')}.`,
-  public_report_sock_second_cloudwalker: `, and the second player lost ${card('CloudWalker', 'CloudWalker {num}')}.`,
+  public_report_sock_second_cloudwalker: `, and the second player lost ${card('CloudWalker', 'Cloudwalker {num}')}.`,
   public_report_sock_second_death: ', and the second player, {name}, leaves our game.',
   public_report_sock_first_only_suffix: '.',
 
@@ -528,17 +534,17 @@ export const TRANSLATIONS_EN = {
 
   // Public Reports (Resolution)
   log_day_vest_hit: `{target} loses ${card('KevlarVest', 'Kevlar Vest {num}')}.`,
-  log_day_ropewalker_lost: `{target} loses ${card('RopeWalker', 'RopeWalker {num}')}.`,
+  log_day_ropewalker_lost: `{target} loses ${card('RopeWalker', 'Ropewalker {num}')}.`,
   log_day_immunity_lost: `{target} loses ${card('Immunity', 'Immunity {num}')}.`,
-  log_day_cloudwalker_lost: `{target} loses ${card('CloudWalker', 'CloudWalker {num}')}.`,
+  log_day_cloudwalker_lost: `{target} loses ${card('CloudWalker', 'Cloudwalker {num}')}.`,
   log_day_death: '{target} dies.',
 
   // Morning Report
   public_report_default: 'The Palermo Town wakes up.',
   public_report_matrix: `${card('Matrix')} used his function tonight. Number of bullets intercepted: {count}.`,
-  public_report_cloudwalker_gain: `{cardLabel} gains ${card('CloudWalker', 'CloudWalker {num}')}.`,
+  public_report_cloudwalker_gain: `{cardLabel} gains ${card('CloudWalker', 'Cloudwalker {num}')}.`,
   public_report_glazier_mirror: `${card('Glazier')} creates ${card('Mirror', 'Mirror {num}')}.`,
-  log_night_cloudwalker_gain: `{cardLabel} {player} gains ${card('CloudWalker', 'CloudWalker {num}')}.`,
+  log_night_cloudwalker_gain: `{cardLabel} {player} gains ${card('CloudWalker', 'Cloudwalker {num}')}.`,
   log_night_glazier_mirror: `{cardLabel} {player} creates ${card('Mirror', 'Mirror {num}')}.`,
   
   
@@ -557,7 +563,7 @@ export const TRANSLATIONS_EN = {
   public_report_bullet_return: ', the bullet returned',
   public_report_bullet_continue: ', the bullet flies on',
   public_report_bullet_vest_loss: ` and ${card('KevlarVest', 'Kevlar Vest {num}')} was destroyed.`,
-  public_report_bullet_cloudwalker_loss: ` and ${card('CloudWalker', 'CloudWalker {num}')} died.`,
+  public_report_bullet_cloudwalker_loss: ` and ${card('CloudWalker', 'Cloudwalker {num}')} died.`,
   public_report_bullet_death: ' and {name} leaves our game.',
 
   log_night_bullet_start: '{cardLabel} {shooter} fires at player {target}. ',
@@ -585,12 +591,12 @@ export const TRANSLATIONS_EN = {
   log_night_bullet_continue_mud: `, but the bullet flies on because {target}'s ${card('Mirror', 'the Mirror')} was muddy,`,
   log_night_bullet_vest_loss_initial: `The bullet destroys ${card('KevlarVest', 'Kevlar Vest {num}')} of player {target}.`,
   log_night_bullet_vest_loss: ` and {target} loses ${card('KevlarVest', 'Kevlar Vest {num}')}.`,
-  log_night_bullet_cloudwalker_loss_initial: `The bullet takes ${card('CloudWalker', 'CloudWalker {num}')} from player {target}.`,
-  log_night_bullet_cloudwalker_loss: ` and {target} loses ${card('CloudWalker', 'CloudWalker {num}')}.`,
+  log_night_bullet_cloudwalker_loss_initial: `The bullet takes ${card('CloudWalker', 'Cloudwalker {num}')} from player {target}.`,
+  log_night_bullet_cloudwalker_loss: ` and {target} loses ${card('CloudWalker', 'Cloudwalker {num}')}.`,
   log_night_bullet_death_initial: 'The bullet kills player {name}.',
   log_night_bullet_death: ' and {name} dies.',
-  log_night_bullet_gandalf_from_horse: ` ${card('Gandalf')} {gandalf} gains ${card('CloudWalker', 'CloudWalker {num}')} (loss of ${card('HorsePiece')} {horse}: {lost}).`,
-  log_night_bullet_horsepiece_from_gandalf: ` ${card('HorsePiece')} {horse} gains ${card('CloudWalker', 'CloudWalker {num}')} (loss of ${card('Gandalf')} {gandalf}: {lost}).`,
+  log_night_bullet_gandalf_from_horse: ` ${card('Gandalf')} {gandalf} gains ${card('CloudWalker', 'Cloudwalker {num}')} (loss of ${card('HorsePiece')} {horse}: {lost}).`,
+  log_night_bullet_horsepiece_from_gandalf: ` ${card('HorsePiece')} {horse} gains ${card('CloudWalker', 'Cloudwalker {num}')} (loss of ${card('Gandalf')} {gandalf}: {lost}).`,
 
   // UI
   ui_confirm: 'Yes',
@@ -615,8 +621,8 @@ export const TRANSLATIONS_EN = {
   day_idle_message: 'It is day. Use available actions.',
   day_report_confirm: 'Confirm Report',
   public_report_day_player_left: '{name} leaves our game.',
-  public_report_day_ropewalker_lost: `${card('RopeWalker', 'RopeWalker {num}')} was lost.`,
-  public_report_day_cloudwalker_lost: `${card('CloudWalker', 'CloudWalker {num}')} was lost.`,
+  public_report_day_ropewalker_lost: `${card('RopeWalker', 'Ropewalker {num}')} was lost.`,
+  public_report_day_cloudwalker_lost: `${card('CloudWalker', 'Cloudwalker {num}')} was lost.`,
   public_report_day_kevlar_lost: `${card('KevlarVest', 'Kevlar Vest {num}')} was destroyed.`,
   public_report_day_immunity_lost: `${card('Immunity', 'Immunity {num}')} was used.`,
   ui_mass_murderer_target: 'Sentenced: {name}',

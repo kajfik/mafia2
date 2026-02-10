@@ -98,6 +98,18 @@ body::after {
   text-transform: uppercase;
 }
 
+.card-passive {
+  border-color: rgba(180, 186, 198, 0.45);
+  background: radial-gradient(circle at 20% 20%, rgba(180, 186, 198, 0.16), transparent 55%),
+    rgba(14, 15, 20, 0.92);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6), inset 0 0 18px rgba(180, 186, 198, 0.12);
+}
+
+.card-passive h3 {
+  color: #d2d6e0;
+  text-shadow: 0 0 16px rgba(180, 186, 198, 0.35);
+}
+
 .mafia-title {
   color: var(--color-brass);
   text-shadow: 0 0 18px rgba(242, 200, 121, 0.35);

@@ -3,6 +3,10 @@ import type { CardId } from '../types';
 
 const card = (cardId: CardId, labelOverride?: string) =>
   labelOverride ? `{{card:${cardId}|${labelOverride}}}` : `{{card:${cardId}}}`;
+const gasMask = (labelOverride?: string) =>
+  labelOverride ? `{{gasMask|${labelOverride}}}` : '{{gasMask}}';
+const tunnel = (labelOverride?: string) =>
+  labelOverride ? `{{tunnel|${labelOverride}}}` : '{{tunnel}}';
 
 export const RULES_CONTENT_CZ: RuleSection[] = [
   {
@@ -67,15 +71,15 @@ export const RULES_CONTENT_CZ: RuleSection[] = [
     ],
     subsections: [
       {
-        title: 'Tunel',
+        title: tunnel('Tunel'),
         blocks: [
           { kind: 'paragraph', text: 'Pokud je zasažen první označený hráč, kulka se přesune tunelem k druhému. Pokud od jednoho hráče vede více tunelů, kulka se rozdělí na úlomky, které proletí všemi tunely (se zachováním vlastností normální kulky). Kulka ani úlomky nemohou proletět stejným tunelem dvakrát. V případě existence dvou nebo tří tunelů vedoucích stejným směrem mezi týmiž hráči se kulka nedělí, ale letí tunelem vytvořeným nejdříve.' }
         ]
       },
       {
-        title: 'Plynová maska',
+        title: gasMask('Plynová maska'),
         blocks: [
-          { kind: 'paragraph', text: `Držitelé karet ${card('Mage', 'Mág 2')}, ${card('MadGunman', 'Šílený Střelec 2')} a ${card('GhostBobo', 'Duch Bobo')} jsou vybaveni Plynovou maskou, která chrání před ${card('Sand', 'Pískem')} a zápachem ${card('Sock', 'Ponožky')}.` }
+          { kind: 'paragraph', text: `Držitelé karet ${card('Mage', 'Mág 2')}, ${card('MadGunman', 'Šílený Střelec 2')} a ${card('GhostBobo', 'Duch Bobo')} jsou vybaveni ${gasMask('Plynová maska')}, která chrání před ${card('Sand', 'Pískem')} a zápachem ${card('Sock', 'Ponožky')}.` }
         ]
       }
     ]
@@ -90,25 +94,25 @@ export const RULES_CONTENT_CZ: RuleSection[] = [
       {
         title: `a) Kulka od ${card('Mafia', 'Mafie')}`,
         blocks: [
-          { kind: 'list', title: `Střílí ${card('Mafia', 'Mafián')} s nejvyšším číslem:`, ordered: true, items: [card('Magnet', 'Magnet'), 'Tunel', card('Mirror', 'Zrcadlo'), card('Slime', 'Slina'), card('AlCapone', 'Al Capone'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kevlar'), card('CloudWalker', 'Mrákošlap')] }
+          { kind: 'list', title: `Střílí ${card('Mafia', 'Mafián')} s nejvyšším číslem:`, ordered: true, items: [card('Magnet', 'Magnet'), tunnel('Tunel'), card('Mirror', 'Zrcadlo'), card('Slime', 'Slina'), card('AlCapone', 'Al Capone'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kevlar'), card('CloudWalker', 'Mrákošlap')] }
         ]
       },
       {
         title: `b) Kulka od ${card('MadGunman', 'Šíleného Střelce')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), 'Tunel', card('Mirror', 'Zrcadlo'), card('Slime', 'Slina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kevlar'), card('CloudWalker', 'Mrákošlap')] }
+          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), tunnel('Tunel'), card('Mirror', 'Zrcadlo'), card('Slime', 'Slina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kevlar'), card('CloudWalker', 'Mrákošlap')] }
         ]
       },
       {
         title: `c) Kulka od ${card('Sniper', 'Snipera')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), 'Tunel', card('Mirror', 'Zrcadlo'), card('Slime', 'Slina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kevlar'), card('CloudWalker', 'Mrákošlap')] }
+          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), tunnel('Tunel'), card('Mirror', 'Zrcadlo'), card('Slime', 'Slina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kevlar'), card('CloudWalker', 'Mrákošlap')] }
         ]
       },
       {
         title: `d) Zápach ${card('Sock', 'Ponožky')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: ['Plynová maska', card('Doctor', 'Doktor'), card('CloudWalker', 'Mrákošlap')] }
+          { kind: 'list', ordered: true, items: [gasMask('Plynová maska'), card('Doctor', 'Doktor'), card('CloudWalker', 'Mrákošlap')] }
         ]
       },
       {
@@ -347,6 +351,8 @@ export const TRANSLATIONS_CZ = {
   cards_placeholder_description: 'Popis se připravuje.',
   cards_toggle_icons: 'Ikony',
   cards_toggle_images: 'Grafika',
+  cards_section_passive: 'Pasivní schopnosti',
+  cards_section_active: 'Aktivní schopnosti',
   player_add_card_title: 'Přidat získanou kartu',
   player_add_card_button: 'Přidat kartu',
   player_add_card_type_label: 'Typ karty',

@@ -3,6 +3,10 @@ import type { CardId } from '../types';
 
 const card = (cardId: CardId, labelOverride?: string) =>
   labelOverride ? `{{card:${cardId}|${labelOverride}}}` : `{{card:${cardId}}}`;
+const gasMask = (labelOverride?: string) =>
+  labelOverride ? `{{gasMask|${labelOverride}}}` : '{{gasMask}}';
+const tunnel = (labelOverride?: string) =>
+  labelOverride ? `{{tunnel|${labelOverride}}}` : '{{tunnel}}';
 
 export const RULES_CONTENT_PL: RuleSection[] = [
   {
@@ -67,15 +71,15 @@ export const RULES_CONTENT_PL: RuleSection[] = [
     ],
     subsections: [
       {
-        title: 'Tunel',
+        title: tunnel('Tunel'),
         blocks: [
           { kind: 'paragraph', text: 'Jeśli trafiony zostanie pierwszy wskazany gracz, pocisk przemieszcza się tunelem do drugiego. Jeśli od jednego gracza wychodzi więcej tuneli, pocisk dzieli się na odłamki, które przelatują wszystkimi tunelami (zachowując właściwości normalnego pocisku). Pocisk ani odłamki nie mogą przebyć tego samego tunelu dwukrotnie. W przypadku istnienia dwóch lub trzech tuneli w tym samym kierunku między tymi samymi graczami, pocisk nie dzieli się, lecz leci tunelem utworzonym najwcześniej.' }
         ]
       },
       {
-        title: 'Maska Gazowa',
+        title: gasMask('Maska Gazowa'),
         blocks: [
-          { kind: 'paragraph', text: `Posiadacze kart ${card('Mage', 'Mag 2')}, ${card('MadGunman', 'Szalony Strzelec 2')} oraz ${card('GhostBobo', 'Duch Bobo')} są wyposażeni w Maskę Gazową, chroniącą przed ${card('Sand', 'Piaskiem')} i zapachem ${card('Sock', 'Skarpetki')}.` }
+          { kind: 'paragraph', text: `Posiadacze kart ${card('Mage', 'Mag 2')}, ${card('MadGunman', 'Szalony Strzelec 2')} oraz ${card('GhostBobo', 'Duch Bobo')} są wyposażeni w ${gasMask('Maska Gazowa')}, chroniącą przed ${card('Sand', 'Piaskiem')} i zapachem ${card('Sock', 'Skarpetki')}.` }
         ]
       }
     ]
@@ -90,25 +94,25 @@ export const RULES_CONTENT_PL: RuleSection[] = [
       {
         title: `a) Pocisk od ${card('Mafia', 'Mafii')}`,
         blocks: [
-          { kind: 'list', title: `Strzela ${card('Mafia', 'Mafioso')} z najwyższym numerem:`, ordered: true, items: [card('Magnet', 'Magnes'), 'Tunel', card('Mirror', 'Zwierciadło'), card('Slime', 'Ślina'), card('AlCapone', 'Al Capone'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kamizelka kuloodporna'), card('CloudWalker', 'Chmurostąp')] }
+          { kind: 'list', title: `Strzela ${card('Mafia', 'Mafioso')} z najwyższym numerem:`, ordered: true, items: [card('Magnet', 'Magnes'), tunnel('Tunel'), card('Mirror', 'Zwierciadło'), card('Slime', 'Ślina'), card('AlCapone', 'Al Capone'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kamizelka kuloodporna'), card('CloudWalker', 'Chmurostąp')] }
         ]
       },
       {
         title: `b) Pocisk od ${card('MadGunman', 'Szalonego Strzelca')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnes'), 'Tunel', card('Mirror', 'Zwierciadło'), card('Slime', 'Ślina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kamizelka kuloodporna'), card('CloudWalker', 'Chmurostąp')] }
+          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnes'), tunnel('Tunel'), card('Mirror', 'Zwierciadło'), card('Slime', 'Ślina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kamizelka kuloodporna'), card('CloudWalker', 'Chmurostąp')] }
         ]
       },
       {
         title: `c) Pocisk od ${card('Sniper', 'Snajpera')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnes'), 'Tunel', card('Mirror', 'Zwierciadło'), card('Slime', 'Ślina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kamizelka kuloodporna'), card('CloudWalker', 'Chmurostąp')] }
+          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnes'), tunnel('Tunel'), card('Mirror', 'Zwierciadło'), card('Slime', 'Ślina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kamizelka kuloodporna'), card('CloudWalker', 'Chmurostąp')] }
         ]
       },
       {
         title: `d) Zapach ${card('Sock', 'Skarpetki')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: ['Maska Gazowa', card('Doctor', 'Doktor'), card('CloudWalker', 'Chmurostąp')] }
+          { kind: 'list', ordered: true, items: [gasMask('Maska Gazowa'), card('Doctor', 'Doktor'), card('CloudWalker', 'Chmurostąp')] }
         ]
       },
       {
@@ -347,6 +351,8 @@ export const TRANSLATIONS_PL = {
   cards_placeholder_description: 'Opis w przygotowaniu.',
   cards_toggle_icons: 'Ikony',
   cards_toggle_images: 'Grafiki',
+  cards_section_passive: 'Zdolności pasywne',
+  cards_section_active: 'Zdolności aktywne',
   player_add_card_title: 'Dodaj zdobytą kartę',
   player_add_card_button: 'Dodaj kartę',
   player_add_card_type_label: 'Typ karty',

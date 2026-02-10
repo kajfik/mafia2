@@ -217,7 +217,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
     );
   } else if (isDayAnnouncement) {
     const startDayButton = (
-      <button onClick={() => dispatch({ type: 'NEXT_PHASE' })} className={`${emberActionButtonClass} p-3 rounded-xl`}>
+      <button onClick={() => dispatch({ type: 'NEXT_PHASE' })} className={`${emberActionButtonClass} w-full p-3 rounded-xl`}>
         {t('start_day', lang)}
       </button>
     );

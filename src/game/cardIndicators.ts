@@ -48,12 +48,32 @@ const DAY_CARD_IDS = new Set<CardId>([
   'Terrorist'
 ]);
 
+const PASSIVE_CARD_IDS = new Set<CardId>([
+  'AlCapone',
+  'Atheist',
+  'CloudWalker',
+  'Gandalf',
+  'Glazier',
+  'HorsePiece',
+  'Immunity',
+  'KevlarVest',
+  'Kovac',
+  'MassMurderer',
+  'Meciar',
+  'Mirror',
+  'RopeWalker'
+]);
+
 export function isNightCard(cardId: CardId): boolean {
   return NIGHT_CARD_IDS.has(cardId);
 }
 
 export function isDayCard(cardId: CardId): boolean {
   return DAY_CARD_IDS.has(cardId);
+}
+
+export function isPassiveCard(cardId: CardId): boolean {
+  return PASSIVE_CARD_IDS.has(cardId);
 }
 
 export function givesGasMask(cardId: CardId, instance: number): boolean {

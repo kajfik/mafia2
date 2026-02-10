@@ -4,7 +4,7 @@ import { CARDS_CONFIG } from '../game/gameConfig';
 import { getCardName, getCardDescription, t } from '../game/translations';
 import { getCardIcon } from '../game/cardIcons';
 import { getCardGlyph } from '../game/cardGlyphs';
-import { isNightCard, isDayCard, givesGasMask } from '../game/cardIndicators';
+import { isNightCard, isDayCard, givesGasMask, isPassiveCard } from '../game/cardIndicators';
 import { CardDisplay } from './CardDisplay';
 import type { CardIndicator } from './CardDisplay';
 
@@ -90,6 +90,20 @@ export const CardsTab: React.FC<CardsTabProps> = ({ language, className, playerC
     { value: 'icon', label: t('cards_toggle_icons', language) },
     { value: 'image', label: t('cards_toggle_images', language) }
   ];
+  const [passiveCards, activeCards] = useMemo(() => {
+    const passive: CardEntry[] = [];
+    const active: CardEntry[] = [];
+    cardEntries.forEach(entry => {
+      if (isPassiveCard(entry.cardId)) {
+        passive.push(entry);
+      } else {
+        active.push(entry);
+      }
+    });
+    return [passive, active];
+  }, [cardEntries]);
+  const sectionTitleClass = 'text-xs uppercase tracking-[0.35em] text-white/60';
+  const gridClass = 'grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4';
 
   return (
     <div className={wrapperClass}>
@@ -117,19 +131,43 @@ export const CardsTab: React.FC<CardsTabProps> = ({ language, className, playerC
             </div>
           </div>
         </header>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-          {cardEntries.map(card => (
-            <CardDisplay
-              key={`${card.cardId}-${card.instance}`}
-              label={card.label}
-              glyph={card.glyph}
-              imageSrc={card.imageSrc}
-              artMode={resolvedArtMode}
-              indicators={card.indicators}
-              description={card.description ?? placeholderDescription}
-            />
-          ))}
-        </div>
+        {activeCards.length > 0 && (
+          <section className="space-y-3">
+            <h3 className={sectionTitleClass}>{t('cards_section_active', language)}</h3>
+            <div className={gridClass}>
+              {activeCards.map(card => (
+                <CardDisplay
+                  key={`${card.cardId}-${card.instance}`}
+                  label={card.label}
+                  glyph={card.glyph}
+                  imageSrc={card.imageSrc}
+                  artMode={resolvedArtMode}
+                  indicators={card.indicators}
+                  description={card.description ?? placeholderDescription}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+        {passiveCards.length > 0 && (
+          <section className="space-y-3">
+            <h3 className={sectionTitleClass}>{t('cards_section_passive', language)}</h3>
+            <div className={gridClass}>
+              {passiveCards.map(card => (
+                <CardDisplay
+                  key={`${card.cardId}-${card.instance}`}
+                  label={card.label}
+                  glyph={card.glyph}
+                  imageSrc={card.imageSrc}
+                  artMode={resolvedArtMode}
+                  indicators={card.indicators}
+                  description={card.description ?? placeholderDescription}
+                  className="card-passive"
+                />
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );

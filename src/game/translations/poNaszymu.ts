@@ -3,6 +3,10 @@ import type { CardId } from '../types';
 
 const card = (cardId: CardId, labelOverride?: string) =>
   labelOverride ? `{{card:${cardId}|${labelOverride}}}` : `{{card:${cardId}}}`;
+const gasMask = (labelOverride?: string) =>
+  labelOverride ? `{{gasMask|${labelOverride}}}` : '{{gasMask}}';
+const tunnel = (labelOverride?: string) =>
+  labelOverride ? `{{tunnel|${labelOverride}}}` : '{{tunnel}}';
 
 export const RULES_CONTENT_PO_NASZYMU: RuleSection[] = [
   {
@@ -67,15 +71,15 @@ export const RULES_CONTENT_PO_NASZYMU: RuleSection[] = [
     ],
     subsections: [
       {
-        title: 'Tunel',
+        title: tunnel('Tunel'),
         blocks: [
           { kind: 'paragraph', text: 'Jak zostanie trefióny piyrwszy pokozany gracz, kula leci tunelym do drugiego. Jak od jednego gracza idzie wiyncej tuneli, kula se dzieli na odłamki, kiere lecóm wszystkimi tunelami (majóm ty same właściwości co normalno kula). Kula ani odłamki nimogóm lecieć tym samym tunelym dwa razy. Jak sóm dwa albo trzi tunele w tym samym kierunku miyndzy tymi samymi graczami, kula se nie dzieli, jyny leci tunelym zrobiónym nejwcześnieji.' }
         ]
       },
       {
-        title: 'Gazmaska',
+        title: gasMask('Gazmaska'),
         blocks: [
-          { kind: 'paragraph', text: `Ci co majóm karty ${card('Mage', 'Mag 2')}, ${card('MadGunman', 'Szileny Strzelec 2')} a ${card('GhostBobo', 'Duch Bobo')} majóm Gazmaske, kiero chróni przed ${card('Sand', 'Pioskym')} a smrodym z ${card('Sock', 'Fusekli')}.` }
+          { kind: 'paragraph', text: `Ci co majóm karty ${card('Mage', 'Mag 2')}, ${card('MadGunman', 'Szileny Strzelec 2')} a ${card('GhostBobo', 'Duch Bobo')} majóm ${gasMask('Gazmaska')}, kiero chróni przed ${card('Sand', 'Pioskym')} a smrodym z ${card('Sock', 'Fusekli')}.` }
         ]
       }
     ]
@@ -90,25 +94,25 @@ export const RULES_CONTENT_PO_NASZYMU: RuleSection[] = [
       {
         title: `a) Kula od ${card('Mafia', 'Mafii')}`,
         blocks: [
-          { kind: 'list', title: `Strzilo ${card('Mafia', 'Mafian')} z najwyższym numerem:`, ordered: true, items: [card('Magnet', 'Magnet'), 'Tunel', card('Mirror', 'Zwierciadło'), card('Slime', 'Ślina'), card('AlCapone', 'Al Capone'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kewlar'), card('CloudWalker', 'Mrakoszlap')] }
+          { kind: 'list', title: `Strzilo ${card('Mafia', 'Mafian')} z najwyższym numerem:`, ordered: true, items: [card('Magnet', 'Magnet'), tunnel('Tunel'), card('Mirror', 'Zwierciadło'), card('Slime', 'Ślina'), card('AlCapone', 'Al Capone'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kewlar'), card('CloudWalker', 'Mrakoszlap')] }
         ]
       },
       {
         title: `b) Kula od ${card('MadGunman', 'Szilonego Strzelca')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), 'Tunel', card('Mirror', 'Zwierciadło'), card('Slime', 'Ślina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kewlar'), card('CloudWalker', 'Mrakoszlap')] }
+          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), tunnel('Tunel'), card('Mirror', 'Zwierciadło'), card('Slime', 'Ślina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kewlar'), card('CloudWalker', 'Mrakoszlap')] }
         ]
       },
       {
         title: `c) Kula od ${card('Sniper', 'Snipera')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), 'Tunel', card('Mirror', 'Zwierciadło'), card('Slime', 'Ślina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kewlar'), card('CloudWalker', 'Mrakoszlap')] }
+          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), tunnel('Tunel'), card('Mirror', 'Zwierciadło'), card('Slime', 'Ślina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kewlar'), card('CloudWalker', 'Mrakoszlap')] }
         ]
       },
       {
         title: `d) Smród z ${card('Sock', 'Fusekli')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: ['Gazmaska', card('Doctor', 'Doktor'), card('CloudWalker', 'Mrakoszlap')] }
+          { kind: 'list', ordered: true, items: [gasMask('Gazmaska'), card('Doctor', 'Doktor'), card('CloudWalker', 'Mrakoszlap')] }
         ]
       },
       {
@@ -347,6 +351,8 @@ export const TRANSLATIONS_PO_NASZYMU = {
   cards_placeholder_description: 'Opis se robi.',
   cards_toggle_icons: 'Ikony',
   cards_toggle_images: 'Grafiki',
+  cards_section_passive: 'Zdolności pasywne',
+  cards_section_active: 'Zdolności aktywne',
   player_add_card_title: 'Przidej zdobytóm karte',
   player_add_card_button: 'Przidej karte',
   player_add_card_type_label: 'Typ karty',
