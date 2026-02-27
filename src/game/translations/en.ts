@@ -277,7 +277,7 @@ export const TRANSLATIONS_EN = {
   role_TimeLord: 'Time Lord',
 
   // Card descriptions
-  card_description_AlCapone: 'Al Capone, as the godfather of the Mafia, is immune to its attacks. This protection applies only to direct hits from the Mafia; it does not protect against a bullet redirected via a Tunnel, Magnet, or Mirror.',
+  card_description_AlCapone: 'Al Capone, as the godfather of the Mafia, is immune to its attacks. This protection applies to direct hits from the Mafia and to bullets redirected via a Tunnel, but not against a bullet redirected via a Magnet or Mirror.',
   card_description_Anarchist: 'The Anarchist can use their ability once per game during the day by saying "I shoot you baby!", then shooting a chosen player.',
   card_description_Astronomer: 'The Astronomer can use their ability once per game during the day by saying "Night!", immediately ending the day even if a vote is in progress.',
   card_description_Atheist: 'A tunnel created by a Mage leading to the Atheist fails to work. The Announcer does not inform the Mage that they created a tunnel to an Atheist.',

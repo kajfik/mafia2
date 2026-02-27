@@ -277,7 +277,7 @@ export const TRANSLATIONS_PL = {
   role_TimeLord: 'Pan Czasu',
 
   // Card descriptions
-  card_description_AlCapone: 'Al Capone jako ojciec chrzestny Mafii jest odporny na jej ataki. Ochrona ta działa tylko na bezpośrednie trafienie przez Mafię, nie chroni natomiast przed pociskiem przekierowanym przez Tunel, Magnes lub Zwierciadło.',
+  card_description_AlCapone: 'Al Capone jako ojciec chrzestny Mafii jest odporny na jej ataki. Ochrona ta działa na bezpośrednie trafienie przez Mafię oraz na pociski przekierowane przez Tunel, ale nie chroni przed pociskiem przekierowanym przez Magnes lub Zwierciadło.',
   card_description_Anarchist: 'Anarchista może raz na całą grę w ciągu dnia użyć swojej zdolności, mówiąc "I shoot you baby!", po czym strzela do wskazanej przez siebie osoby.',
   card_description_Astronomer: 'Astronom może raz na całą grę w ciągu dnia użyć swojej zdolności, mówiąc "Noc!", co natychmiast kończy dzień, nawet jeśli trwa właśnie głosowanie.',
   card_description_Atheist: 'Tunel stworzony przez Maga prowadzący do Ateisty nie działa. Konferansjer nie informuje Maga o tym, że utworzył tunel na Ateistę.',

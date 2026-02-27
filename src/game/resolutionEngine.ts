@@ -99,6 +99,7 @@ type BulletQueueEntry = {
   visitedTunnels: Set<string>;
   magnetAttractors: Set<string>;
   isRedirected: boolean;
+  isRedirectedByMagnetOrMirror: boolean;
   fragments: BulletFragment[];
   logFragments: BulletLogFragment[];
   segments: BulletAnimationSegment[];
@@ -252,6 +253,7 @@ export function resolveNightShot(
       visitedTunnels: new Set(),
       magnetAttractors: new Set(),
       isRedirected: false,
+      isRedirectedByMagnetOrMirror: false,
       fragments: [initialPublicFragment],
       logFragments: [initialLogFragment],
       segments: [],
@@ -274,6 +276,7 @@ export function resolveNightShot(
       ctx.visitedTunnels,
       ctx.magnetAttractors,
       ctx.isRedirected,
+      ctx.isRedirectedByMagnetOrMirror,
       ctx.fragments,
       ctx.logFragments,
       ctx.segments,
@@ -294,6 +297,7 @@ function runBulletPath(
   visitedTunnels: Set<string>,
   magnetAttractors: Set<string>,
   wasRedirected: boolean,
+  wasRedirectedByMagnetOrMirror: boolean,
   fragments: BulletFragment[],
   logFragments: BulletLogFragment[],
   segments: BulletAnimationSegment[],
@@ -306,6 +310,7 @@ function runBulletPath(
   let pathVisited = new Set(visitedTunnels);
   const magnetHistory = new Set(magnetAttractors);
   let redirected = wasRedirected;
+  let redirectedByMagnetOrMirror = wasRedirectedByMagnetOrMirror;
   let currentFragments = fragments;
   let currentLogFragments = logFragments;
   let currentSegments = segments;
@@ -368,6 +373,7 @@ function runBulletPath(
         previousTargetId = target.id;
         currentTargetId = magnetTarget.id;
         redirected = true;
+        redirectedByMagnetOrMirror = true;
         return true;
       };
 
@@ -432,6 +438,7 @@ function runBulletPath(
               visitedTunnels: updatedVisited,
               magnetAttractors: branchMagnetHistory,
               isRedirected: true,
+              isRedirectedByMagnetOrMirror: redirectedByMagnetOrMirror,
               fragments: branchFragments,
               logFragments: branchLogFragments,
               segments: branchSegments,
@@ -468,6 +475,7 @@ function runBulletPath(
         currentTargetId = returnTargetId;
         previousTargetId = target.id;
         redirected = true;
+        redirectedByMagnetOrMirror = true;
         continue;
       }
 
@@ -497,7 +505,7 @@ function runBulletPath(
       return;
     }
 
-    if (isMafia && !redirected && target.cards.some(rr => rr.cardId === 'AlCapone')) {
+    if (isMafia && !redirectedByMagnetOrMirror && target.cards.some(rr => rr.cardId === 'AlCapone')) {
       pushSharedFragment({ key: 'public_report_bullet_al_capone', params: { target: targetName } });
       recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId, isMatrix);
       return;

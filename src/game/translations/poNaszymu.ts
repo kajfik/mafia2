@@ -277,7 +277,7 @@ export const TRANSLATIONS_PO_NASZYMU = {
   role_TimeLord: 'Pan Czasu',
 
   // Card descriptions
-  card_description_AlCapone: 'Al Capone jako ojciec chrzestny Mafii je imunni na jeji ataki. Ochróna ta działo jyny na bezpostrzedni strzał Mafii, ale nie chróni przed kulóm przekierowanóm przez Tunel, Magnet albo Zwierciadło.',
+  card_description_AlCapone: 'Al Capone jako ojciec chrzestny Mafii je imunni na jeji ataki. Ochróna ta działo na bezpostrzedni strzał Mafii i na kule przekierowane przez Tunel, ale nie chróni przed kulóm przekierowanóm przez Magnet albo Zwierciadło.',
   card_description_Anarchist: 'Anarchista może roz za gre w dziyń użyć swoji zdolności, a powiedzieć "I shoot you baby!", po czym strzylo do osoby, kieróm se wybiere.',
   card_description_Astronomer: 'Astronom może roz za gre w dziyń użyć swoji zdolności, godajónc "Noc!", co hned kóńczy dziyń, aj jak prawie trwo głosowani.',
   card_description_Atheist: 'Tunel zrobiony od Maga do Ateisty nie działo. Prowadzóncy nie godo Magowi, że zrobił tunel na Ateiste.',

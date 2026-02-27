@@ -277,7 +277,7 @@ export const TRANSLATIONS_CZ = {
   role_TimeLord: 'Pán Času',
 
   // Card descriptions
-  card_description_AlCapone: 'Al Capone jako kmotr Mafie je imunní vůči jejím útokům. Tato ochrana funguje pouze na přímý zásah od Mafie, nechrání však před kulkou přesměrovanou Tunelem, Magnetem nebo Zrcadlem.',
+  card_description_AlCapone: 'Al Capone jako kmotr Mafie je imunní vůči jejím útokům. Tato ochrana funguje na přímý zásah od Mafie a na kulky přesměrované Tunelem, ale nechrání před kulkou přesměrovanou Magnetem nebo Zrcadlem.',
   card_description_Anarchist: 'Anarchista může jednou za celou hru během dne použít svou schopnost zvoláním "I shoot you baby!", načež vystřelí na osobu, kterou si vybere.',
   card_description_Astronomer: 'Astronom může jednou za celou hru během dne použít svou schopnost zvoláním "Noc!", což okamžitě ukončí den, i když právě probíhá hlasování.',
   card_description_Atheist: 'Tunel vytvořený Mágem, který vede k Ateistovi, nefunguje. Moderátor Mága neinformuje o tom, že vytvořil tunel na Ateistu.',
