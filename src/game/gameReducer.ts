@@ -416,6 +416,13 @@ function shouldSkipNightCard(state: GameState, card: ActiveCardInstance | null):
     }
     return hasJailerActedThisNight(state, owner.id);
   }
+  if (card.cardId === 'Doctor') {
+    if (!owner || !owner.status.isAlive) {
+      return true;
+    }
+    const canSelf = canDoctorSelfHealThisNight(state);
+    return isDoctorDeactivated(state, owner, canSelf);
+  }
   if (card.cardId === 'SwampMonster') {
     if (!owner || !owner.status.isAlive) {
       return true;
@@ -734,6 +741,8 @@ function dayResultToEntry(result: DayDamageResult | null): PublicReportEntry | n
       return { key: 'public_report_day_cloudwalker_lost', params: { num: result.instance } };
     case 'DEATH':
       return { key: 'public_report_day_player_left', params: { name: result.playerName } };
+    case 'BLIND_EXECUTIONER_REDIRECT':
+      return { key: 'public_report_day_blind_executioner_redirect', params: { saved: result.savedPlayerName, victim: result.victimPlayerName } };
     default:
       return null;
   }
@@ -1094,7 +1103,7 @@ function handleBlindExecutionerSelection(state: GameState, targetId: string, log
   if (!state.nightCache.executionerPairs) {
     state.nightCache.executionerPairs = [];
   }
-  state.nightCache.executionerPairs.push({ savedId, victimId: targetId });
+  state.nightCache.executionerPairs.push({ savedId, victimId: targetId, executionerId: owner.id, executionerInstance: card.instance, executionerName: owner.name });
 
   savedPlayer.status.executionerStatus = 'SAVED';
   targetPlayer.status.executionerStatus = 'VICTIM';
@@ -1523,7 +1532,7 @@ function internalReducer(state: GameState, action: Action): GameState {
             return;
           }
           pushGeneralLog(newState, 'log_day_mass_murderer_shot', { player: owner.name, target: voter.name });
-          dayResults.push(resolveDayDamage(newState, voter.id, 'SHOOT'));
+          dayResults.push(...resolveDayDamage(newState, voter.id, 'SHOOT'));
         });
         owner.status.massMurdererUsed = true;
         consumeCard(owner, 'MassMurderer');
@@ -1533,7 +1542,7 @@ function internalReducer(state: GameState, action: Action): GameState {
         const hangTarget = newState.players.find(p => p.id === hangTargetId);
         const hangTargetName = hangTarget?.name || '?';
         pushGeneralLog(newState, 'log_day_vote', { target: hangTargetName });
-        dayResults.push(resolveDayDamage(newState, hangTargetId, 'HANG'));
+        dayResults.push(...resolveDayDamage(newState, hangTargetId, 'HANG'));
       }
       setPendingDayReport(newState, dayResults);
       setDayActionPrompt(newState, null);
@@ -1799,10 +1808,9 @@ function internalReducer(state: GameState, action: Action): GameState {
             return newState;
           }
           pushGeneralLog(newState, 'log_day_vote', { target: targetName });
-          const result = resolveDayDamage(newState, targetId, 'HANG');
-          setPendingDayReport(newState, [result]);
+          setPendingDayReport(newState, resolveDayDamage(newState, targetId, 'HANG'));
         } else if (context.kind === 'ANARCHIST_SHOT') {
-          const result = resolveDayDamage(newState, targetId, 'SHOOT');
+          const dayResults = resolveDayDamage(newState, targetId, 'SHOOT');
           const actor = context.actorId ? newState.players.find(p => p.id === context.actorId) : null;
           if (context.consumeAnarchistCharge && actor) {
             actor.status.anarchistShotUsed = true;
@@ -1811,7 +1819,7 @@ function internalReducer(state: GameState, action: Action): GameState {
             target: targetName,
             actor: actor?.name || t('role_Anarchist', newState.settings.language)
           });
-          setPendingDayReport(newState, [result]);
+          setPendingDayReport(newState, dayResults);
         }
         setDayActionPrompt(newState, null);
         return newState;
@@ -2026,7 +2034,7 @@ function internalReducer(state: GameState, action: Action): GameState {
       const aliveTargets = newState.players.filter(p => p.status.isAlive).map(p => p.id);
       const dayResults: Array<DayDamageResult | null> = [];
       aliveTargets.forEach(targetId => {
-        dayResults.push(resolveDayDamage(newState, targetId, 'SHOOT'));
+        dayResults.push(...resolveDayDamage(newState, targetId, 'SHOOT'));
       });
       setDayActionPrompt(newState, null);
       setPendingDayReport(newState, dayResults);

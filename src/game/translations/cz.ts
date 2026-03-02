@@ -404,6 +404,8 @@ export const TRANSLATIONS_CZ = {
   gm_players_share_mode_on: 'Zapnutý',
   gm_players_share_mode_off: 'Vypnutý',
   gm_players_share_mode_cards_hidden: 'Karty skryté v režimu sdílení.',
+  gm_players_section_alive: 'Živí',
+  gm_players_section_dead: 'Mrtví',
 
   // Gameplay Texts
   victory_mafia: 'Vyhrává Mafie.',
@@ -474,6 +476,8 @@ export const TRANSLATIONS_CZ = {
   wake_up_executioner_save: 'Probouzí se {role}. Koho chce zachránit před šibenicí?',
   wake_up_executioner_victim: 'Kdo má skončit na šibenici místo něj?',
   log_night_executioner_save: '{saved} je chráněn před rozsudkem, místo něj zemře {victim}.',
+  log_day_blind_executioner_redirect: '{cardLabel} {player} — rozsudek je přesměrován. {victim} nahrazuje {saved}.',
+  public_report_day_blind_executioner_redirect: 'V poslední chvíli byl odsouzený vyměněn — {victim} nahrazuje {saved}.',
 
   // Sock
   wake_up_sock_first: 'Mezi koho hodit Ponožku? Označ prvního hráče.',

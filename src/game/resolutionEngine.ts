@@ -128,16 +128,27 @@ export type DayDamageResult =
   | { type: 'IMMUNITY'; playerId: string; playerName: string; instance: number }
   | { type: 'KEVLAR'; playerId: string; playerName: string; instance: number }
   | { type: 'CLOUDWALKER'; playerId: string; playerName: string; instance: number }
-  | { type: 'DEATH'; playerId: string; playerName: string };
+  | { type: 'DEATH'; playerId: string; playerName: string }
+  | { type: 'BLIND_EXECUTIONER_REDIRECT'; savedPlayerName: string; victimPlayerName: string };
 
-function applyBlindExecutionerRedirect(state: GameState, targetId: string): string {
+type ExecutionerRedirectInfo = {
+  executionerName: string;
+  executionerInstance: number;
+  savedName: string;
+  victimName: string;
+};
+
+function applyBlindExecutionerRedirect(
+  state: GameState,
+  targetId: string
+): { redirectedId: string; info?: ExecutionerRedirectInfo } {
   const pairs = state.nightCache.executionerPairs;
   if (!pairs?.length) {
-    return targetId;
+    return { redirectedId: targetId };
   }
   const idx = pairs.findIndex(pair => pair.savedId === targetId);
   if (idx === -1) {
-    return targetId;
+    return { redirectedId: targetId };
   }
   const [pair] = pairs.splice(idx, 1);
   const savedPlayer = state.players.find(p => p.id === pair.savedId);
@@ -148,45 +159,63 @@ function applyBlindExecutionerRedirect(state: GameState, targetId: string): stri
   if (victimPlayer) {
     victimPlayer.status.executionerStatus = 'NONE';
     if (victimPlayer.status.isAlive) {
-      return victimPlayer.id;
+      return {
+        redirectedId: victimPlayer.id,
+        info: {
+          executionerName: pair.executionerName,
+          executionerInstance: pair.executionerInstance,
+          savedName: savedPlayer?.name ?? '?',
+          victimName: victimPlayer.name
+        }
+      };
     }
   }
-  return targetId;
+  return { redirectedId: targetId };
 }
 
-export function resolveDayDamage(state: GameState, targetId: string, type: 'HANG' | 'SHOOT'): DayDamageResult | null {
+export function resolveDayDamage(state: GameState, targetId: string, type: 'HANG' | 'SHOOT'): Array<DayDamageResult | null> {
   if (type === 'HANG') {
-    const redirectedId = applyBlindExecutionerRedirect(state, targetId);
-    if (redirectedId !== targetId) {
-      return resolveDayDamage(state, redirectedId, 'HANG');
+    const { redirectedId, info } = applyBlindExecutionerRedirect(state, targetId);
+    if (redirectedId !== targetId && info) {
+      const cardLabel = createCardLabelParam('BlindExecutioner', info.executionerInstance);
+      log(state, 'log_day_blind_executioner_redirect', {
+        cardLabel,
+        player: info.executionerName,
+        saved: info.savedName,
+        victim: info.victimName
+      });
+      return [
+        { type: 'BLIND_EXECUTIONER_REDIRECT', savedPlayerName: info.savedName, victimPlayerName: info.victimName },
+        ...resolveDayDamage(state, redirectedId, 'HANG')
+      ];
     }
     targetId = redirectedId;
   }
 
   const player = state.players.find(x => x.id === targetId);
   if (!player || !player.status.isAlive) {
-    return null;
+    return [null];
   }
 
   if (type === 'HANG') {
     const ropewalkerInstance = consumeCardWithInstance(player, 'RopeWalker');
     if (ropewalkerInstance !== null) {
       log(state, 'log_day_ropewalker_lost', { target: player.name, num: ropewalkerInstance });
-      return { type: 'ROPEWALKER', playerId: player.id, playerName: player.name, instance: ropewalkerInstance };
+      return [{ type: 'ROPEWALKER', playerId: player.id, playerName: player.name, instance: ropewalkerInstance }];
     }
   }
 
   const immunityInstance = consumeCardWithInstance(player, 'Immunity');
   if (immunityInstance !== null) {
     log(state, 'log_day_immunity_lost', { target: player.name, num: immunityInstance });
-    return { type: 'IMMUNITY', playerId: player.id, playerName: player.name, instance: immunityInstance };
+    return [{ type: 'IMMUNITY', playerId: player.id, playerName: player.name, instance: immunityInstance }];
   }
 
   if (type === 'SHOOT') {
     const vestInstance = consumeCardWithInstance(player, 'KevlarVest');
     if (vestInstance !== null) {
       log(state, 'log_day_vest_hit', { target: player.name, num: vestInstance });
-      return { type: 'KEVLAR', playerId: player.id, playerName: player.name, instance: vestInstance };
+      return [{ type: 'KEVLAR', playerId: player.id, playerName: player.name, instance: vestInstance }];
     }
   }
 
@@ -194,14 +223,14 @@ export function resolveDayDamage(state: GameState, targetId: string, type: 'HANG
   if (cloudwalkerInstance !== null) {
     log(state, 'log_day_cloudwalker_lost', { target: player.name, num: cloudwalkerInstance });
     checkLifeLossSideEffects(state, player, { lossType: 'CLOUDWALKER' });
-    return { type: 'CLOUDWALKER', playerId: player.id, playerName: player.name, instance: cloudwalkerInstance };
+    return [{ type: 'CLOUDWALKER', playerId: player.id, playerName: player.name, instance: cloudwalkerInstance }];
   }
 
   player.status.isAlive = false;
   log(state, 'log_day_death', { target: player.name }, 'DEATH');
   checkLifeLossSideEffects(state, player, { lossType: 'DEATH' });
   declareVictory(state, 'DAY');
-  return { type: 'DEATH', playerId: player.id, playerName: player.name };
+  return [{ type: 'DEATH', playerId: player.id, playerName: player.name }];
 }
 
 const LOG_FRAGMENT_MAP: Record<string, string> = {
@@ -296,7 +325,7 @@ function runBulletPath(
   sourceType: BulletSource,
   visitedTunnels: Set<string>,
   magnetAttractors: Set<string>,
-  wasRedirected: boolean,
+  _wasRedirected: boolean,
   wasRedirectedByMagnetOrMirror: boolean,
   fragments: BulletFragment[],
   logFragments: BulletLogFragment[],
@@ -309,7 +338,6 @@ function runBulletPath(
   let bounces = 0;
   let pathVisited = new Set(visitedTunnels);
   const magnetHistory = new Set(magnetAttractors);
-  let redirected = wasRedirected;
   let redirectedByMagnetOrMirror = wasRedirectedByMagnetOrMirror;
   let currentFragments = fragments;
   let currentLogFragments = logFragments;
@@ -372,7 +400,6 @@ function runBulletPath(
         magnetHistory.add(magnetTarget.id);
         previousTargetId = target.id;
         currentTargetId = magnetTarget.id;
-        redirected = true;
         redirectedByMagnetOrMirror = true;
         return true;
       };
@@ -427,7 +454,6 @@ function runBulletPath(
             pathVisited = updatedVisited;
             currentTargetId = tunnel.targetId;
             previousTargetId = target.id;
-            redirected = true;
             currentFragments = branchFragments;
             currentLogFragments = branchLogFragments;
             currentSegments = branchSegments;
@@ -474,7 +500,6 @@ function runBulletPath(
         }
         currentTargetId = returnTargetId;
         previousTargetId = target.id;
-        redirected = true;
         redirectedByMagnetOrMirror = true;
         continue;
       }

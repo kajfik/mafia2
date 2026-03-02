@@ -404,6 +404,8 @@ export const TRANSLATIONS_PO_NASZYMU = {
   gm_players_share_mode_on: 'Załónczóny',
   gm_players_share_mode_off: 'Wyłónczóny',
   gm_players_share_mode_cards_hidden: 'Karty ukryte w trybie udostympnianio.',
+  gm_players_section_alive: 'Żywi',
+  gm_players_section_dead: 'Mortwi',
   // Gameplay Texts
   victory_mafia: 'Wygrywo Mafia.',
   victory_innocent: 'Wygrywo Miasto.',
@@ -473,6 +475,8 @@ export const TRANSLATIONS_PO_NASZYMU = {
   wake_up_executioner_save: 'Budzi se {role}. Kogo chce ułaskawić ze szubienicy?',
   wake_up_executioner_victim: 'Kto mo iść na szubienice zamiast niego?',
   log_night_executioner_save: '{saved} je chróniony przed wyrokym, zamiast niego zginie {victim}.',
+  log_day_blind_executioner_redirect: '{cardLabel} {player} — wyrok zostoł przekierowany. {victim} idzie pod szubenice zamiast {saved}.',
+  public_report_day_blind_executioner_redirect: 'W ostatni chwili skazany zostoł wymiynióny — {victim} idzie pod szubenice zamiast {saved}.',
 
   // Sock
   wake_up_sock_first: 'Miyndzy kogo ciepnóć Fusekle? Pokoż piyrwszego gracza.',
@@ -631,7 +635,6 @@ export const TRANSLATIONS_PO_NASZYMU = {
   // Warnings
   warn_anarchist_unavailable: 'Anarchista uż nimoże strzelać.',
   warn_terrorist_unavailable: 'Terrorysta uż nimoże odpalić bómbe.',
-  warn_bomb_day_only: 'Bombe idzie użyć yny w dziyń.',
   warn_astronomer_unavailable: 'Astronom uż nimoże zakóńczyć dziyń.',
   warn_astronomer_day_only: 'Astronom działo jny w dziyń.',
   warn_communist_unavailable: 'Komunista uż nimoże użyć swojóm zdolność.',

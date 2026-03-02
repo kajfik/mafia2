@@ -310,7 +310,7 @@ export interface GameState {
       instance: number;
       mode: DoctorHealMode;
     }[];
-    executionerPairs: { savedId: string; victimId: string }[];
+    executionerPairs: { savedId: string; victimId: string; executionerId: string; executionerInstance: number; executionerName: string }[];
     reportData: PublicReportData;
     bulletReportLookup: Record<string, BulletReportLookupEntry>;
     spyglassRevealIds: string[] | null;

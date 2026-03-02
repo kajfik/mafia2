@@ -404,6 +404,8 @@ export const TRANSLATIONS_PL = {
   gm_players_share_mode_on: 'Włączony',
   gm_players_share_mode_off: 'Wyłączony',
   gm_players_share_mode_cards_hidden: 'Karty ukryte w trybie udostępniania.',
+  gm_players_section_alive: 'Żywi',
+  gm_players_section_dead: 'Martwi',
 
   // Gameplay Texts
   victory_mafia: 'Wygrywa Mafia.',
@@ -474,6 +476,8 @@ export const TRANSLATIONS_PL = {
   wake_up_executioner_save: 'Budzi się {role}. Kogo chce ułaskawić spod szubienicy?',
   wake_up_executioner_victim: 'Kto ma trafić na szubienicę zamiast niego?',
   log_night_executioner_save: '{saved} jest chroniony przed wyrokiem, zamiast niego zginie {victim}.',
+  log_day_blind_executioner_redirect: '{cardLabel} {player} — wyrok zostaje przekierowany. {victim} staje pod szubienicą zamiast {saved}.',
+  public_report_day_blind_executioner_redirect: 'W ostatniej chwili skazany zostaje podmieniony — {victim} staje pod szubienicą zamiast {saved}.',
 
   // Sock
   wake_up_sock_first: 'Pomiędzy kogo rzucić Skarpetkę? Wskaż pierwszego gracza.',

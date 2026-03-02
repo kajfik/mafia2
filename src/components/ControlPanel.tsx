@@ -239,7 +239,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
   } else if (isDayMain) {
     if (hasPendingDayReport) {
       actionControls = (
-        <button onClick={() => dispatch({ type: 'CONFIRM_DAY_REPORT' })} className={`${emberActionButtonClass} p-3 rounded-xl`}>
+        <button onClick={() => dispatch({ type: 'CONFIRM_DAY_REPORT' })} className={`${emberActionButtonClass} w-full p-3 rounded-xl`}>
           {t('day_report_confirm', lang)}
         </button>
       );
@@ -361,9 +361,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
     ? `${baseContainerClass} flex-1 min-h-0 h-full overflow-y-auto md:justify-end md:items-end pb-[calc(4rem+var(--safe-area-bottom))] md:pb-4`
     : `${baseContainerClass} flex-shrink-0`;
   const reportColumnClass = `flex flex-col w-full md:flex-1 ${!showPublicReport && hideWakeMessageOnMobileDay ? 'hidden sm:flex' : ''}`;
-  const reportPanelClass = `bg-[rgba(4,4,8,0.92)] p-4 rounded-2xl text-lg border-l-4 border-[var(--color-bullet)] shadow-inner flex flex-col ${fullHeight ? 'overflow-visible' : 'overflow-y-auto md:flex-1'}`;
+  const reportPanelClass = `bg-[rgba(4,4,8,0.92)] p-4 rounded-2xl text-lg border-l-4 border-[var(--color-bullet)] shadow-inner flex flex-col min-h-[5.75rem] sm:min-h-[7.0rem] ${fullHeight ? 'overflow-visible' : 'overflow-y-auto md:flex-1'}`;
 
-  const actionPanelClass = fullHeight ? 'min-h-0' : 'flex-1 min-h-0 [&>*]:h-full';
+  const actionPanelClass = 'flex flex-col flex-1 min-h-0 [&>*]:flex-1';
 
   return (
     <div className={containerClass}>
@@ -414,7 +414,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ state, dispatch, ful
         <div className={actionPanelClass}>
           {actionControls}
         </div>
-        <div className="flex gap-1 mt-auto pt-1">
+        <div className="flex gap-1 mt-auto">
           <button onClick={() => dispatch({ type: 'UNDO' })} className="flex-1 bg-[#2f2c3b] text-xs py-2 rounded-xl tracking-[0.3em] uppercase text-slate-100">{t('ui_undo', lang)}</button>
         </div>
       </div>

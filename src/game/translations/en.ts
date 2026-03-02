@@ -404,6 +404,8 @@ export const TRANSLATIONS_EN = {
   gm_players_share_mode_on: 'On',
   gm_players_share_mode_off: 'Off',
   gm_players_share_mode_cards_hidden: 'Cards hidden in sharing mode.',
+  gm_players_section_alive: 'Alive',
+  gm_players_section_dead: 'Dead',
 
   // Gameplay Texts
   victory_mafia: 'Mafia wins.',
@@ -474,6 +476,8 @@ export const TRANSLATIONS_EN = {
   wake_up_executioner_save: '{role} wakes up. Who do they want to save from the gallows?',
   wake_up_executioner_victim: 'Who should go to the gallows instead?',
   log_night_executioner_save: '{saved} is protected from the sentence; {victim} will die instead.',
+  log_day_blind_executioner_redirect: '{cardLabel} {player} — the sentence is redirected. {victim} takes the place of {saved}.',
+  public_report_day_blind_executioner_redirect: 'At the last moment, the condemned was replaced — {victim} takes the place of {saved}.',
 
   // Sock
   wake_up_sock_first: 'Between whom to throw the Sock? Indicate the first player.',

@@ -82,7 +82,7 @@ export const GMPlayerList: React.FC<GMPlayerListProps> = ({ state }) => {
     };
     const code = encodePlayerLinkData(payload);
     const { origin, pathname } = window.location;
-    return `${origin}${pathname}?data=${code}`;
+    return `${origin}${pathname}?data=${encodeURIComponent(code)}`;
   };
 
   const shareDataForLink = (playerName: string, url: string): ShareData => ({
@@ -219,75 +219,97 @@ export const GMPlayerList: React.FC<GMPlayerListProps> = ({ state }) => {
         </button>
       </div>
       <div className="grid gap-3">
-        {state.players.map(p => {
-          const cardCollections = labeledCardsByPlayer[p.id] || { active: [], combined: [] };
-          const { active, combined } = cardCollections;
-          const cardPool = [...p.cards, ...(p.inactiveCards ?? [])];
-          const isMafia = cardPool.some(card => card.cardId === 'Mafia');
-          const playerToneClass = isShareMode
-            ? playerCardToneVariants.shareMode
-            : (p.status.isAlive
-              ? (isMafia ? playerCardToneVariants.mafiaAlive : playerCardToneVariants.townAlive)
-              : (isMafia ? playerCardToneVariants.mafiaDead : playerCardToneVariants.townDead));
-          return (
-            <div
-              key={p.id}
-              className={`${playerCardBase} ${playerToneClass} ${p.status.isAlive ? '' : 'grayscale'}`}
-            >
-              <div className="flex-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <div className="font-bold text-lg text-[var(--color-brass)]">{p.name}</div>
-                  {!isShareMode && isMafia && (
-                    <span className={mafiaBadgeBase}>
-                      <span className="h-2 w-2 rounded-full bg-[#ff6b81]" aria-hidden />
-                      <span>{t('gm_players_badge_mafia', lang)}</span>
-                    </span>
+        {(() => {
+          const alive = state.players.filter(p => p.status.isAlive);
+          const dead = state.players.filter(p => !p.status.isAlive);
+          const renderPlayer = (p: Player) => {
+            const cardCollections = labeledCardsByPlayer[p.id] || { active: [], combined: [] };
+            const { active, combined } = cardCollections;
+            const cardPool = [...p.cards, ...(p.inactiveCards ?? [])];
+            const isMafia = cardPool.some(card => card.cardId === 'Mafia');
+            const playerToneClass = isShareMode
+              ? playerCardToneVariants.shareMode
+              : (p.status.isAlive
+                ? (isMafia ? playerCardToneVariants.mafiaAlive : playerCardToneVariants.townAlive)
+                : (isMafia ? playerCardToneVariants.mafiaDead : playerCardToneVariants.townDead));
+            return (
+              <div
+                key={p.id}
+                className={`${playerCardBase} ${playerToneClass} ${p.status.isAlive ? '' : 'grayscale'}`}
+              >
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <div className="font-bold text-lg text-[var(--color-brass)]">{p.name}</div>
+                    {!isShareMode && isMafia && (
+                      <span className={mafiaBadgeBase}>
+                        <span className="h-2 w-2 rounded-full bg-[#ff6b81]" aria-hidden />
+                        <span>{t('gm_players_badge_mafia', lang)}</span>
+                      </span>
+                    )}
+                  </div>
+                  {!isShareMode ? (
+                    <>
+                      <div className="text-sm text-slate-200/85 flex flex-wrap gap-1.5">
+                        {combined.length ? combined.map((entry, idx) => (
+                          <CardLabelBadge
+                            key={`${entry.card.cardId}-${entry.card.instance}-${idx}`}
+                            cardId={entry.card.cardId}
+                            label={entry.label}
+                            size="sm"
+                            variant={entry.isInactive ? 'gmInactive' : 'gmActive'}
+                            labelClassName={entry.isInactive ? 'line-through decoration-[rgba(197,83,61,0.65)] decoration-2' : ''}
+                          />
+                        )) : (
+                          <span className="text-[rgba(242,200,121,0.55)] italic">{t('gm_players_no_cards', lang)}</span>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="text-sm text-[rgba(242,200,121,0.75)] italic">
+                      {t('gm_players_share_mode_cards_hidden', lang)}
+                    </div>
                   )}
                 </div>
-                {!isShareMode ? (
-                  <>
-                    <div className="text-sm text-slate-200/85 flex flex-wrap gap-1.5">
-                      {combined.length ? combined.map((entry, idx) => (
-                        <CardLabelBadge
-                          key={`${entry.card.cardId}-${entry.card.instance}-${idx}`}
-                          cardId={entry.card.cardId}
-                          label={entry.label}
-                          size="sm"
-                          variant={entry.isInactive ? 'gmInactive' : 'gmActive'}
-                          labelClassName={entry.isInactive ? 'line-through decoration-[rgba(197,83,61,0.65)] decoration-2' : ''}
-                        />
-                      )) : (
-                        <span className="text-[rgba(242,200,121,0.55)] italic">{t('gm_players_no_cards', lang)}</span>
-                      )}
-                    </div>
-                  </>
-                ) : (
-                  <div className="text-sm text-[rgba(242,200,121,0.75)] italic">
-                    {t('gm_players_share_mode_cards_hidden', lang)}
-                  </div>
-                )}
+                <div className="flex flex-col gap-2 w-full sm:w-48 sm:flex-none">
+                  <button
+                    type="button"
+                    onClick={() => handleShareClick(p, active)}
+                    className={`${actionButtonBase} mafia-button mafia-button--ember`}
+                  >
+                    <span aria-hidden>🔗</span>
+                    {t('gm_players_share_button', lang)}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleQrClick(p, active)}
+                    className={`${actionButtonBase} border border-[rgba(242,200,121,0.35)] text-[var(--color-brass)] bg-[rgba(242,200,121,0.08)] hover:bg-[rgba(242,200,121,0.15)]`}
+                  >
+                    <span aria-hidden>📱</span>
+                    {t('gm_players_qr_button', lang)}
+                  </button>
+                </div>
               </div>
-              <div className="flex flex-col gap-2 w-full sm:w-48 sm:flex-none">
-                <button
-                  type="button"
-                  onClick={() => handleShareClick(p, active)}
-                  className={`${actionButtonBase} mafia-button mafia-button--ember`}
-                >
-                  <span aria-hidden>🔗</span>
-                  {t('gm_players_share_button', lang)}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleQrClick(p, active)}
-                  className={`${actionButtonBase} border border-[rgba(242,200,121,0.35)] text-[var(--color-brass)] bg-[rgba(242,200,121,0.08)] hover:bg-[rgba(242,200,121,0.15)]`}
-                >
-                  <span aria-hidden>📱</span>
-                  {t('gm_players_qr_button', lang)}
-                </button>
-              </div>
+            );
+          };
+          const sectionHeader = (label: string) => (
+            <div className="flex items-center gap-3 pt-1">
+              <span className="text-xs uppercase tracking-[0.35em] font-semibold text-[rgba(242,200,121,0.55)]">{label}</span>
+              <span className="flex-1 h-px bg-[rgba(242,200,121,0.12)]" />
             </div>
           );
-        })}
+          return (
+            <>
+              {sectionHeader(t('gm_players_section_alive', lang))}
+              {alive.map(renderPlayer)}
+              {dead.length > 0 && (
+                <>
+                  {sectionHeader(t('gm_players_section_dead', lang))}
+                  {dead.map(renderPlayer)}
+                </>
+              )}
+            </>
+          );
+        })()}
       </div>
       {portalTarget && qrModal && createPortal(
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
