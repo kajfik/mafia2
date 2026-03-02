@@ -157,7 +157,7 @@ export const RULES_CONTENT_CZ: RuleSection[] = [
             kind: 'list',
             items: [
               card('Jailer', 'Jailer'),
-              card('Gravedigger', 'Hrobař'),
+              card('Gravedigger', 'Hrobník'),
               card('Matrix', 'Matrix'),
               card('Mage', 'Mágové'),
               card('Slime', 'Slina'),
@@ -186,7 +186,7 @@ export const RULES_CONTENT_CZ: RuleSection[] = [
           {
             kind: 'list',
             items: [
-              card('Gravedigger', 'Hrobař'),
+              card('Gravedigger', 'Hrobník'),
               card('Matrix', 'Matrix'),
               card('Mage', 'Mágové'),
               card('Slime', 'Slina'),
@@ -229,7 +229,7 @@ export const RULES_CONTENT_CZ: RuleSection[] = [
           `Hráč s kartou ${card('Mafia', 'Mafie')} nemůže dostat ${card('Doctor', 'Doktora')} ani ${card('Spyglass', 'Lunetu')}.`,
           `Hráč může dostat maximálně dva ${card('CloudWalker', 'Mrákošlapy')}.`,
           `Hráč může dostat maximálně dva ${card('RopeWalker', 'Provazochodce')}.`,
-          `Hráč s kartou ${card('Gravedigger', 'Hrobař')}, ${card('Leech', 'Pijavice')}, ${card('AlCapone', 'Al Capone')}, ${card('Gandalf')} nebo ${card('HorsePiece', 'Kus Koňa')} může dostat pouze jednoho ${card('CloudWalker', 'Mrákošlapa')}.`
+          `Hráč s kartou ${card('Gravedigger', 'Hrobník')}, ${card('Leech', 'Pijavice')}, ${card('AlCapone', 'Al Capone')}, ${card('Gandalf')} nebo ${card('HorsePiece', 'Kus Koňa')} může dostat pouze jednoho ${card('CloudWalker', 'Mrákošlapa')}.`
         ]
       }
     ]
@@ -250,7 +250,7 @@ export const TRANSLATIONS_CZ = {
   role_Gandalf: 'Gandalf',
   role_GhostBobo: 'Duch Bobo',
   role_Glazier: 'Sklenář',
-  role_Gravedigger: 'Hrobař',
+  role_Gravedigger: 'Hrobník',
   role_HorsePiece: 'Kus Koňa',
   role_Immunity: 'Imunita',
   role_Jailer: 'Jailer',
@@ -289,7 +289,7 @@ export const TRANSLATIONS_CZ = {
   card_description_Gandalf: 'Pokud Kus Koňa ztratí Mrákošlapa, získá ho Gandalf. Během noci může takto získat pouze jednoho Mrákošlapa.',
   card_description_Glazier: 'Pokud Sklenář nemá žádné Zrcadlo a jinému hráči je v noci zničeno, Sklenář ho získá na konci noci. Během noci může obdržet pouze jedno Zrcadlo.',
   card_description_GhostBobo: 'Duch Bobo každou sudou noc označí hráče, který bude mít následující den zákaz mluvit (tento zákaz může zrušit pouze Komunista). Pokud má obviněný hráč zákaz mluvení od Ducha Bobo, vybere si osobu, která ho má obhajovat překládáním jeho mimiky a gest.',
-  card_description_Gravedigger: 'Hrobař může jednou za celou hru v noci vykopat hroby pro Mrákošlapy, díky čemuž na konci noci získá tolik Mrákošlapů, kolik jich té noci ztratili ostatní hráči.',
+  card_description_Gravedigger: 'Hrobník může jednou za celou hru v noci vykopat hroby pro Mrákošlapy, díky čemuž na konci noci získá tolik Mrákošlapů, kolik jich té noci ztratili ostatní hráči.',
   card_description_HorsePiece: 'Pokud Gandalf ztratí Mrákošlapa, získá ho Kus Koňa. Během noci může takto získat pouze jednoho Mrákošlapa.',
   card_description_Immunity: 'Obranná karta používaná v případě zásahu kulkou ve dne nebo odsouzení k smrti oběšením.',
   card_description_Jailer: 'Jailer může jednou za celou hru označit hráče, kterého uvrhne do vězení, čímž zablokuje působení jeho schopností pro tuto noc. Moderátor vzbudí uvězněného hráče, ale jasně mu signalizuje, že je ve vězení.',
