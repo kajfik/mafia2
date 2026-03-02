@@ -494,7 +494,7 @@ function runBulletPath(
         const returnTargetId = cameFromId;
         const returnName = returnTargetId ? state.players.find(p => p.id === returnTargetId)?.name || '?' : targetName;
         pushSharedFragment({ key: 'public_report_bullet_return', params: { target: returnName } });
-        if (!returnTargetId || returnTargetId === target.id) {
+        if (!returnTargetId) {
           recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId, isMatrix);
           return;
         }
