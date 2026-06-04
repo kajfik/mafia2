@@ -206,7 +206,7 @@ export const RULES_CONTENT_CZ: RuleSection[] = [
       {
         title: 'c) Další noční pravidla',
         blocks: [
-          { kind: 'paragraph', text: `Na konci každé třetí noci (počínaje druhou) se budí ${card('Spyglass', 'Luneta')}, aby zjistila, kteří hráči byli aktivní.` },
+          { kind: 'paragraph', text: `Na konci každé třetí noci (počínaje druhou) se budí ${card('Spyglass', 'Luneta')}, aby zjistila, kteří hráči se neprobudili.` },
           { kind: 'paragraph', text: `Některé role (např. ${card('Matrix')}) mají omezený počet použití; po vyčerpání nábojů je moderátor přestane budit.` }
         ]
       }
@@ -310,7 +310,7 @@ export const TRANSLATIONS_CZ = {
   card_description_Slime: 'Hráč s kartou Slina každou noc označí hráče, kterého chce oslintat. Oslintaný hráč je jednou v noci chráněn před kulkou Mafie, Šíleného Střelce a Snipera (kulka po cíli sklouzne). Efekt Sliny lze neutralizovat Pískem.',
   card_description_Sniper: 'Sniper může jednou za celou hru označit hráče, na kterého vystřelí silnou kulkou. Ta je tak silná, že rozbije i Zrcadlo a letí dál.',
   card_description_Sock: 'Hráč s Ponožkou může jednou za celou hru v noci hodit Ponožku mezi dva hráče, kteří jsou zasaženi jejím zápachem. Před zápachem Ponožky chrání pouze Plynová maska, Doktor a Mrákošlap. Šílený Střelec 2, Mág 2 a Duch Bobo vlastní Plynovou masku.',
-  card_description_Spyglass: 'Luneta se budí na konci každé třetí noci (počínaje druhou) a dozvídá se od Moderátora, kteří hráči se té noci probudili.',
+  card_description_Spyglass: 'Luneta se budí na konci každé třetí noci (počínaje druhou) a dozvídá se od Moderátora, kteří hráči se té noci neprobudili.',
   card_description_SwampMonster: 'Jožin z Bažin může třikrát za celou hru v noci označit hráče, kterému zašpiní Zrcadlo. Kulka rozbije Zrcadlo zašpiněné blátem, ale letí dál. Jožin může použít svou schopnost opakovaně tu samou noc. Pokud hráč vlastní také kartu Mafiána, Snipera nebo Šíleného Střelce, může zašpinit Zrcadlo pouze dvakrát.',
   card_description_Terrorist: 'Terorista může jednou za celou hru během dne použít svou schopnost zvoláním "Bomba!", načež vystřelí na všechny hráče.',
   card_description_TimeLord: 'Pán Času může jednou za celou hru na začátku dne nebo noci říct "Jsem Pán času!" a přeskočit celý den nebo noc.',
@@ -520,9 +520,9 @@ export const TRANSLATIONS_CZ = {
   log_night_matrix_bullet_summary: `Počet kulek, které ${card('Matrix', 'Matrix')} {player} zachytil tuto noc: {count}.`,
 
   // Spyglass
-  wake_up_spyglass: 'Probouzí se Luneta. Zjistila, kdo byl v noci aktivní?',
-  spyglass_reveal_intro: 'Této noci se budili: {names}.',
-  spyglass_reveal_none: 'Této noci se nikdo nevzbudil.',
+  wake_up_spyglass: 'Probouzí se Luneta. Zjistila, kdo se v noci neprobudil?',
+  spyglass_reveal_intro: 'Této noci se neprobudili: {names}.',
+  spyglass_reveal_none: 'Této noci se probudili všichni.',
 
   // Mafia/Shooting
   log_mafia_jailed: `{cardLabel} {player} je ve vězení, takže ${card('Mafia', 'Mafie')} nevystřelí.`,

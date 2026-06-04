@@ -206,7 +206,7 @@ export const RULES_CONTENT_EN: RuleSection[] = [
       {
         title: 'c) Additional Night Rules',
         blocks: [
-          { kind: 'paragraph', text: `At the end of every third night (starting from the second), the ${card('Spyglass', 'Spyglass')} wakes up to learn which roles were active.` },
+          { kind: 'paragraph', text: `At the end of every third night (starting from the second), the ${card('Spyglass', 'Spyglass')} wakes up to learn which players stayed asleep.` },
           { kind: 'paragraph', text: `Some roles (e.g., ${card('Matrix')}) have a limited number of uses; once charges are exhausted, the host stops waking them.` }
         ]
       }
@@ -310,7 +310,7 @@ export const TRANSLATIONS_EN = {
   card_description_Slime: 'The player with the Slime card indicates a player every night to cover with slime. The slimed player is protected once during the night against a bullet from the Mafia, Mad Gunman, and Sniper (the bullet slides off). The Slime effect can be neutralized by Sand.',
   card_description_Sniper: 'Once per game, the Sniper can indicate a player to shoot with a high-caliber bullet. It is so powerful that it shatters Mirrors and continues its trajectory.',
   card_description_Sock: 'Once per game at night, the player with the Sock can throw it between two players, who are then overcome by its smell. Only a Gas Mask, Doctor, and Cloudwalker protect against the Sock\'s smell. Mad Gunman 2, Mage 2, and Ghost Bobo possess a Gas Mask.',
-  card_description_Spyglass: 'The Spyglass wakes up at the end of every third night (starting from the second) and is informed by the Announcer which players were active that night.',
+  card_description_Spyglass: 'The Spyglass wakes up at the end of every third night (starting from the second) and is informed by the Announcer which players did not wake up that night.',
   card_description_SwampMonster: 'The Swamp Monster can indicate a player three times per game at night to muddy their Mirror. A bullet shatters a muddy Mirror but keeps flying. The Swamp Monster can use their ability multiple times in the same night. If the player also holds a Mafioso, Sniper, or Mad Gunman card, they can muddy a Mirror only twice.',
   card_description_Terrorist: 'The Terrorist can use their ability once per game during the day by saying "Bomb!", then shooting all players.',
   card_description_TimeLord: 'The Time Lord can say "I am the Time Lord!" once per game at the beginning of the day or night to skip the current phase.',
@@ -520,9 +520,9 @@ export const TRANSLATIONS_EN = {
   log_night_matrix_bullet_summary: `Number of bullets ${card('Matrix')} {player} intercepted tonight: {count}.`,
 
   // Spyglass
-  wake_up_spyglass: 'Spyglass wakes up. Did they learn who was active tonight?',
-  spyglass_reveal_intro: 'Tonight, the following woke up: {names}.',
-  spyglass_reveal_none: 'Nobody woke up tonight.',
+  wake_up_spyglass: 'Spyglass wakes up. Did they learn who stayed asleep tonight?',
+  spyglass_reveal_intro: 'Tonight, the following did not wake up: {names}.',
+  spyglass_reveal_none: 'Everyone woke up tonight.',
 
   // Mafia/Shooting
   log_mafia_jailed: `{cardLabel} {player} is in prison, so ${card('Mafia', 'the Mafia')} will not take a shot.`,

@@ -206,7 +206,7 @@ export const RULES_CONTENT_PL: RuleSection[] = [
       {
         title: 'c) Dodatkowe zasady nocne',
         blocks: [
-          { kind: 'paragraph', text: `Pod koniec co trzeciej nocy (zaczynając od drugiej) budzi się ${card('Spyglass', 'Luneta')}, aby dowiedzieć się, którzy gracze byli aktywni.` },
+          { kind: 'paragraph', text: `Pod koniec co trzeciej nocy (zaczynając od drugiej) budzi się ${card('Spyglass', 'Luneta')}, aby dowiedzieć się, którzy gracze się nie obudzili.` },
           { kind: 'paragraph', text: `Niektóre role (np. ${card('Matrix')}) mają ograniczoną liczbę użyć; po wyczerpaniu ładunków prowadzący przestaje je budzić.` }
         ]
       }
@@ -310,7 +310,7 @@ export const TRANSLATIONS_PL = {
   card_description_Slime: 'Gracz z kartą Ślina każdej nocy wskazuje gracza, którego chce oślinić. Ośliniony gracz jest raz w nocy chroniony przed pociskiem Mafii, Szalonego Strzelca i Snajpera (pocisk ześlizguje się z celu). Efekt Śliny można zneutralizować Piaskiem.',
   card_description_Sniper: 'Snajper może raz na całą grę wskazać gracza, w którego strzela potężnym pociskiem. Jest on tak silny, że rozbija nawet Zwierciadło i leci dalej.',
   card_description_Sock: 'Gracz ze Skarpetką może raz na całą grę w nocy rzucić Skarpetkę między dwóch graczy, którzy zostają porażeni jej zapachem. Przed zapachem Skarpetki chroni tylko Maska Gazowa, Doktor i Chmurostąp. Szalony Strzelec 2, Mag 2 i Duch Bobo posiadają Maskę Gazową.',
-  card_description_Spyglass: 'Luneta budzi się pod koniec każdej trzeciej nocy (zaczynając od drugiej) i dowiaduje się od Konferansjera, którzy gracze obudzili się tej nocy.',
+  card_description_Spyglass: 'Luneta budzi się pod koniec każdej trzeciej nocy (zaczynając od drugiej) i dowiaduje się od Konferansjera, którzy gracze nie obudzili się tej nocy.',
   card_description_SwampMonster: 'Jożin z Bażin może trzy razy w ciągu całej gry wskazać w nocy gracza, któremu poplami Zwierciadło. Pocisk rozbija poplamione błotem Zwierciadło, ale leci dalej. Jożin może użyć swojej zdolności wielokrotnie tej samej nocy. Jeśli gracz posiada również kartę Mafiosa, Snajpera lub Szalonego Strzelca, może poplamić Zwierciadło tylko dwa razy.',
   card_description_Terrorist: 'Terrorysta może raz na całą grę w ciągu dnia użyć swojej zdolności, mówiąc "Bomba!", po czym strzela do wszystkich graczy.',
   card_description_TimeLord: 'Pan Czasu może raz na całą grę na początku dnia lub nocy powiedzieć "Jestem Panem czasu!" i przeskoczyć cały dzień lub noc.',
@@ -520,9 +520,9 @@ export const TRANSLATIONS_PL = {
   log_night_matrix_bullet_summary: `Ilość pocisków, które ${card('Matrix', 'Matrix')} {player} przechwycił tej nocy: {count}.`,
 
   // Spyglass
-  wake_up_spyglass: 'Budzi się Luneta. Czy dowiedziała się, kto był aktywny tej nocy?',
-  spyglass_reveal_intro: 'Tej nocy budzili się: {names}.',
-  spyglass_reveal_none: 'Tej nocy nikt się nie obudził.',
+  wake_up_spyglass: 'Budzi się Luneta. Czy dowiedziała się, kto się nie obudził tej nocy?',
+  spyglass_reveal_intro: 'Tej nocy nie obudzili się: {names}.',
+  spyglass_reveal_none: 'Tej nocy obudzili się wszyscy.',
 
   // Mafia/Shooting
   log_mafia_jailed: `{cardLabel} {player} przebywa w więzieniu, więc ${card('Mafia', 'Mafia')} nie odda strzału.`,

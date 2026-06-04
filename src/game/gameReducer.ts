@@ -356,8 +356,11 @@ function recordPlayerWake(state: GameState, card: ActiveCardInstance | null) {
     state.nightCache.wokenPlayerIds.push(owner.id);
   }
   if (card.cardId === 'Spyglass' && !state.nightCache.spyglassRevealIds) {
-    const uniqueIds = Array.from(new Set(state.nightCache.wokenPlayerIds));
-    state.nightCache.spyglassRevealIds = shuffleIds(uniqueIds);
+    const wokenIds = new Set(state.nightCache.wokenPlayerIds);
+    const asleepIds = state.players
+      .filter(player => player.status.isAlive && !wokenIds.has(player.id))
+      .map(player => player.id);
+    state.nightCache.spyglassRevealIds = shuffleIds(asleepIds);
   }
 }
 

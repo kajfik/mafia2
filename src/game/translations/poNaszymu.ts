@@ -206,7 +206,7 @@ export const RULES_CONTENT_PO_NASZYMU: RuleSection[] = [
       {
         title: 'c) Dodatkowe zasady nocne',
         blocks: [
-          { kind: 'paragraph', text: `Pod kóniec każdej trzeci nocy (zaczynajónc od drugi) se budzi ${card('Spyglass', 'Luneta')}, aby wiedziała, kierzi gracze byli aktywni.` },
+          { kind: 'paragraph', text: `Pod kóniec każdej trzeci nocy (zaczynajónc od drugi) se budzi ${card('Spyglass', 'Luneta')}, aby wiedziała, kierzi gracze se nie obudzili.` },
           { kind: 'paragraph', text: `Nikiere role (np. ${card('Matrix')}) majóm ograniczónóm liczbe użyć; jak se wyczerpióm, Prowadzóncy ich przestowo budzić.` }
         ]
       }
@@ -310,7 +310,7 @@ export const TRANSLATIONS_PO_NASZYMU = {
   card_description_Slime: 'Gracz z kartóm Ślina każdej nocy pokazuje grocza, kierego chce oślinić. Oślinióny gracz je roz w nocy chróniony przed kulóm Mafii, Szilenego Strzelca a Snipera (kula se z niego ześlizgnie). Efekt Śliny idzie zruszyć Pioskym.',
   card_description_Sniper: 'Sniper może roz za gre pokozać grocza, w kierego strzilo silnym pociskym. Tyn je tak silny, że rozbije aj Zwierciadło a leci dali.',
   card_description_Sock: 'Gracz z Fuseklóm może roz za gre w nocy ciepnóć Fusekle miyndzy dwóch graczy, kierzi padajóm od jejigo smrodu. Przed smrodym Fusekli chróni jyny Gazmaska, Doktor a Mrakoszlap. Szileny Strzelec 2, Mag 2 a Duch Bobo majóm Gazmaske.',
-  card_description_Spyglass: 'Luneta se budzi pod kóniec każdej trzeci nocy (zaczynajónc od drugi) a dowiaduje se od Prowadzóncego, kierzi gracze byli tej nocy obudzóni.',
+  card_description_Spyglass: 'Luneta se budzi pod kóniec każdej trzeci nocy (zaczynajónc od drugi) a dowiaduje se od Prowadzóncego, kierzi gracze se tej nocy nie obudzili.',
   card_description_SwampMonster: 'Jożin z Bażin może trzi razy za gre pokozać w nocy gracza, kierymu poplami Zwierciadło. Kula rozbijo brudne Zwierciadło, a leci dali. Jożin może użyć swojóm zdolność wiyncej razy w jednóm noc. Jak mo Jożin też karte Mafiana, Snipera albo Szilenego Strzelca, może poplamić Zwierciadło jyny dwa razy.',
   card_description_Terrorist: 'Terrorysta może roz za gre w dziyń użyć swojóm zdolność, godajónc "Bomba!", po czym strzylo do wszystkich graczy.',
   card_description_TimeLord: 'Pan Czasu może roz za gre na poczóntku dnia albo nocy powiedzieć "Jeżech Panym czasu!" a przeskoczyć cały dziyń albo noc.',
@@ -519,9 +519,9 @@ export const TRANSLATIONS_PO_NASZYMU = {
   log_night_matrix_bullet_summary: `Ilość kul, kiere ${card('Matrix')} {player} chycił tej nocy: {count}.`,
 
   // Spyglass
-  wake_up_spyglass: 'Budzi se Luneta. Dowiedziała se, kto był aktywny tej nocy?',
-  spyglass_reveal_intro: 'Tej nocy se obudzili: {names}.',
-  spyglass_reveal_none: 'Tej nocy se nigdo nie obudził.',
+  wake_up_spyglass: 'Budzi se Luneta. Dowiedziała se, gdo se nie obudził tej nocy?',
+  spyglass_reveal_intro: 'Tej nocy se nie obudzili: {names}.',
+  spyglass_reveal_none: 'Tej nocy se obudzili wszyscy.',
 
   // Mafia/Shooting
   log_mafia_jailed: `{cardLabel} {player} je w wiynziyniu, tak ${card('Mafia', 'Mafia')} nie wystrzeli.`,
