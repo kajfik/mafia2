@@ -25,9 +25,7 @@ const NIGHT_CARD_IDS = new Set<CardId>([
   'Magnet',
   'Judge',
   'AlCapone',
-  'Doctor',
-  'HorsePiece',
-  'Gandalf'
+  'Doctor'
 ]);
 
 const DAY_CARD_IDS = new Set<CardId>([
@@ -40,8 +38,6 @@ const DAY_CARD_IDS = new Set<CardId>([
   'Communist',
   'Immunity',
   'MassMurderer',
-  'HorsePiece',
-  'Gandalf',
   'Anarchist',
   'Meciar',
   'Kovac',
@@ -52,9 +48,7 @@ const PASSIVE_CARD_IDS = new Set<CardId>([
   'AlCapone',
   'Atheist',
   'CloudWalker',
-  'Gandalf',
   'Glazier',
-  'HorsePiece',
   'Immunity',
   'KevlarVest',
   'Kovac',
@@ -76,10 +70,6 @@ export function isPassiveCard(cardId: CardId): boolean {
   return PASSIVE_CARD_IDS.has(cardId);
 }
 
-export function givesGasMask(cardId: CardId, instance: number): boolean {
-  return (
-    (cardId === 'Mage' && instance === 2) ||
-    (cardId === 'MadGunman' && instance === 2) ||
-    cardId === 'GhostBobo'
-  );
+export function givesGasMask(cardId: CardId, _instance: number): boolean {
+  return cardId === 'GhostBobo';
 }

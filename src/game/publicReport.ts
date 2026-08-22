@@ -23,9 +23,7 @@ export function createPublicReportData(): PublicReportData {
       leech: [],
       cobra: [],
       gravedigger: [],
-      glazier: [],
-      gandalf: [],
-      horsepiece: []
+      glazier: []
     },
     bullets: [],
     victoryKey: null
@@ -148,20 +146,6 @@ export function buildPublicReportEntries(state: GameState): PublicReportEntry[] 
 
   uniqueNums(data.cloudwalkers.glazier).forEach(num => {
     entries.push({ key: 'public_report_glazier_mirror', params: { num } });
-  });
-
-  uniqueRewards(data.cloudwalkers.gandalf).forEach(({ num, cardInstance }) => {
-    entries.push({
-      key: 'public_report_cloudwalker_gain',
-      params: { num, cardLabel: createCardLabelParam('Gandalf', cardInstance) }
-    });
-  });
-
-  uniqueRewards(data.cloudwalkers.horsepiece).forEach(({ num, cardInstance }) => {
-    entries.push({
-      key: 'public_report_cloudwalker_gain',
-      params: { num, cardLabel: createCardLabelParam('HorsePiece', cardInstance) }
-    });
   });
 
   if (data.victoryKey) {

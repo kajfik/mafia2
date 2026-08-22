@@ -79,7 +79,7 @@ export const RULES_CONTENT_PL: RuleSection[] = [
       {
         title: gasMask('Maska Gazowa'),
         blocks: [
-          { kind: 'paragraph', text: `Posiadacze kart ${card('Mage', 'Mag 2')}, ${card('MadGunman', 'Szalony Strzelec 2')} oraz ${card('GhostBobo', 'Duch Bobo')} są wyposażeni w ${gasMask('Maska Gazowa')}, chroniącą przed ${card('Sand', 'Piaskiem')} i zapachem ${card('Sock', 'Skarpetki')}.` }
+          { kind: 'paragraph', text: `Posiadacz karty ${card('GhostBobo', 'Duch Bobo')} jest wyposażony w ${gasMask('Maska Gazowa')}, chroniącą przed ${card('Sand', 'Piaskiem')} i zapachem ${card('Sock', 'Skarpetki')}.` }
         ]
       }
     ]
@@ -106,7 +106,7 @@ export const RULES_CONTENT_PL: RuleSection[] = [
       {
         title: `c) Pocisk od ${card('Sniper', 'Snajpera')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnes'), tunnel('Tunel'), card('Mirror', 'Zwierciadło'), card('Slime', 'Ślina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kamizelka kuloodporna'), card('CloudWalker', 'Chmurostąp')] }
+          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnes'), tunnel('Tunel'), `${card('Mirror', 'Zwierciadło')} (rozbija się, ale nie odbija – pocisk leci dalej)`, card('Slime', 'Ślina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kamizelka kuloodporna'), card('CloudWalker', 'Chmurostąp')] }
         ]
       },
       {
@@ -220,7 +220,6 @@ export const RULES_CONTENT_PL: RuleSection[] = [
         kind: 'list',
         items: [
           `Gracz może posiadać tylko jedną kartę ${card('Mafia', 'Mafii')}.`,
-          `Gracz może posiadać tylko jedną kartę z pary ${card('Gandalf')} / ${card('HorsePiece', 'Kawał Konia')}.`,
           `Gracz może posiadać tylko jedną kartę z zestawu: ${card('Mage', 'Mag 2')} / ${card('MadGunman', 'Szalony Strzelec 2')} / ${card('GhostBobo', 'Duch Bobo')}.`,
           `Gracz może posiadać tylko jedną kartę z pary ${card('Leech', 'Pijawka')} / ${card('Cobra')}.`,
           `Gracz może posiadać tylko jednego ${card('MadGunman', 'Szalonego Strzelca')}.`,
@@ -229,7 +228,8 @@ export const RULES_CONTENT_PL: RuleSection[] = [
           `Gracz posiadający kartę ${card('Mafia', 'Mafii')} nie może otrzymać ${card('Doctor', 'Doktora')} ani ${card('Spyglass', 'Lunety')}.`,
           `Gracz może otrzymać maksymalnie dwa ${card('CloudWalker', 'Chmurostąpy')}.`,
           `Gracz może otrzymać maksymalnie dwóch ${card('RopeWalker', 'Linoskoczków')}.`,
-          `Gracz posiadający kartę ${card('Gravedigger', 'Grabarz')}, ${card('Leech', 'Pijawka')}, ${card('AlCapone', 'Al Capone')}, ${card('Gandalf')} lub ${card('HorsePiece', 'Kawał Konia')} może otrzymać tylko jednego ${card('CloudWalker', 'Chmurostąpa')}.`
+          `Gracz posiadający kartę ${card('Gravedigger', 'Grabarz')}, ${card('Leech', 'Pijawka')} lub ${card('AlCapone', 'Al Capone')} może otrzymać tylko jednego ${card('CloudWalker', 'Chmurostąpa')}.`,
+          `Każdy gracz otrzymuje co najmniej jedną kartę obronną na noc (${card('Mirror', 'Zwierciadło')}, ${card('KevlarVest', 'Kamizelka kuloodporna')} lub ${card('CloudWalker', 'Chmurostąp')}), o ile w talii jest ich wystarczająco dużo.`
         ]
       }
     ]
@@ -247,11 +247,9 @@ export const TRANSLATIONS_PL = {
   role_Cobra: 'Kobra',
   role_Communist: 'Komunista',
   role_Doctor: 'Doktor',
-  role_Gandalf: 'Gandalf',
   role_GhostBobo: 'Duch Bobo',
   role_Glazier: 'Szklarz',
   role_Gravedigger: 'Grabarz',
-  role_HorsePiece: 'Kawał Konia',
   role_Immunity: 'Immunitet',
   role_Jailer: 'Jailer',
   role_Judge: 'Sędzia',
@@ -286,11 +284,9 @@ export const TRANSLATIONS_PL = {
   card_description_Cobra: 'Kobra każdej parzystej nocy wskazuje gracza, który według niej posiada kartę Pijawka. Jeśli trafi, pod koniec nocy zyskuje Chmurostąpa i zjada Pijawkę (gracz z tą kartą traci swoje zdolności).',
   card_description_Communist: 'Komunista może raz na całą grę w ciągu dnia użyć swojej zdolności, mówiąc "Obywatele, w tej rundzie jesteśmy wszyscy równi", anulując tym samym na jeden dzień zdolności Mecziara, Kovacza, Ducha Bobo i Sędziego.',
   card_description_Doctor: 'Doktor każdej nocy wskazuje gracza, którego leczy, chroniąc go tym samym jednorazowo przed pociskiem lub zapachem Skarpetki. Co trzecią noc (zaczynając od pierwszej lub drugiej) może uleczyć samego siebie. Jeśli Doktor zostanie sam przeciwko jednemu lub kilku Mafiosom i nie może się uleczyć, jest deaktywowany.',
-  card_description_Gandalf: 'Jeśli Kawał Konia traci Chmurostąpa, zyskuje go Gandalf. W ciągu nocy może uzyskać w ten sposób tylko jednego Chmurostąpa.',
   card_description_Glazier: 'Jeśli Szklarz nie ma żadnego Zwierciadła, a innemu graczowi w nocy zostanie ono zniszczone, Szklarz zyskuje je pod koniec nocy. Może otrzymać tylko jedno Zwierciadło w ciągu nocy.',
   card_description_GhostBobo: 'Duch Bobo każdej parzystej nocy wskazuje gracza, który następnego dnia będzie miał zakaz mówienia (zakaz ten może znieść tylko Komunista). Jeśli oskarżony gracz ma nałożony przez Ducha Bobo zakaz wypowiadania się, wybiera osobę, która ma go bronić, tłumacząc jego mimikę i gesty.',
   card_description_Gravedigger: 'Grabarz może raz na całą grę w nocy wykopać groby dla Chmurostąpów, dzięki czemu pod koniec nocy zyskuje tyle Chmurostąpów, ile zostało ich tej nocy utraconych przez innych graczy.',
-  card_description_HorsePiece: 'Jeśli Gandalf traci Chmurostąpa, zyskuje go Kawał Konia. W ciągu nocy może uzyskać w ten sposób tylko jednego Chmurostąpa.',
   card_description_Immunity: 'Karta obronna używana w przypadku trafienia pociskiem w dzień lub skazania na śmierć przez powieszenie.',
   card_description_Jailer: 'Jailer może raz na całą grę wskazać gracza, którego wtrąca do więzienia, blokując działanie jego zdolności tej nocy. Konferansjer budzi uwięzionego gracza, ale wyraźnie sygnalizuje mu, że znajduje się w więzieniu.',
   card_description_Judge: 'Sędzia każdej parzystej nocy wskazuje gracza, który następnego dnia będzie miał zakaz głosowania. Komunista może znieść ten zakaz.',
@@ -301,18 +297,18 @@ export const TRANSLATIONS_PL = {
   card_description_Mafia: 'Mafioso może wygrać grę poprzez eliminację wszystkich zwykłych graczy, używając w tym celu pocisku każdej nocy. Aby Mafia wystrzeliła, wszyscy Mafiosi muszą w nocy wskazać tego samego gracza. Aby ustalić kolejność wskazywania, budzą się oni na początku pierwszej nocy.',
   card_description_Mage: 'Mag każdej nocy wskazuje dwóch graczy, między którymi tworzy jednokierunkowy tunel. Jeśli trafiony zostanie pierwszy wskazany gracz, pocisk wędruje tunelem do drugiego.',
   card_description_Magnet: 'Magnes każdej parzystej nocy wskazuje gracza, którego magnetyzuje. Jeśli obok namagnetyzowanego gracza przelatuje pocisk, zostaje on do niego przyciągnięty. Pocisk może zostać przyciągnięty przez namagnetyzowanego gracza tylko raz.',
-  card_description_MassMurderer: 'Jeśli Masowy Morderca zostanie skazany na powieszenie, strzela do wszystkich, którzy na niego głosowali.',
+  card_description_MassMurderer: 'Jeśli Masowy Morderca zostanie skazany na powieszenie, strzela do wszystkich, którzy na niego głosowali. Dzieje się tak tylko przy pierwszym skazaniu.',
   card_description_Matrix: 'Matrix może raz na całą grę w nocy zmienić prawa fizyki – przechwycić wszystkie pociski, które w niego trafią, i wypuścić je pod koniec nocy.',
   card_description_Meciar: 'W głosowaniu jego głos liczy się podwójnie. Jeśli Komunista użyje swojej zdolności, Mecziar traci tę funkcję.',
   card_description_Mirror: 'Karta obronna używana w przypadku trafienia pociskiem Mafii lub Szalonego Strzelca. Po rozbiciu Zwierciadła pocisk wraca do gracza, od którego przyleciał, chyba że Zwierciadło zostało poplamione błotem przez Jożina z Bażin.',
   card_description_RopeWalker: 'Karta obronna chroniąca przed śmiercią na szubienicy.',
-  card_description_Sand: 'Gracz z kartą Piasek każdej nocy wskazuje gracza, którego posypuje piaskiem. Piasek neutralizuje efekt Śliny, czyniąc gracza ponownie podatnym na trafienie. Ochronę przed Piaskiem mają gracze z Maską Gazową (Szalony Strzelec 2, Mag 2 i Duch Bobo).',
+  card_description_Sand: 'Gracz z kartą Piasek każdej nocy wskazuje gracza, którego posypuje piaskiem. Piasek neutralizuje efekt Śliny, czyniąc gracza ponownie podatnym na trafienie. Ochronę przed Piaskiem ma gracz z Maską Gazową (Duch Bobo).',
   card_description_Slime: 'Gracz z kartą Ślina każdej nocy wskazuje gracza, którego chce oślinić. Ośliniony gracz jest raz w nocy chroniony przed pociskiem Mafii, Szalonego Strzelca i Snajpera (pocisk ześlizguje się z celu). Efekt Śliny można zneutralizować Piaskiem.',
   card_description_Sniper: 'Snajper może raz na całą grę wskazać gracza, w którego strzela potężnym pociskiem. Jest on tak silny, że rozbija nawet Zwierciadło i leci dalej.',
-  card_description_Sock: 'Gracz ze Skarpetką może raz na całą grę w nocy rzucić Skarpetkę między dwóch graczy, którzy zostają porażeni jej zapachem. Przed zapachem Skarpetki chroni tylko Maska Gazowa, Doktor i Chmurostąp. Szalony Strzelec 2, Mag 2 i Duch Bobo posiadają Maskę Gazową.',
+  card_description_Sock: 'Gracz ze Skarpetką może raz na całą grę w nocy rzucić Skarpetkę między dwóch graczy, którzy zostają porażeni jej zapachem. Przed zapachem Skarpetki chroni tylko Maska Gazowa, Doktor i Chmurostąp. Maskę Gazową posiada tylko Duch Bobo.',
   card_description_Spyglass: 'Luneta budzi się pod koniec każdej trzeciej nocy (zaczynając od drugiej) i dowiaduje się od Konferansjera, którzy gracze nie obudzili się tej nocy.',
   card_description_SwampMonster: 'Jożin z Bażin może trzy razy w ciągu całej gry wskazać w nocy gracza, któremu poplami Zwierciadło. Pocisk rozbija poplamione błotem Zwierciadło, ale leci dalej. Jożin może użyć swojej zdolności wielokrotnie tej samej nocy. Jeśli gracz posiada również kartę Mafiosa, Snajpera lub Szalonego Strzelca, może poplamić Zwierciadło tylko dwa razy.',
-  card_description_Terrorist: 'Terrorysta może raz na całą grę w ciągu dnia użyć swojej zdolności, mówiąc "Bomba!", po czym strzela do wszystkich graczy.',
+  card_description_Terrorist: 'Terrorysta może raz na całą grę w ciągu dnia użyć swojej zdolności, mówiąc "Bomba!", po czym strzela do wszystkich graczy, łącznie z samym sobą.',
   card_description_TimeLord: 'Pan Czasu może raz na całą grę na początku dnia lub nocy powiedzieć "Jestem Panem czasu!" i przeskoczyć cały dzień lub noc.',
 
   // App Shell & Navigation
@@ -424,7 +420,6 @@ export const TRANSLATIONS_PL = {
   // Mage
   wake_up_mage_from: 'Budzi się {role}. Z którego gracza chce utworzyć tunel?',
   wake_up_mage_to: 'Dokąd {role} poprowadzi wyjście z tunelu?',
-  log_tunnel_duplicate: '{cardLabel} {player} chciał stworzyć tunel {source}->{target}, ale taki już istnieje.',
   log_tunnel_atheist: `{cardLabel} {player} chciał użyć tunelu na graczu {target}, ale to ${card('Atheist', 'Ateista')}.`,
   log_tunnel_same_player: '{cardLabel} {player} nie może stworzyć tunelu na tego samego gracza.',
   log_tunnel_created: '{cardLabel} {player} utworzył tunel {tunnelNumber} ({source} -> {target}).',
@@ -599,8 +594,6 @@ export const TRANSLATIONS_PL = {
   log_night_bullet_cloudwalker_loss: ` i {target} traci ${card('CloudWalker', 'Chmurostąpa {num}')}.`,
   log_night_bullet_death_initial: 'Pocisk zabija gracza {name}.',
   log_night_bullet_death: ' i {name} ginie.',
-  log_night_bullet_gandalf_from_horse: ` ${card('Gandalf', 'Gandalf')} {gandalf} zyskuje ${card('CloudWalker', 'Chmurostąpa {num}')} (strata ${card('HorsePiece', 'Kawała Konia')} {horse}: {lost}).`,
-  log_night_bullet_horsepiece_from_gandalf: ` ${card('HorsePiece', 'Kawał Konia')} {horse} zyskuje ${card('CloudWalker', 'Chmurostąpa {num}')} (strata ${card('Gandalf', 'Gandalfa')} {gandalf}: {lost}).`,
 
   // UI
   ui_confirm: 'Tak',

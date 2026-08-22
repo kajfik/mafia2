@@ -79,7 +79,7 @@ export const RULES_CONTENT_CZ: RuleSection[] = [
       {
         title: gasMask('Plynová maska'),
         blocks: [
-          { kind: 'paragraph', text: `Držitelé karet ${card('Mage', 'Mág 2')}, ${card('MadGunman', 'Šílený Střelec 2')} a ${card('GhostBobo', 'Duch Bobo')} jsou vybaveni ${gasMask('Plynová maska')}, která chrání před ${card('Sand', 'Pískem')} a zápachem ${card('Sock', 'Ponožky')}.` }
+          { kind: 'paragraph', text: `Držitel karty ${card('GhostBobo', 'Duch Bobo')} je vybaven ${gasMask('Plynová maska')}, která chrání před ${card('Sand', 'Pískem')} a zápachem ${card('Sock', 'Ponožky')}.` }
         ]
       }
     ]
@@ -106,7 +106,7 @@ export const RULES_CONTENT_CZ: RuleSection[] = [
       {
         title: `c) Kulka od ${card('Sniper', 'Snipera')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), tunnel('Tunel'), card('Mirror', 'Zrcadlo'), card('Slime', 'Slina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kevlar'), card('CloudWalker', 'Mrákošlap')] }
+          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), tunnel('Tunel'), `${card('Mirror', 'Zrcadlo')} (rozbije se, ale neodráží – kulka letí dál)`, card('Slime', 'Slina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kevlar'), card('CloudWalker', 'Mrákošlap')] }
         ]
       },
       {
@@ -220,7 +220,6 @@ export const RULES_CONTENT_CZ: RuleSection[] = [
         kind: 'list',
         items: [
           `Hráč může mít pouze jednu kartu ${card('Mafia', 'Mafie')}.`,
-          `Hráč může mít pouze jednu kartu z dvojice ${card('Gandalf')} / ${card('HorsePiece', 'Kus Koňa')}.`,
           `Hráč může mít pouze jednu kartu ze sady: ${card('Mage', 'Mág 2')} / ${card('MadGunman', 'Šílený Střelec 2')} / ${card('GhostBobo', 'Duch Bobo')}.`,
           `Hráč může mít pouze jednu kartu z dvojice ${card('Leech', 'Pijavice')} / ${card('Cobra')}.`,
           `Hráč může mít pouze jednoho ${card('MadGunman', 'Šíleného Střelce')}.`,
@@ -229,7 +228,8 @@ export const RULES_CONTENT_CZ: RuleSection[] = [
           `Hráč s kartou ${card('Mafia', 'Mafie')} nemůže dostat ${card('Doctor', 'Doktora')} ani ${card('Spyglass', 'Lunetu')}.`,
           `Hráč může dostat maximálně dva ${card('CloudWalker', 'Mrákošlapy')}.`,
           `Hráč může dostat maximálně dva ${card('RopeWalker', 'Provazochodce')}.`,
-          `Hráč s kartou ${card('Gravedigger', 'Hrobník')}, ${card('Leech', 'Pijavice')}, ${card('AlCapone', 'Al Capone')}, ${card('Gandalf')} nebo ${card('HorsePiece', 'Kus Koňa')} může dostat pouze jednoho ${card('CloudWalker', 'Mrákošlapa')}.`
+          `Hráč s kartou ${card('Gravedigger', 'Hrobník')}, ${card('Leech', 'Pijavice')} nebo ${card('AlCapone', 'Al Capone')} může dostat pouze jednoho ${card('CloudWalker', 'Mrákošlapa')}.`,
+          `Každý hráč dostane alespoň jednu obrannou kartu na noc (${card('Mirror', 'Zrcadlo')}, ${card('KevlarVest', 'Kevlar')} nebo ${card('CloudWalker', 'Mrákošlap')}), pokud jich je v balíčku dostatek.`
         ]
       }
     ]
@@ -247,11 +247,9 @@ export const TRANSLATIONS_CZ = {
   role_Cobra: 'Kobra',
   role_Communist: 'Komunista',
   role_Doctor: 'Doktor',
-  role_Gandalf: 'Gandalf',
   role_GhostBobo: 'Duch Bobo',
   role_Glazier: 'Sklenář',
   role_Gravedigger: 'Hrobník',
-  role_HorsePiece: 'Kus Koňa',
   role_Immunity: 'Imunita',
   role_Jailer: 'Jailer',
   role_Judge: 'Soudce',
@@ -286,11 +284,9 @@ export const TRANSLATIONS_CZ = {
   card_description_Cobra: 'Kobra každou sudou noc označí hráče, o kterém si myslí, že má kartu Pijavice. Pokud se trefí, na konci noci získá Mrákošlapa a sní Pijavici (hráč s touto kartou ztratí své schopnosti).',
   card_description_Communist: 'Komunista může jednou za celou hru během dne použít svou schopnost zvoláním "Občané, v tomto kole jsme si všichni rovni", čímž na jeden den zruší schopnosti Mečiara, Kováče, Ducha Bobo a Soudce.',
   card_description_Doctor: 'Doktor každou noc označí hráče, kterého léčí, čímž ho jednorázově ochrání před kulkou nebo zápachem Ponožky. Každou třetí noc (počínaje první nebo druhou) může vyléčit sám sebe. Pokud Doktor zůstane sám proti jednomu nebo více Mafiánům a nemůže se vyléčit, je deaktivován.',
-  card_description_Gandalf: 'Pokud Kus Koňa ztratí Mrákošlapa, získá ho Gandalf. Během noci může takto získat pouze jednoho Mrákošlapa.',
   card_description_Glazier: 'Pokud Sklenář nemá žádné Zrcadlo a jinému hráči je v noci zničeno, Sklenář ho získá na konci noci. Během noci může obdržet pouze jedno Zrcadlo.',
   card_description_GhostBobo: 'Duch Bobo každou sudou noc označí hráče, který bude mít následující den zákaz mluvit (tento zákaz může zrušit pouze Komunista). Pokud má obviněný hráč zákaz mluvení od Ducha Bobo, vybere si osobu, která ho má obhajovat překládáním jeho mimiky a gest.',
   card_description_Gravedigger: 'Hrobník může jednou za celou hru v noci vykopat hroby pro Mrákošlapy, díky čemuž na konci noci získá tolik Mrákošlapů, kolik jich té noci ztratili ostatní hráči.',
-  card_description_HorsePiece: 'Pokud Gandalf ztratí Mrákošlapa, získá ho Kus Koňa. Během noci může takto získat pouze jednoho Mrákošlapa.',
   card_description_Immunity: 'Obranná karta používaná v případě zásahu kulkou ve dne nebo odsouzení k smrti oběšením.',
   card_description_Jailer: 'Jailer může jednou za celou hru označit hráče, kterého uvrhne do vězení, čímž zablokuje působení jeho schopností pro tuto noc. Moderátor vzbudí uvězněného hráče, ale jasně mu signalizuje, že je ve vězení.',
   card_description_Judge: 'Soudce každou sudou noc označí hráče, který bude mít následující den zákaz hlasovat. Komunista může tento zákaz zrušit.',
@@ -301,18 +297,18 @@ export const TRANSLATIONS_CZ = {
   card_description_Mafia: 'Mafián může vyhrát hru eliminací všech běžných hráčů používáním kulky každou noc. Aby Mafie vystřelila, musí všichni Mafiáni v noci označit stejného hráče. Pro určení pořadí označování se budí na začátku první noci.',
   card_description_Mage: 'Mág každou noc označí dva hráče a vytvoří mezi nimi jednosměrný tunel (z prvního na druhého). Pokud je zasažen první označený hráč, kulka putuje tunelem k druhému.',
   card_description_Magnet: 'Magnet každou sudou noc označí hráče, kterého zmagnetizuje. Pokud kolem zmagnetizovaného hráče proletí kulka, je k němu přitáhnuta. Kulka může být k zmagnetizovanému hráči přitáhnuta pouze jednou.',
-  card_description_MassMurderer: 'Pokud je Masový Vrah odsouzen k oběšení, střílí na všechny, kteří pro něj hlasovali.',
+  card_description_MassMurderer: 'Pokud je Masový Vrah odsouzen k oběšení, střílí na všechny, kteří pro něj hlasovali. Stane se tak pouze při prvním odsouzení.',
   card_description_Matrix: 'Matrix může jednou za celou hru v noci změnit fyzikální zákony – zachytit všechny kulky, které ho zasáhnou, a vypustit je na konci noci.',
   card_description_Meciar: 'Při hlasování se jeho hlas počítá dvakrát. Pokud Komunista použije svou schopnost, Mečiar tuto funkci ztrácí.',
   card_description_Mirror: 'Obranná karta používaná v případě zásahu kulkou Mafie nebo Šíleného Střelce. Po rozbití Zrcadla se kulka vrací k hráči, od kterého přiletěla, ledaže bylo Zrcadlo zašpiněno blátem od Jožina z Bażin.',
   card_description_RopeWalker: 'Obranná karta chránící před smrtí na šibenici.',
-  card_description_Sand: 'Hráč s kartou Písek každou noc označí hráče, kterého posype pískem. Písek neutralizuje efekt Sliny, čímž činí hráče opět zranitelným. Ochranu před Pískem mají hráči s Plynovou maskou (Šílený Střelec 2, Mág 2 a Duch Bobo).',
+  card_description_Sand: 'Hráč s kartou Písek každou noc označí hráče, kterého posype pískem. Písek neutralizuje efekt Sliny, čímž činí hráče opět zranitelným. Ochranu před Pískem má hráč s Plynovou maskou (Duch Bobo).',
   card_description_Slime: 'Hráč s kartou Slina každou noc označí hráče, kterého chce oslintat. Oslintaný hráč je jednou v noci chráněn před kulkou Mafie, Šíleného Střelce a Snipera (kulka po cíli sklouzne). Efekt Sliny lze neutralizovat Pískem.',
   card_description_Sniper: 'Sniper může jednou za celou hru označit hráče, na kterého vystřelí silnou kulkou. Ta je tak silná, že rozbije i Zrcadlo a letí dál.',
-  card_description_Sock: 'Hráč s Ponožkou může jednou za celou hru v noci hodit Ponožku mezi dva hráče, kteří jsou zasaženi jejím zápachem. Před zápachem Ponožky chrání pouze Plynová maska, Doktor a Mrákošlap. Šílený Střelec 2, Mág 2 a Duch Bobo vlastní Plynovou masku.',
+  card_description_Sock: 'Hráč s Ponožkou může jednou za celou hru v noci hodit Ponožku mezi dva hráče, kteří jsou zasaženi jejím zápachem. Před zápachem Ponožky chrání pouze Plynová maska, Doktor a Mrákošlap. Plynovou masku vlastní pouze Duch Bobo.',
   card_description_Spyglass: 'Luneta se budí na konci každé třetí noci (počínaje druhou) a dozvídá se od Moderátora, kteří hráči se té noci neprobudili.',
   card_description_SwampMonster: 'Jožin z Bažin může třikrát za celou hru v noci označit hráče, kterému zašpiní Zrcadlo. Kulka rozbije Zrcadlo zašpiněné blátem, ale letí dál. Jožin může použít svou schopnost opakovaně tu samou noc. Pokud hráč vlastní také kartu Mafiána, Snipera nebo Šíleného Střelce, může zašpinit Zrcadlo pouze dvakrát.',
-  card_description_Terrorist: 'Terorista může jednou za celou hru během dne použít svou schopnost zvoláním "Bomba!", načež vystřelí na všechny hráče.',
+  card_description_Terrorist: 'Terorista může jednou za celou hru během dne použít svou schopnost zvoláním "Bomba!", načež vystřelí na všechny hráče včetně sebe.',
   card_description_TimeLord: 'Pán Času může jednou za celou hru na začátku dne nebo noci říct "Jsem Pán času!" a přeskočit celý den nebo noc.',
 
   // App Shell & Navigation
@@ -424,7 +420,6 @@ export const TRANSLATIONS_CZ = {
   // Mage
   wake_up_mage_from: 'Probouzí se {role}. Ze kterého hráče chce vytvořit tunel?',
   wake_up_mage_to: 'Kam {role} povede východ z tunelu?',
-  log_tunnel_duplicate: '{cardLabel} {player} chtěl vytvořit tunel {source}->{target}, ale tento tunel už existuje.',
   log_tunnel_atheist: `{cardLabel} {player} chtěl použít tunel na hráče {target}, ale je to ${card('Atheist', 'Ateista')}.`,
   log_tunnel_same_player: '{cardLabel} {player} nemůže vytvořit tunel na téhož hráče.',
   log_tunnel_created: '{cardLabel} {player} vytvořil tunel {tunnelNumber} ({source} -> {target}).',
@@ -599,8 +594,6 @@ export const TRANSLATIONS_CZ = {
   log_night_bullet_cloudwalker_loss: ` a {target} ztrácí ${card('CloudWalker', 'Mrákošlapa {num}')}.`,
   log_night_bullet_death_initial: 'Kulka zabíjí hráče {name}.',
   log_night_bullet_death: ' a {name} umírá.',
-  log_night_bullet_gandalf_from_horse: ` ${card('Gandalf', 'Gandalf')} {gandalf} získává ${card('CloudWalker', 'Mrákošlapa {num}')} (ztráta ${card('HorsePiece', 'Kusu Koňa')} {horse}: {lost}).`,
-  log_night_bullet_horsepiece_from_gandalf: ` ${card('HorsePiece', 'Kus Koňa')} {horse} získává ${card('CloudWalker', 'Mrákošlapa {num}')} (ztráta ${card('Gandalf', 'Gandalfa')} {gandalf}: {lost}).`,
 
   // UI
   ui_confirm: 'Ano',

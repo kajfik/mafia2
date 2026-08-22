@@ -79,7 +79,7 @@ export const RULES_CONTENT_PO_NASZYMU: RuleSection[] = [
       {
         title: gasMask('Gazmaska'),
         blocks: [
-          { kind: 'paragraph', text: `Ci co majóm karty ${card('Mage', 'Mag 2')}, ${card('MadGunman', 'Szileny Strzelec 2')} a ${card('GhostBobo', 'Duch Bobo')} majóm ${gasMask('Gazmaska')}, kiero chróni przed ${card('Sand', 'Pioskym')} a smrodym z ${card('Sock', 'Fusekli')}.` }
+          { kind: 'paragraph', text: `Tyn co mo karte ${card('GhostBobo', 'Duch Bobo')} mo ${gasMask('Gazmaska')}, kiero chróni przed ${card('Sand', 'Pioskym')} a smrodym z ${card('Sock', 'Fusekli')}.` }
         ]
       }
     ]
@@ -106,7 +106,7 @@ export const RULES_CONTENT_PO_NASZYMU: RuleSection[] = [
       {
         title: `c) Kula od ${card('Sniper', 'Snipera')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), tunnel('Tunel'), card('Mirror', 'Zwierciadło'), card('Slime', 'Ślina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kewlar'), card('CloudWalker', 'Mrakoszlap')] }
+          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), tunnel('Tunel'), `${card('Mirror', 'Zwierciadło')} (rozbije sie, ale nie odbijo – kula leci dali)`, card('Slime', 'Ślina'), card('Doctor', 'Doktor'), card('KevlarVest', 'Kewlar'), card('CloudWalker', 'Mrakoszlap')] }
         ]
       },
       {
@@ -220,7 +220,6 @@ export const RULES_CONTENT_PO_NASZYMU: RuleSection[] = [
         kind: 'list',
         items: [
           `Gracz może mieć jyny jednóm karte ${card('Mafia', 'Mafii')}.`,
-          `Gracz może mieć jyny jednóm karte z pary ${card('Gandalf')} / ${card('HorsePiece', 'Kus Konia')}.`,
           `Gracz może mieć jyny jednóm karte z zestawu: ${card('Mage', 'Mag 2')} / ${card('MadGunman', 'Szileny Strzelec 2')} / ${card('GhostBobo', 'Duch Bobo')}.`,
           `Gracz może mieć jyny jednóm karte z pary ${card('Leech', 'Pijawica')} / ${card('Cobra')}.`,
           `Gracz może mieć jyny jednego ${card('MadGunman', 'Szilonego Strzelca')}.`,
@@ -229,7 +228,8 @@ export const RULES_CONTENT_PO_NASZYMU: RuleSection[] = [
           `Gracz co mo karte ${card('Mafia', 'Mafii')} niemoże dostać ${card('Doctor', 'Doktora')} ani ${card('Spyglass', 'Lunety')}.`,
           `Gracz może dostać maksymalnie dwa ${card('CloudWalker', 'Mrakoszlapy')}.`,
           `Gracz może dostać maksymalnie dwóch ${card('RopeWalker', 'Prowazochodców')}.`,
-          `Gracz co mo karte ${card('Gravedigger', 'Grabarz')}, ${card('Leech', 'Pijawica')}, ${card('AlCapone', 'Al Capone')}, ${card('Gandalf')} albo ${card('HorsePiece', 'Kus Konia')} może dostać jyny jednego ${card('CloudWalker', 'Mrakoszlapa')}.`
+          `Gracz co mo karte ${card('Gravedigger', 'Grabarz')}, ${card('Leech', 'Pijawica')} albo ${card('AlCapone', 'Al Capone')} może dostać jyny jednego ${card('CloudWalker', 'Mrakoszlapa')}.`,
+          `Każdy gracz dostanie aspóń jednóm obronnóm karte na noc (${card('Mirror', 'Zwierciadło')}, ${card('KevlarVest', 'Kewlar')} albo ${card('CloudWalker', 'Mrakoszlap')}), jak ich je w talii dość.`
         ]
       }
     ]
@@ -247,11 +247,9 @@ export const TRANSLATIONS_PO_NASZYMU = {
   role_Cobra: 'Kobra',
   role_Communist: 'Komunista',
   role_Doctor: 'Doktor',
-  role_Gandalf: 'Gandalf',
   role_GhostBobo: 'Duch Bobo',
   role_Glazier: 'Szklorz',
   role_Gravedigger: 'Grabarz',
-  role_HorsePiece: 'Kus Konia',
   role_Immunity: 'Imunita',
   role_Jailer: 'Jailer',
   role_Judge: 'Soudce',
@@ -286,11 +284,9 @@ export const TRANSLATIONS_PO_NASZYMU = {
   card_description_Cobra: 'Kobra każdóm parzystóm noc pokazuje grocza, kiery podle ni mo Pijawice. Jak trefi, pod kóniec nocy dostanie Mrakoszlapa a zjy Pijawice (gracz z tóm kartóm straci swoje zdolności).',
   card_description_Communist: 'Komunista może roz za gre w dziyń użyć swoji zdolności, godajónc "Obywatele, w tej rundzie my sóm wszyscy równi", a tym anuluje na jedyn dziyń zdolności Mecziara, Kovacza, Ducha Bobo a Soudce.',
   card_description_Doctor: 'Doktor każdej nocy pokazuje gracza, kierego lyczy, a tym go chróni roz przed kulóm albo smrodym z Fusekli. Co trzecióm noc (zaczynajónc od piyrwszej albo drugi) może ulyczyć samego siebie. Jak Doktor zustanie sóm przeciwko jednymu albo kielasi Mafianóm a nimóg by se ulyczyć sóm, je deaktywowany.',
-  card_description_Gandalf: 'Jak Kus Konia straci Mrakoszlapa, dostanie go Gandalf. W nocy może tak dostać jyny jednego Mrakoszlapa.',
   card_description_Glazier: 'Jak Szklorz nimo żodnego Zwierciadła, a inszemu graczowi w nocy zustanie zniszczóne, Szklorz go dostanie pod kóniec nocy. Może dostać jyny jedno Zwierciadło za noc.',
   card_description_GhostBobo: 'Duch Bobo każdóm parzystóm noc pokazuje grocza, kiery w nastympny dziyń bydzie mioł zakaz mówiynio (zakaz może zruszyć jyny Komunista). Jak oskarżóny gracz mo zakaz dany od Ducha Bobo, wybiyro se osobe, kiero go bydzie brónić tłumaczónc jego miny a gesty.',
   card_description_Gravedigger: 'Grabarz może roz za gre w nocy wykopać groby do Mrakoszlapów, a pod kóniec nocy dostanie tela Mrakoszlapów, wiela ich tej nocy stracili inni grocze.',
-  card_description_HorsePiece: 'Jak Gandalf straci Mrakoszlapa, dostanie go Kus Konia. W nocy może tak dostać jyny jednego Mrakoszlapa.',
   card_description_Immunity: 'Karta obrónno na przipadek trefiynio kulóm w dziyń albo skazania na śmierć na szubienicy.',
   card_description_Jailer: 'Jailer może roz za gre pokozać gracza, kierego wsadzi do wiynziynia, blokujónc jego zdolności w tej nocy. Prowadzóncy budzi zawrzitego gracza, ale wyraźnie mu pokazuje, że je zawrzity.',
   card_description_Judge: 'Soudce każdej parzystej nocy pokazuje gracza, kiery w nastympny dziyń bydzie mioł zakaz głosowanio. Komunista może tyn zakaz zruszyć.',
@@ -301,18 +297,18 @@ export const TRANSLATIONS_PO_NASZYMU = {
   card_description_Mafia: 'Mafian może wygrać gre przez zabici wszystkich normalnych graczy, używajónc kuli każdej nocy. Aby Mafia wystrzeliła, wszyscy Mafianie muszóm w nocy pokozać tego samego grocza. Aby mógli ustalić porzadi strzilanio, budzóm se na poczóntku piyrwszej nocy.',
   card_description_Mage: 'Mag każdej nocy pokazuje dwóch groczy, miyndzy kierymi robi jednokierunkowy tunel. Jak piyrwszy gracz dostanie kulóm, ta wyndruje tunelym do drugigo.',
   card_description_Magnet: 'Magnet każdej parzystej nocy pokazuje grocza, kierego magnetyzuje. Jak kole namagnetyzowanego gracza leci kula, zostanie do niego przycióngnyto. Kula może być przycióngnyto jyny roz.',
-  card_description_MassMurderer: 'Jak Masowy Zabijak zostanie skazany na szubienice, strzylo do wszystkich, kierzi na niego głosowali.',
+  card_description_MassMurderer: 'Jak Masowy Zabijak zostanie skazany na szubienice, strzylo do wszystkich, kierzi na niego głosowali. Dzieje sie tak ino przi piyrszym skazaniu.',
   card_description_Matrix: 'Matrix może roz za gre w nocy zmiynić prawa fizyki – chycić wszystki kule, co na niego lecóm, a wypuścić ich pod kóniec nocy.',
   card_description_Meciar: 'W głosowaniu se jego głos liczy podwójnie. Jak Komunista użyje swojóm zdolność, Mecziar traci tyn bonus.',
   card_description_Mirror: 'Karta obrónno na przipadek trefiynio kulóm Mafii albo Szilenego Strzelca. Po rozbiciu Zwierciadła kula wraco do gracza, od kierego przileciała, chyba że Zwierciadło było poplamióne błotym od Jożina z Bażin.',
   card_description_RopeWalker: 'Karta obrónno przed śmierciom na szubienicy.',
-  card_description_Sand: 'Gracz z kartóm Piosek każdej nocy pokazuje grocza, kierego posypuje pioskym. Piosek ruszy efekt Śliny, a gracz je zaś podatny na strzał. Ochrone przed Pioskym majóm gracze z Gazmaskóm (Szileny Strzelec 2, Mag 2 a Duch Bobo).',
+  card_description_Sand: 'Gracz z kartóm Piosek każdej nocy pokazuje grocza, kierego posypuje pioskym. Piosek ruszy efekt Śliny, a gracz je zaś podatny na strzał. Ochrone przed Pioskym mo gracz z Gazmaskóm (Duch Bobo).',
   card_description_Slime: 'Gracz z kartóm Ślina każdej nocy pokazuje grocza, kierego chce oślinić. Oślinióny gracz je roz w nocy chróniony przed kulóm Mafii, Szilenego Strzelca a Snipera (kula se z niego ześlizgnie). Efekt Śliny idzie zruszyć Pioskym.',
   card_description_Sniper: 'Sniper może roz za gre pokozać grocza, w kierego strzilo silnym pociskym. Tyn je tak silny, że rozbije aj Zwierciadło a leci dali.',
-  card_description_Sock: 'Gracz z Fuseklóm może roz za gre w nocy ciepnóć Fusekle miyndzy dwóch graczy, kierzi padajóm od jejigo smrodu. Przed smrodym Fusekli chróni jyny Gazmaska, Doktor a Mrakoszlap. Szileny Strzelec 2, Mag 2 a Duch Bobo majóm Gazmaske.',
+  card_description_Sock: 'Gracz z Fuseklóm może roz za gre w nocy ciepnóć Fusekle miyndzy dwóch graczy, kierzi padajóm od jejigo smrodu. Przed smrodym Fusekli chróni jyny Gazmaska, Doktor a Mrakoszlap. Gazmaske mo jyny Duch Bobo.',
   card_description_Spyglass: 'Luneta se budzi pod kóniec każdej trzeci nocy (zaczynajónc od drugi) a dowiaduje se od Prowadzóncego, kierzi gracze se tej nocy nie obudzili.',
   card_description_SwampMonster: 'Jożin z Bażin może trzi razy za gre pokozać w nocy gracza, kierymu poplami Zwierciadło. Kula rozbijo brudne Zwierciadło, a leci dali. Jożin może użyć swojóm zdolność wiyncej razy w jednóm noc. Jak mo Jożin też karte Mafiana, Snipera albo Szilenego Strzelca, może poplamić Zwierciadło jyny dwa razy.',
-  card_description_Terrorist: 'Terrorysta może roz za gre w dziyń użyć swojóm zdolność, godajónc "Bomba!", po czym strzylo do wszystkich graczy.',
+  card_description_Terrorist: 'Terrorysta może roz za gre w dziyń użyć swojóm zdolność, godajónc "Bomba!", po czym strzylo do wszystkich graczy, aj do siebie.',
   card_description_TimeLord: 'Pan Czasu może roz za gre na poczóntku dnia albo nocy powiedzieć "Jeżech Panym czasu!" a przeskoczyć cały dziyń albo noc.',
 
   // App Shell & Navigation
@@ -423,7 +419,6 @@ export const TRANSLATIONS_PO_NASZYMU = {
   // Mage
   wake_up_mage_from: 'Budzi se {role}. Z kierego gracza chce zrobić tunel?',
   wake_up_mage_to: 'Na kierego gracza chce {role} zrobić tunel?',
-  log_tunnel_duplicate: '{cardLabel} {player} chcioł zrobić tunel {source}->{target}, ale taki uż je.',
   log_tunnel_atheist: `{cardLabel} {player} chcioł zrobić tunel na gracza {target}, ale to ${card('Atheist', 'Ateista')}.`,
   log_tunnel_same_player: '{cardLabel} {player} nimoże zrobić tunel na tego samego gracza.',
   log_tunnel_created: '{cardLabel} {player} zrobił tunel {tunnelNumber} ({source} -> {target}).',
@@ -598,8 +593,6 @@ export const TRANSLATIONS_PO_NASZYMU = {
   log_night_bullet_cloudwalker_loss: ` a {target} traci ${card('CloudWalker', 'Mrakoszlapa {num}')}.`,
   log_night_bullet_death_initial: 'Pocisk zabijo gracza {name}.',
   log_night_bullet_death: ' a {name} ginie.',
-  log_night_bullet_gandalf_from_horse: ` ${card('Gandalf')} {gandalf} dostoł ${card('CloudWalker', 'Mrakoszlapa {num}')} (strata ${card('HorsePiece', 'Kusa Konia')} {horse}: {lost}).`,
-  log_night_bullet_horsepiece_from_gandalf: ` ${card('HorsePiece', 'Kus Konia')} {horse} dostoł ${card('CloudWalker', 'Mrakoszlapa {num}')} (strata ${card('Gandalf')} {gandalf}: {lost}).`,
 
   // UI
   ui_confirm: 'Ja',

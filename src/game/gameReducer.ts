@@ -254,8 +254,6 @@ function hydrateWrapper(wrapper: UndoWrapper): UndoWrapper {
 
 function createNightCache(): GameState['nightCache'] {
   return {
-    kuskonaTriggered: false,
-    gandalfTriggered: false,
     leechLinks: [],
     cobraTargets: [],
     gravediggerActive: [],
@@ -500,7 +498,8 @@ function resolveCobraTargets(state: GameState) {
   hunts.forEach(entry => {
     const cobraPlayer = state.players.find(p => p.id === entry.cobraId && p.status.isAlive);
     if (!cobraPlayer) return;
-    const targetPlayer = state.players.find(p => p.id === entry.targetId && p.status.isAlive);
+    // The target may have died this night; the Cobra still ate the Leech, so don't require the target to be alive.
+    const targetPlayer = state.players.find(p => p.id === entry.targetId);
     if (!targetPlayer) return;
     const ateLeech = consumeCard(targetPlayer, 'Leech');
     if (!ateLeech) return;
@@ -615,6 +614,7 @@ function advanceDayToNight(state: GameState): GameState {
       isMagnetized: false,
       isSilenced: false,
       isCantVote: false,
+      mudCount: 0,
       executionerStatus: 'NONE' as const
     }
   }));
@@ -1045,11 +1045,6 @@ function handleMageSelection(state: GameState, targetId: string, logFn: (key: st
     const sourceName = state.players.find(p => p.id === sourceId)?.name || '?';
     const targetPlayer = state.players.find(p => p.id === targetId);
     const targetName = targetPlayer?.name || '?';
-
-    if (state.globalTunnels.some(t => t.sourceId === sourceId && t.targetId === targetId)) {
-      logFn('log_tunnel_duplicate', { source: sourceName, target: targetName });
-      return completeStep();
-    }
 
     if (targetPlayer && targetPlayer.cards.some(rr => rr.cardId === 'Atheist')) {
       logFn('log_tunnel_atheist', { source: sourceName, target: targetPlayer.name });

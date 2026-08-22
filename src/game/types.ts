@@ -28,8 +28,6 @@ export type CardId =
   | 'Meciar'
   | 'Kovac'
   | 'AlCapone'
-  | 'Gandalf'
-  | 'HorsePiece'      // kusKona
   | 'Atheist'
   | 'Anarchist'
   | 'Glazier'         // szklorz
@@ -67,8 +65,6 @@ export const CARD_IDS: CardId[] = [
   'Meciar',
   'Kovac',
   'AlCapone',
-  'Gandalf',
-  'HorsePiece',
   'Atheist',
   'Anarchist',
   'Glazier',
@@ -229,8 +225,6 @@ export interface PublicReportData {
     cobra: number[];
     gravedigger: CloudwalkerReward[];
     glazier: number[];
-    gandalf: CloudwalkerReward[];
-    horsepiece: CloudwalkerReward[];
   };
   bullets: PublicReportEntry[];
   victoryKey?: string | null;
@@ -279,8 +273,6 @@ export interface GameState {
   
   // Side Effect Trackers (Reset every night)
   nightCache: {
-    kuskonaTriggered: boolean;
-    gandalfTriggered: boolean;
     leechLinks: {
       leechId: string;
       instance: number;

@@ -7,7 +7,6 @@ W Mafii gracze podzieleni są na dwie drużyny - mafianów i zwykłych obywateli
 Początek gry
 Na początku gry wszyscy gracze dostają jednakową ilość kart. Karty dzielimy na trzy podstawowe rodzaje - karty dzienne, nocne oraz pasywne. Rozróżnić ich można według obrazków - dzienne i nocne to słońce i księżyc, a pasywne to żaden obrazek. Wszyscy gracze powinni się dokładnie zapoznać ze swoimi kartami nocnymi. Losowanie kart jest manipulowane, by zabronić przypadkom, gdy na przykład jeden gracz dostanie wszystkie Mrakoszlapy. Reguły manipulacji kart są następujące:
 - gracz może dostać tylko jedną z kart Mafian 1, Mafian 2, Mafian 3
-- gracz może dostać tylko jedną z kart Gandalf, Kuskona
 - gracz może dostać tylko jedną z kart Mag 2, Szalony strzelec 2, Duch Bobo
 - gracz może dostać tylko jedną z kart Pijawica, Kobra
 - gracz może dostać tylko jedną z kart Szalony strzelec 1, Szalony strzelec 2
@@ -16,7 +15,7 @@ Na początku gry wszyscy gracze dostają jednakową ilość kart. Karty dzielimy
 - gracz z którymkolwiek Mafianem nie może dostać Doktora ani Lunetę
 - gracz może dostać tylko 2 Mrakoszlapy
 - gracz może dostać tylko 2 Prowazochodce
-- gracz z którąkolwiek z kart Grabarz, Pijawica, Al Capone, Gandalf, Kuskona może dostać tylko 1 Mrakoszlapa
+- gracz z którąkolwiek z kart Grabarz, Pijawica, Al Capone może dostać tylko 1 Mrakoszlapa
 
 Pierwsza noc
 Gdy konferansjer ogłosi noc, wszyscy gracze zamykają oczy. Następnie konferansjer budzi wszystkich mafianów, którzy umawiają się bezgłośnie na kolejności eliminowania zwykłych obywateli. Jest to ich jedyna możliwość wspólnej komunikacji, więc powinni ją dobrze wykorzystać. Gdy się umówią, zamykają oczy, po czym rozpoczyna się zwykła noc opisana w następnym rozdziale.
@@ -147,9 +146,6 @@ Duch Bobo
 Fusekla
 	Gracz z Fuseklą może raz na całą grę w nocy rzucić Fuseklę między dwóch graczy, którzy są uderzeni jej zapachem. Przeciwko zapachu Fusekli chroni tylko Gas Maska, Doktor i Mrakoszlap. Szalony Strzelec 2, Mag 2 i Duch Bobo posiadają plynową maskę, która chroni przed zapachem Fusekli.
 
-Gandalf
-	Jeżeli Kuskona traci Mrakoszlapa, to Gandalf go zyskuje. W nocy może uzyskać tylko jednego Mrakoszlapa.
-
 Grabarz
 	Grabarz może raz na całą grę w nocy wykopać groby dla Mrakoszlapów i tym samym zyskać pod koniec nocy tyle Mrakoszlapów, ile ich w nocy zmarło.
 
@@ -173,9 +169,6 @@ Komunista
 
 Kováč
 	Kováč zmniejsza ilość głosów za jego śmiercią o 1. W przypadku, że Komunista użyje swą zdolność, Kováč swoją traci.
-
-Kuskona
-	Jeżeli Gandalf traci Mrakoszlapa, to Kuskona go zyskuje. W nocy może uzyskać tylko jednego Mrakoszlapa.
 
 Luneta
 	Luneta budzi się pod koniec każdej trzeciej nocy, poczynając od drugiej i dowiaduje się od konferansjera, którzy gracze się tej nocy obudzili.

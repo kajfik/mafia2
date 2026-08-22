@@ -79,7 +79,7 @@ export const RULES_CONTENT_EN: RuleSection[] = [
       {
         title: gasMask('Gas Mask'),
         blocks: [
-          { kind: 'paragraph', text: `Holders of ${card('Mage', 'Mage 2')}, ${card('MadGunman', 'Mad Gunman 2')}, and ${card('GhostBobo', 'Ghost Bobo')} cards possess a ${gasMask('Gas Mask')}, protecting them against ${card('Sand', 'Sand')} and the smell of the ${card('Sock', 'Sock')}.` }
+          { kind: 'paragraph', text: `The holder of the ${card('GhostBobo', 'Ghost Bobo')} card possesses a ${gasMask('Gas Mask')}, protecting them against ${card('Sand', 'Sand')} and the smell of the ${card('Sock', 'Sock')}.` }
         ]
       }
     ]
@@ -106,7 +106,7 @@ export const RULES_CONTENT_EN: RuleSection[] = [
       {
         title: `c) Bullet from ${card('Sniper', 'Sniper')}`,
         blocks: [
-          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), tunnel('Tunnel'), card('Mirror', 'Mirror'), card('Slime', 'Slime'), card('Doctor', 'Doctor'), card('KevlarVest', 'Kevlar Vest'), card('CloudWalker', 'Cloudwalker')] }
+          { kind: 'list', ordered: true, items: [card('Magnet', 'Magnet'), tunnel('Tunnel'), `${card('Mirror', 'Mirror')} (shatters but does not reflect – the bullet continues)`, card('Slime', 'Slime'), card('Doctor', 'Doctor'), card('KevlarVest', 'Kevlar Vest'), card('CloudWalker', 'Cloudwalker')] }
         ]
       },
       {
@@ -220,7 +220,6 @@ export const RULES_CONTENT_EN: RuleSection[] = [
         kind: 'list',
         items: [
           `A player may hold only one ${card('Mafia', 'Mafia')} card.`,
-          `A player may hold only one card from the pair ${card('Gandalf')} / ${card('HorsePiece', 'Horse Piece')}.`,
           `A player may hold only one card from the set: ${card('Mage', 'Mage 2')} / ${card('MadGunman', 'Mad Gunman 2')} / ${card('GhostBobo', 'Ghost Bobo')}.`,
           `A player may hold only one card from the pair ${card('Leech', 'Leech')} / ${card('Cobra')}.`,
           `A player may hold only one ${card('MadGunman', 'Mad Gunman')}.`,
@@ -229,7 +228,8 @@ export const RULES_CONTENT_EN: RuleSection[] = [
           `A player holding a ${card('Mafia', 'Mafia')} card cannot receive ${card('Doctor', 'Doctor')} or ${card('Spyglass', 'Spyglass')}.`,
           `A player may receive a maximum of two ${card('CloudWalker', 'Cloudwalkers')}.`,
           `A player may receive a maximum of two ${card('RopeWalker', 'Ropewalkers')}.`,
-          `A player holding a ${card('Gravedigger', 'Gravedigger')}, ${card('Leech', 'Leech')}, ${card('AlCapone', 'Al Capone')}, ${card('Gandalf')}, or ${card('HorsePiece', 'Horse Piece')} card may receive only one ${card('CloudWalker', 'Cloudwalker')}.`
+          `A player holding a ${card('Gravedigger', 'Gravedigger')}, ${card('Leech', 'Leech')}, or ${card('AlCapone', 'Al Capone')} card may receive only one ${card('CloudWalker', 'Cloudwalker')}.`,
+          `Every player receives at least one defensive card for the night (${card('Mirror', 'Mirror')}, ${card('KevlarVest', 'Kevlar Vest')}, or ${card('CloudWalker', 'Cloudwalker')}), as long as the deck contains enough of them.`
         ]
       }
     ]
@@ -247,11 +247,9 @@ export const TRANSLATIONS_EN = {
   role_Cobra: 'Cobra',
   role_Communist: 'Communist',
   role_Doctor: 'Doctor',
-  role_Gandalf: 'Gandalf',
   role_GhostBobo: 'Ghost Bobo',
   role_Glazier: 'Glazier',
   role_Gravedigger: 'Gravedigger',
-  role_HorsePiece: 'Horse Piece',
   role_Immunity: 'Immunity',
   role_Jailer: 'Jailer',
   role_Judge: 'Judge',
@@ -286,11 +284,9 @@ export const TRANSLATIONS_EN = {
   card_description_Cobra: 'Every even night, the Cobra points to a player they believe holds the Leech card. If they guess correctly, they gain a Cloudwalker at the end of the night and devour the Leech (the player with that card loses their abilities).',
   card_description_Communist: 'The Communist can use their ability once per game during the day by saying "Citizens, in this round we are all equal," canceling the abilities of Meciar, Kovac, Ghost Bobo, and the Judge for one day.',
   card_description_Doctor: 'Every night, the Doctor points to a player to heal, protecting them once from a bullet or the smell of the Sock. Every third night (starting from the first or second), they may heal themselves. If the Doctor is left alone against one or more Mafiosi and cannot heal themselves, they are deactivated.',
-  card_description_Gandalf: 'If Horse Piece loses a Cloudwalker, Gandalf gains it. They can only gain one Cloudwalker per night this way.',
   card_description_Glazier: 'If the Glazier has no Mirror, and another player has theirs destroyed during the night, the Glazier gains it at the end of the night. They can receive only one Mirror per night.',
   card_description_GhostBobo: 'Every even night, Ghost Bobo points to a player who will be forbidden from speaking the next day (only the Communist can lift this ban). If the accused player is silenced by Ghost Bobo, they designate a person to defend them by interpreting their facial expressions and gestures.',
   card_description_Gravedigger: 'Once per game at night, the Gravedigger can dig graves to recover Cloudwalkers, gaining as many Cloudwalkers at the end of the night as were lost by other players that night.',
-  card_description_HorsePiece: 'If Gandalf loses a Cloudwalker, Horse Piece gains it. They can only gain one Cloudwalker per night this way.',
   card_description_Immunity: 'Defense card used if hit by a bullet during the day or sentenced to hang.',
   card_description_Jailer: 'Once per game, the Jailer can indicate a player to imprison, blocking their abilities for that night. The Announcer wakes the imprisoned player but clearly signals that they are in prison.',
   card_description_Judge: 'Every even night, the Judge points to a player who will be forbidden from voting the next day. The Communist can lift this ban.',
@@ -301,18 +297,18 @@ export const TRANSLATIONS_EN = {
   card_description_Mafia: 'A Mafioso can win the game by eliminating all ordinary players, using a bullet every night. To fire, all Mafiosi must point to the same player at night. To coordinate their targets, they wake up at the start of the first night.',
   card_description_Mage: 'Every night, the Mage selects two players to create a one-way tunnel. If the first player (entrance) is hit, the bullet travels through the tunnel to the second player (exit).',
   card_description_Magnet: 'Every even night, the Magnet targets a player to magnetize. If a bullet flies past the magnetized player, it is attracted to them. A bullet can be attracted by a magnetized player only once.',
-  card_description_MassMurderer: 'If the Mass Murderer is sentenced to hang, they shoot everyone who voted for them.',
+  card_description_MassMurderer: 'If the Mass Murderer is sentenced to hang, they shoot everyone who voted for them. This happens only the first time they are sentenced.',
   card_description_Matrix: 'Once per game at night, Matrix can bend the laws of physics – intercepting all bullets that hit them, and releasing them at the end of the night.',
   card_description_Meciar: 'In voting, his vote counts double. If the Communist uses their ability, Meciar loses this function.',
   card_description_Mirror: 'Defense card used if hit by a Mafia or Mad Gunman bullet. After the Mirror shatters, the bullet returns to the shooter, unless the Mirror was muddied by the Swamp Monster.',
   card_description_RopeWalker: 'Defense card protecting against death on the gallows.',
-  card_description_Sand: 'The player with the Sand card targets a player every night to throw sand at. Sand neutralizes the effect of Slime, making the player vulnerable to being hit. Players with a Gas Mask (Mad Gunman 2, Mage 2, and Ghost Bobo) are protected against Sand.',
+  card_description_Sand: 'The player with the Sand card targets a player every night to throw sand at. Sand neutralizes the effect of Slime, making the player vulnerable to being hit. The player with a Gas Mask (Ghost Bobo) is protected against Sand.',
   card_description_Slime: 'The player with the Slime card indicates a player every night to cover with slime. The slimed player is protected once during the night against a bullet from the Mafia, Mad Gunman, and Sniper (the bullet slides off). The Slime effect can be neutralized by Sand.',
   card_description_Sniper: 'Once per game, the Sniper can indicate a player to shoot with a high-caliber bullet. It is so powerful that it shatters Mirrors and continues its trajectory.',
-  card_description_Sock: 'Once per game at night, the player with the Sock can throw it between two players, who are then overcome by its smell. Only a Gas Mask, Doctor, and Cloudwalker protect against the Sock\'s smell. Mad Gunman 2, Mage 2, and Ghost Bobo possess a Gas Mask.',
+  card_description_Sock: 'Once per game at night, the player with the Sock can throw it between two players, who are then overcome by its smell. Only a Gas Mask, Doctor, and Cloudwalker protect against the Sock\'s smell. Only Ghost Bobo possesses a Gas Mask.',
   card_description_Spyglass: 'The Spyglass wakes up at the end of every third night (starting from the second) and is informed by the Announcer which players did not wake up that night.',
   card_description_SwampMonster: 'The Swamp Monster can indicate a player three times per game at night to muddy their Mirror. A bullet shatters a muddy Mirror but keeps flying. The Swamp Monster can use their ability multiple times in the same night. If the player also holds a Mafioso, Sniper, or Mad Gunman card, they can muddy a Mirror only twice.',
-  card_description_Terrorist: 'The Terrorist can use their ability once per game during the day by saying "Bomb!", then shooting all players.',
+  card_description_Terrorist: 'The Terrorist can use their ability once per game during the day by saying "Bomb!", then shooting all players, including themselves.',
   card_description_TimeLord: 'The Time Lord can say "I am the Time Lord!" once per game at the beginning of the day or night to skip the current phase.',
 
   // App Shell & Navigation
@@ -424,7 +420,6 @@ export const TRANSLATIONS_EN = {
   // Mage
   wake_up_mage_from: '{role} wakes up. Where does the tunnel start?',
   wake_up_mage_to: 'Where does the tunnel end?',
-  log_tunnel_duplicate: '{cardLabel} {player} attempted to create tunnel {source}->{target}, but it already exists.',
   log_tunnel_atheist: `{cardLabel} {player} attempted to use a tunnel on player {target}, but they are ${card('Atheist', 'an Atheist')}.`,
   log_tunnel_same_player: '{cardLabel} {player} cannot create a tunnel on the same player.',
   log_tunnel_created: '{cardLabel} {player} created tunnel {tunnelNumber} ({source} -> {target}).',
@@ -599,8 +594,6 @@ export const TRANSLATIONS_EN = {
   log_night_bullet_cloudwalker_loss: ` and {target} loses ${card('CloudWalker', 'Cloudwalker {num}')}.`,
   log_night_bullet_death_initial: 'The bullet kills player {name}.',
   log_night_bullet_death: ' and {name} dies.',
-  log_night_bullet_gandalf_from_horse: ` ${card('Gandalf')} {gandalf} gains ${card('CloudWalker', 'Cloudwalker {num}')} (loss of ${card('HorsePiece')} {horse}: {lost}).`,
-  log_night_bullet_horsepiece_from_gandalf: ` ${card('HorsePiece')} {horse} gains ${card('CloudWalker', 'Cloudwalker {num}')} (loss of ${card('Gandalf')} {gandalf}: {lost}).`,
 
   // UI
   ui_confirm: 'Yes',

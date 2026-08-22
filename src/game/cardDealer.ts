@@ -28,15 +28,20 @@ type DealStats = {
   hasMatrix: boolean;
   hasLeech: boolean;
   hasCobra: boolean;
-  hasGandalf: boolean;
-  hasHorsePiece: boolean;
   hasGravedigger: boolean;
   hasAlCapone: boolean;
 };
 
-const LIFE_LIMITER_CARDS = new Set<CardId>(['Gravedigger', 'Leech', 'AlCapone', 'Gandalf', 'HorsePiece']);
+const LIFE_LIMITER_CARDS = new Set<CardId>(['Gravedigger', 'Leech', 'AlCapone']);
 
 const MAX_ASSIGNMENT_ATTEMPTS = 10000;
+
+/** Passive cards that absorb a night bullet for their holder. Every player should get at least one. */
+export const NIGHT_DEFENSIVE_CARDS = new Set<CardId>(['Mirror', 'KevlarVest', 'CloudWalker']);
+
+function isDefensive(card: Card): boolean {
+  return NIGHT_DEFENSIVE_CARDS.has(card.cardId);
+}
 
 function getEffectiveDefaultAmount(cardId: CardId, baseAmount: number, playerCount: number): number {
   if (cardId !== 'Mafia') {
@@ -97,12 +102,31 @@ function tryDealWithCardCount(deck: Card[], basePlayers: Player[], cardsPerPlaye
   }
 
   for (let attempt = 0; attempt < MAX_ASSIGNMENT_ATTEMPTS; attempt++) {
-    const attemptDeck = shuffle([...deck]).slice(0, totalNeeded);
+    const attemptDeck = buildDealSegment(deck, basePlayers.length, totalNeeded);
     const dealt = assignDeckToPlayers(attemptDeck, basePlayers, cardsPerPlayer);
     if (dealt) return dealt;
   }
 
   return null;
+}
+
+/**
+ * Picks `totalNeeded` cards from the deck, reserving one defensive card per player
+ * (as far as the deck allows). Defensive cards are placed first so they get distributed
+ * before any other card, which — combined with the "most slots remaining" preference in
+ * assignDeckToPlayers — guarantees every player receives one before anyone gets a second.
+ */
+function buildDealSegment(deck: Card[], playerCount: number, totalNeeded: number): Card[] {
+  const shuffled = shuffle([...deck]);
+  const defensive = shuffled.filter(isDefensive);
+  const others = shuffled.filter(card => !isDefensive(card));
+
+  const reservedCount = Math.min(playerCount, defensive.length, totalNeeded);
+  const reserved = defensive.slice(0, reservedCount);
+  const remainingPool = shuffle([...defensive.slice(reservedCount), ...others]);
+  const filler = remainingPool.slice(0, totalNeeded - reservedCount);
+
+  return [...reserved, ...filler];
 }
 
 function assignDeckToPlayers(deckSegment: Card[], basePlayers: Player[], cardsPerPlayer: number): Player[] | null {
@@ -167,8 +191,6 @@ function createDealStats(): DealStats {
     hasMatrix: false,
     hasLeech: false,
     hasCobra: false,
-    hasGandalf: false,
-    hasHorsePiece: false,
     hasGravedigger: false,
     hasAlCapone: false
   };
@@ -205,12 +227,6 @@ function canReceiveCard(stats: DealStats, card: Card): boolean {
       return stats.cloudwalker <= 1;
     case 'Cobra':
       return !stats.hasCobra && !stats.hasLeech;
-    case 'Gandalf':
-      if (stats.hasGandalf || stats.hasHorsePiece) return false;
-      return stats.cloudwalker <= 1;
-    case 'HorsePiece':
-      if (stats.hasHorsePiece || stats.hasGandalf) return false;
-      return stats.cloudwalker <= 1;
     case 'Gravedigger':
       if (stats.hasGravedigger) return false;
       return stats.cloudwalker <= 1;
@@ -260,12 +276,6 @@ function applyCard(stats: DealStats, card: Card): void {
       break;
     case 'Cobra':
       stats.hasCobra = true;
-      break;
-    case 'Gandalf':
-      stats.hasGandalf = true;
-      break;
-    case 'HorsePiece':
-      stats.hasHorsePiece = true;
       break;
     case 'Gravedigger':
       stats.hasGravedigger = true;

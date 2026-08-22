@@ -14,7 +14,7 @@ import type {
   LogParamValue
 } from './types';
 import { t } from './translations';
-import { countCards, consumeAllCards, consumeCardWithInstance, grantCardInstance } from './cardUtils';
+import { countCards, consumeAllCards, consumeCardWithInstance } from './cardUtils';
 import { createCardLabelParam, resolveLogParams, renderLogFragments } from './logging';
 
 function log(state: GameState, key: string, params: LogParamMap = {}, type: GameLog['type'] = 'ACTION') {
@@ -222,13 +222,13 @@ export function resolveDayDamage(state: GameState, targetId: string, type: 'HANG
   const cloudwalkerInstance = consumeCardWithInstance(player, 'CloudWalker');
   if (cloudwalkerInstance !== null) {
     log(state, 'log_day_cloudwalker_lost', { target: player.name, num: cloudwalkerInstance });
-    checkLifeLossSideEffects(state, player, { lossType: 'CLOUDWALKER' });
+    checkLifeLossSideEffects(state, player);
     return [{ type: 'CLOUDWALKER', playerId: player.id, playerName: player.name, instance: cloudwalkerInstance }];
   }
 
   player.status.isAlive = false;
   log(state, 'log_day_death', { target: player.name }, 'DEATH');
-  checkLifeLossSideEffects(state, player, { lossType: 'DEATH' });
+  checkLifeLossSideEffects(state, player);
   declareVictory(state, 'DAY');
   return [{ type: 'DEATH', playerId: player.id, playerName: player.name }];
 }
@@ -411,9 +411,13 @@ function runBulletPath(
         continue;
       }
 
+      // Multiple tunnels between the same pair don't split the bullet: each pass
+      // through that pair consumes one (the oldest unvisited) tunnel, so the bullet
+      // can traverse the pair as many times as there are tunnels between them.
       const outgoing = state.globalTunnels
         .filter(t => t.sourceId === target.id && !pathVisited.has(t.id))
-        .sort((a, b) => a.createdAt - b.createdAt);
+        .sort((a, b) => a.createdAt - b.createdAt)
+        .filter((t, i, arr) => arr.findIndex(o => o.targetId === t.targetId) === i);
 
       if (outgoing.length) {
         if (outgoing.length > 1) {
@@ -553,20 +557,13 @@ function runBulletPath(
     if (cloudwalkerInstance !== null) {
       registerCloudwalkerLoss(state);
       pushSharedFragment({ key: 'public_report_bullet_cloudwalker_loss', params: { target: targetName, num: cloudwalkerInstance } });
-      checkLifeLossSideEffects(state, target, {
-        lossType: 'CLOUDWALKER',
-        lostInstance: cloudwalkerInstance,
-        logAppender: fragment => pushLogFragment(fragment)
-      });
+      checkLifeLossSideEffects(state, target);
       recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId, isMatrix);
       return;
     }
 
     target.status.isAlive = false;
-    checkLifeLossSideEffects(state, target, {
-      lossType: 'DEATH',
-      logAppender: fragment => pushLogFragment(fragment)
-    });
+    checkLifeLossSideEffects(state, target);
     pushSharedFragment({ key: 'public_report_bullet_death', params: { name: targetName } });
     declareVictory(state, 'NIGHT');
     recordBulletReport(state, currentFragments, currentLogFragments, currentSegments, shotId, sourceId, isMatrix);
@@ -721,12 +718,12 @@ function applyToxicEffect(state: GameState, victim: Player | null): SockEffectRe
   const cloudwalkerInstance = consumeCardWithInstance(victim, 'CloudWalker');
   if (cloudwalkerInstance !== null) {
     registerCloudwalkerLoss(state);
-    checkLifeLossSideEffects(state, victim, { lossType: 'CLOUDWALKER' });
+    checkLifeLossSideEffects(state, victim);
     return { outcome: 'CLOUDWALKER', cloudwalkerInstance };
   }
   consumeAllCards(victim, 'CloudWalker');
   victim.status.isAlive = false;
-  checkLifeLossSideEffects(state, victim, { lossType: 'DEATH' });
+  checkLifeLossSideEffects(state, victim);
   declareVictory(state, 'NIGHT');
   return { outcome: 'DEATH' };
 }
@@ -821,77 +818,8 @@ function buildSockLogResultFragment(
   return { key, params };
 }
 
-type LifeLossContext = {
-  lossType?: 'CLOUDWALKER' | 'DEATH';
-  logAppender?: (fragment: BulletFragment) => void;
-  lostInstance?: number;
-};
-
-function checkLifeLossSideEffects(state: GameState, victim: Player, context: LifeLossContext = {}) {
-  const { lossType = 'DEATH', logAppender, lostInstance } = context;
+function checkLifeLossSideEffects(state: GameState, victim: Player) {
   markLeechLinkTriggered(state, victim.id);
-  const isCloudwalkerLoss = lossType === 'CLOUDWALKER';
-
-  if (isCloudwalkerLoss && victim.cards.some(rr => rr.cardId === 'Gandalf') && !state.nightCache.kuskonaTriggered) {
-    const k = state.players.find(p => p.cards.some(rr => rr.cardId === 'HorsePiece'));
-    if (k && k.status.isAlive) {
-      const instance = grantCardInstance(state.players, k, 'CloudWalker');
-      const horseInstance = k.cards.find(card => card.cardId === 'HorsePiece')?.instance;
-      state.nightCache.reportData.cloudwalkers.horsepiece.push({
-        num: instance,
-        cardInstance: horseInstance
-      });
-      if (!logAppender) {
-        log(state, 'log_night_cloudwalker_gain', {
-          cardLabel: createCardLabelParam('HorsePiece', horseInstance),
-          player: k.name,
-          num: instance
-        });
-      }
-      if (logAppender) {
-        logAppender({
-          key: 'log_night_bullet_horsepiece_from_gandalf',
-          params: {
-            horse: k.name,
-            num: instance,
-            gandalf: victim.name,
-            lost: lostInstance ?? '?'
-          }
-        });
-      }
-      state.nightCache.kuskonaTriggered = true;
-    }
-  }
-  if (isCloudwalkerLoss && victim.cards.some(rr => rr.cardId === 'HorsePiece') && !state.nightCache.gandalfTriggered) {
-    const g = state.players.find(p => p.cards.some(rr => rr.cardId === 'Gandalf'));
-    if (g && g.status.isAlive) {
-      const instance = grantCardInstance(state.players, g, 'CloudWalker');
-      const gandalfInstance = g.cards.find(card => card.cardId === 'Gandalf')?.instance;
-      state.nightCache.reportData.cloudwalkers.gandalf.push({
-        num: instance,
-        cardInstance: gandalfInstance
-      });
-      if (!logAppender) {
-        log(state, 'log_night_cloudwalker_gain', {
-          cardLabel: createCardLabelParam('Gandalf', gandalfInstance),
-          player: g.name,
-          num: instance
-        });
-      }
-      if (logAppender) {
-        logAppender({
-          key: 'log_night_bullet_gandalf_from_horse',
-          params: {
-            gandalf: g.name,
-            num: instance,
-            horse: victim.name,
-            lost: lostInstance ?? '?'
-          }
-        });
-      }
-      state.nightCache.gandalfTriggered = true;
-    }
-  }
 }
 
 type FragmentParams = Record<string, unknown>;

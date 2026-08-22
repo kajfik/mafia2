@@ -38,8 +38,6 @@ export const CARDS_CONFIG: Record<CardId, CardConfig> = {
   Meciar: { id: 'Meciar', defaultAmount: 1, nightOrder: -1 },
   Kovac: { id: 'Kovac', defaultAmount: 1, nightOrder: -1 },
   AlCapone: { id: 'AlCapone', defaultAmount: 1, nightOrder: -1 },
-  Gandalf: { id: 'Gandalf', defaultAmount: 1, nightOrder: -1 },
-  HorsePiece: { id: 'HorsePiece', defaultAmount: 1, nightOrder: -1 },
   Atheist: { id: 'Atheist', defaultAmount: 1, nightOrder: -1 },
   Anarchist: { id: 'Anarchist', defaultAmount: 1, nightOrder: -1 },
   Glazier: { id: 'Glazier', defaultAmount: 1, nightOrder: -1 },
